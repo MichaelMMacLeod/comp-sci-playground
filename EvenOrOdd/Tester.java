@@ -13,7 +13,7 @@ public class Tester {
     public static void main(String[] args) {
 
         // Since we can only submit one file, here's both of the practices
-        // mashed together in one Frankenstein's monster of a program ¯\_(ツ)_/¯
+        // mashed together in one Frankenstein's monster of a program
 
         practice1();
         practice2();
