@@ -7,7 +7,7 @@ public class Tester {
      * 9/2/2016, 2:23 PM
      *
      * Last updated:
-     * 9/6/2016, 10:21 PM
+     * 9/7/2016, 2:05 PM
     /*/
 
     public static void main(String[] args) {
@@ -73,7 +73,7 @@ public class Tester {
                 System.out.print("your name is cool!" + whiteSpace);
             }
             try {
-                Thread.sleep(1); // 1 ms because everything else took forever to run
+                Thread.sleep(2); // 2 ms because everything else took forever to run
             } catch (InterruptedException e) {
                 System.out.println("You can't take the sky from me, " + e);
             }
