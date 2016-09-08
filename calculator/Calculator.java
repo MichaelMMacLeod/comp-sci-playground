@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Calculator {
 	
@@ -42,11 +42,23 @@ public class Calculator {
 		if (input.equalsIgnoreCase(HELP)) {
 			return HELP;
 		}
-		return "noinput";
+		return input;
 	}
 
 	private static void interpret(String command) {
 		
+		List<String> commandList = new LinkedList<String>(Arrays.asList(command.split("")));
+		command = "";
+
+		for (int i = 0; i < commandList.size(); i++) {
+			if (" ".equals(commandList.get(i))) {
+				commandList.remove(i);
+				i--;
+			}
+		}
+		for (int i = 0; i < commandList.size(); i++) {
+			command += commandList.get(i);			
+		}
 		if (command.equalsIgnoreCase(STOP)) {
 			on = false;
 		}
