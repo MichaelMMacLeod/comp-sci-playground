@@ -11,7 +11,7 @@ public class Calculator {
 	public static final String STOP = "stop";
 	public static final String HELP = "help";
 	public static final String USER_INPUT_ARROW = "> ";
-	public static final String PROGRAM_INPUT_ARROW = ">>> ";
+	public static final String PROGRAM_INPUT_ARROW = "-> ";
 	public static final String[] COMMANDS = {
 		"help: display commands",
 		"stop: turn off the calculator"
@@ -57,9 +57,22 @@ public class Calculator {
 
 	private static void displayHelp() {
 
-		System.out.println(PROGRAM_INPUT_ARROW + "help");
 		for (int i = 0; i < COMMANDS.length; i++) {
-			System.out.println(COMMANDS[i]);
+			print(COMMANDS[i]);
 		}
+	}
+
+	private static void print(String text) {
+
+		System.out.print(PROGRAM_INPUT_ARROW);
+		for (int i = 0; i < text.length(); i++) {
+			System.out.print(text.charAt(i));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				System.out.println("You can't take the sky from me, " + e);
+			}
+		}
+		System.out.println();
 	}
 }
