@@ -10,6 +10,8 @@ public class Calculator {
 	public static boolean on = true;
 	public static final String STOP = "stop";
 	public static final String HELP = "help";
+	public static final String USER_INPUT_ARROW = "> ";
+	public static final String PROGRAM_INPUT_ARROW = ">>> ";
 	public static final String[] COMMANDS = {
 		"help: display commands",
 		"stop: turn off the calculator"
@@ -19,8 +21,9 @@ public class Calculator {
 
 		String command;
 
+		displayHelp();
 		while (on) {
-			System.out.print(" > ");
+			System.out.print(USER_INPUT_ARROW);
 			command = getInput();
 			interpret(command);
 		}
@@ -48,9 +51,15 @@ public class Calculator {
 			on = false;
 		}
 		if (command.equalsIgnoreCase(HELP)) {
-			for (int i = 0; i < COMMANDS.length; i++) {
-				System.out.println(COMMANDS[i]);
-			}
+			displayHelp();
+		}
+	}
+
+	private static void displayHelp() {
+
+		System.out.println(PROGRAM_INPUT_ARROW + "help");
+		for (int i = 0; i < COMMANDS.length; i++) {
+			System.out.println(COMMANDS[i]);
 		}
 	}
 }
