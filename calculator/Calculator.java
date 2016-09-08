@@ -12,10 +12,11 @@ public class Calculator {
 	public static final String HELP = "help";
 	public static final String USER_INPUT_ARROW = "> ";
 	public static final String PROGRAM_INPUT_ARROW = "-> ";
-	public static final String[] COMMANDS = {
+	public static final String[] ON_HELP = {
 		"help: display commands",
 		"stop: turn off the calculator"
 	};
+	public static final String ON_STOP = "Stopping...";
 
 	public static void main(String[] args) {
 
@@ -50,6 +51,7 @@ public class Calculator {
 		List<String> commandList = new LinkedList<String>(Arrays.asList(command.split("")));
 		command = "";
 
+		// Remove any spaces
 		for (int i = 0; i < commandList.size(); i++) {
 			if (" ".equals(commandList.get(i))) {
 				commandList.remove(i);
@@ -60,17 +62,23 @@ public class Calculator {
 			command += commandList.get(i);			
 		}
 		if (command.equalsIgnoreCase(STOP)) {
-			on = false;
+			stopProgram();
 		}
 		if (command.equalsIgnoreCase(HELP)) {
 			displayHelp();
 		}
 	}
 
+	private static void stopProgram() {
+
+		print(ON_STOP);
+		on = false;
+	}
+
 	private static void displayHelp() {
 
-		for (int i = 0; i < COMMANDS.length; i++) {
-			print(COMMANDS[i]);
+		for (int i = 0; i < ON_HELP.length; i++) {
+			print(ON_HELP[i]);
 		}
 	}
 
