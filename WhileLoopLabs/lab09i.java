@@ -48,7 +48,7 @@ public class lab09i {
         }
         // Print out answer
         if (reqBase > extraNums.length) {
-            System.out.println("Since base " + reqBase + " requires more symbols than the alphabet can provide, some digits will be represented in base 10 and separated by spaces.");
+            System.out.println("Since base " + reqBase + " requires more symbols than the alphabet can provide, some digits will be represented in base 10 and separated by braces.");
         }
         System.out.print(num + " in base 10 is ");
         for (int i = 0; i < ans.size(); i++) {
