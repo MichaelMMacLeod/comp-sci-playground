@@ -8,35 +8,46 @@ public class BaseToBase {
 	public static final String[] extra = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
 	/** 
-	 * Returns an array which holds each digit in a different index
-	 * @param number will be turned into an array
-	 * @param base   is the base which the number is in
+	 * Converts a string to an int array
+	 * ex: "1234" => {1,2,3,4}
+	 * Digits must be separated by commas in basses 27 or higher 
+	 * ex: "1,2,A,B,37,38" => {1,2,A,B,37,38}
+	 * @param number is a integer in base 2 or higher
+	 * @param base   is the base that the number is in
 	 */
-	public static String[] toStringArray(String number, int base) {
+	public static int[] toIntArray(String number, int base) {
 
-		String[] array;
+		String[] strArray;
 
 		if (base > extra.length + 10) {
-			array = number.split(",");
+			strArray = number.split(",");
 		} else {
-			array = number.split("");
+			strArray = number.split("");
 		}
-		for (int i = 0; i < array.length; i++) {
+		for (int i = 0; i < strArray.length; i++) {
 			for (int j = 0; j < extra.length; j++) {
-				if (array[i].equalsIgnoreCase(extra[j])) {
-					array[i] = Integer.toString(j + 10);
+				if (strArray[i].equalsIgnoreCase(extra[j])) {
+					strArray[i] = Integer.toString(j + 10);
 				}
 			}
 		}
-		return array;
+
+		int[] intArray = new int[strArray.length];
+
+		for (int i = 0; i < strArray.length; i++) {
+			intArray[i] = Integer.parseInt(strArray[i]);
+		}
+		return intArray;
 	}
 
 	/**
-	 * Returns the given number in base 10
-	 * @param number is an integer array where each digit is in a different index
-	 * @param base   is the base that the number is in
+	 * Returns the given number represented as an array in base 10
+	 * ex: {1,0,1,0} base 2 => {1,0} base 10
+	 * @param number is an integer represented as an array
+	 *               ex: the number 1234 is {1,2,3,4}
+	 * @param base   is the base of the given number
 	 */
-	public static int toBaseTen(int[] number, int base) {
+	public static int[] toBaseTen(int[] number, int base) {
 
 		int base10 = 0;
 
@@ -44,6 +55,9 @@ public class BaseToBase {
 			base10 += number[number.length - i - 1] * Math.pow(base, i);
 		}
 		return base10;
+
+		int[] intArray = new int[base10.length()];
+
 	}
 
 	public static void main(String[] args) {
@@ -63,14 +77,8 @@ public class BaseToBase {
 		System.out.print("New Base: ");
 		baseNew = scan.nextInt();
 
-		// Move input into a string array
-		numStrArray = toStringArray(num, baseOld);
-		
-		// Move the number into an int array
-		int[] numArray = new int[numStrArray.length];
-		for (int i = 0; i < numStrArray.length; i++) {
-			numArray[i] = Integer.parseInt(numStrArray[i]);
-		}
+		// Move input into an array
+		int[] numArray = toIntArray(num, baseOld);
 		
 		// Convert to base 10
 		numBase10 = toBaseTen(numArray, baseOld);
