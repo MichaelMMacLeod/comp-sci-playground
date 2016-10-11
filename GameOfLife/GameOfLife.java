@@ -17,8 +17,12 @@ public class GameOfLife {
         boolean[][] map = new boolean[20][20];
         boolean selecting = true;
 
+        System.out.println("Enter speed (#/sec)");
+        int interval = scan.nextInt();
         while (selecting) {
+            System.out.println("Enter seed (x coordinate)");
             int x = scan.nextInt();
+            System.out.println("Enter seed (y coordinate)");
             int y = scan.nextInt();
             try {
                 map[x][y] = true;
@@ -31,7 +35,7 @@ public class GameOfLife {
             map = step(map);
             printMap(map);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 / interval);
             } catch (Exception e) {}
         }
     }
