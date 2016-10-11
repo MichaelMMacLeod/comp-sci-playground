@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class GameOfLife {
 
@@ -31,13 +32,14 @@ public class GameOfLife {
             }
             printMap(map);
         }
-        while (true) {
+        while (!Arrays.deepEquals(map, step(map))) {
             map = step(map);
             printMap(map);
             try {
                 Thread.sleep(1000 / interval);
             } catch (Exception e) {}
         }
+        System.out.println("Done!");
     }
 
     public static boolean[][] step(boolean[][] oldMap) {
