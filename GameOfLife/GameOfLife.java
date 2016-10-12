@@ -23,14 +23,16 @@ public class GameOfLife {
 		size = scan.nextInt();
 		map = new boolean[size][size];
 		System.out.println("Enter speed (#/sec)");
-		int interval = scan.nextInt();
+		int interval = scan.nextInt(); scan.nextLine();
 		while (selecting) {
-			System.out.println("Enter seed (x coordinate)");
-			int x = scan.nextInt();
-			System.out.println("Enter seed (y coordinate)");
-			int y = scan.nextInt();
+            System.out.println("Enter a coordinate x,y");
+            String[] textInput = scan.nextLine().replaceAll("\\s", "").split(",");
+            int[] input = new int[textInput.length];
+            for (int i = 0; i < input.length; i++) {
+                input[i] = Integer.parseInt(textInput[i]);
+            } 
 			try {
-				map[y][x] = true;
+				map[input[1]][input[0]] = true;
 			} catch (Exception e) {
 				selecting = false;
 			}
