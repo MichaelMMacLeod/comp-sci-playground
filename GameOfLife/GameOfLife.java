@@ -56,10 +56,10 @@ public class GameOfLife {
 				int neighbours = 0;
 				// Make the game board wrap along edges
 				// left, up, right, down
-				int l = i == 0 ? oldMap.length - 1: i - 1;
-				int u = j == 0 ? oldMap.length - 1: j - 1;
-				int r = i == oldMap.length - 1? 0 : i + 1;
-				int d = j == oldMap.length - 1? 0 : j + 1;
+				int l = i == 0 ? oldMap.length - 1 : i - 1;
+				int u = j == 0 ? oldMap.length - 1 : j - 1;
+				int r = i == oldMap.length - 1 ? 0 : i + 1;
+				int d = j == oldMap.length - 1 ? 0 : j + 1;
 
 				if (oldMap[l][u]) neighbours++;
 				if (oldMap[l][j]) neighbours++;
