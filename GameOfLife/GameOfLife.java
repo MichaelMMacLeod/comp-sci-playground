@@ -15,9 +15,13 @@ public class GameOfLife {
 	public static void main(String[] args) {
 
 		Scanner scan = new Scanner(System.in);
-		boolean[][] map = new boolean[20][20];
 		boolean selecting = true;
+		int size;
+		boolean[][] map;
 
+		System.out.println("Enter size of the grid");
+		size = scan.nextInt();
+		map = new boolean[size][size];
 		System.out.println("Enter speed (#/sec)");
 		int interval = scan.nextInt();
 		while (selecting) {
