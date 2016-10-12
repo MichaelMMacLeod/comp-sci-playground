@@ -14,20 +14,39 @@ public class GameOfLife {
 
     public static void main(String[] args) {
 
-        Scanner scan = new Scanner(System.in);
-        boolean selecting = true;
         int size;
         boolean[][] map;
+        Scanner scan = new Scanner(System.in);
 
         System.out.println("Enter size of the grid");
         size = scan.nextInt();
         map = new boolean[size][size];
         System.out.println("Enter speed (#/sec)");
-        int interval = scan.nextInt(); scan.nextLine();
+        int interval = scan.nextInt();
+        map = seed(map);
+        while (!Arrays.deepEquals(map, step(map))) {
+            map = step(map);
+            printMap(map);
+            try {
+                Thread.sleep(1000 / interval);
+            } catch (Exception e) {}
+        }
+        System.out.println("Done!");
+    }
+
+    public static boolean[][] seed(boolean[][] map) {
+
+        boolean selecting = true;
+        Scanner scan = new Scanner(System.in);
+
         while (selecting) {
+
+            String[] textInput;
+            int[] input;
+
             System.out.println("Enter a coordinate x,y");
-            String[] textInput = scan.nextLine().replaceAll("\\s", "").split(",");
-            int[] input = new int[textInput.length];
+            textInput = scan.nextLine().replaceAll("\\s", "").split(",");
+            input = new int[textInput.length];
             for (int i = 0; i < input.length; i++) {
                 input[i] = Integer.parseInt(textInput[i]);
             } 
@@ -38,14 +57,7 @@ public class GameOfLife {
             }
             printMap(map);
         }
-        while (!Arrays.deepEquals(map, step(map))) {
-            map = step(map);
-            printMap(map);
-            try {
-                Thread.sleep(1000 / interval);
-            } catch (Exception e) {}
-        }
-        System.out.println("Done!");
+        return map;
     }
 
     public static boolean[][] step(boolean[][] oldMap) {
