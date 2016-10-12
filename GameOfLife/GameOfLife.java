@@ -26,7 +26,7 @@ public class GameOfLife {
 			System.out.println("Enter seed (y coordinate)");
 			int y = scan.nextInt();
 			try {
-				map[x][y] = true;
+				map[y][x] = true;
 			} catch (Exception e) {
 				selecting = false;
 			}
@@ -83,9 +83,9 @@ public class GameOfLife {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map.length; j++) {
 				if (map[i][j]) {
-					System.out.print(ANSI_GREEN + "1");
+					System.out.print(ANSI_BLUE + "O");
 				} else {
-					System.out.print(ANSI_WHITE + "0");
+					System.out.print(ANSI_WHITE + "O");
 				}
 			}
 			System.out.println(ANSI_WHITE);
