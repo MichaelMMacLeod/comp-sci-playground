@@ -1,14 +1,10 @@
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
 
 class MyFrame extends JFrame {
-    public static void main(String[] args) {
-        JFrame frame = new MyFrame();
-        frame.setVisible(true);
-    }
-
-    public MyFrame() {
-        setTitle("My Empty Frame");
+    public MyFrame(String s) {
+        setTitle(s);
         setSize(500, 500);
         setLocation(0, 0);
         
@@ -17,5 +13,8 @@ class MyFrame extends JFrame {
                 System.exit(0);
             }
         });
+
+        Container contentPane = getContentPane();
+        contentPane.add(new TextPanel());
     }
 }
