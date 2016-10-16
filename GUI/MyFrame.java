@@ -15,6 +15,6 @@ class MyFrame extends JFrame {
         });
 
         Container contentPane = getContentPane();
-        contentPane.add(new TextPanel());
+        contentPane.add(new TextPanel("Hello World!", 100, 100));
     }
 }
