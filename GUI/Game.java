@@ -14,7 +14,7 @@ public class Game {
 	private static void createAndShowGUI() {
 		JFrame f = new JFrame("Game");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.add(new Panel(100, 500));
+		f.add(new Panel(500, 500));
 		f.pack();
 		f.setVisible(true);
 	}
