@@ -3,6 +3,8 @@ import java.awt.*;
 
 public class Game {
 
+	public static Panel panel = new Panel(500, 500);
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -16,14 +18,19 @@ public class Game {
 		while (true) {
 			// update logic
 			// render
+			panel.repaint();
+			System.out.println("looped!");
+			try {
+				Thread.sleep(60);
+			} catch (Exception e) {}
 		}
 	}
 
 	private static void createAndShowGUI() {
-		JFrame f = new JFrame("Game");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.add(new Panel(500, 500));
-		f.pack();
-		f.setVisible(true);
+		JFrame frame = new JFrame("Game");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(panel);
+		frame.pack();
+		frame.setVisible(true);
 	}
 }

@@ -13,6 +13,7 @@ class Panel extends JPanel {
 	}
 
 	protected void paintComponent(Graphics g) {
+		System.out.println("painted");
 		super.paintComponent(g);
 		for (int i = 0; i < map.getSize(); i++) {
 			for (int j = 0; j < map.getSize(); j++) {
