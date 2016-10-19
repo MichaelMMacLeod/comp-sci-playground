@@ -1,21 +1,31 @@
-/** Holds the grid which is used to display 
- *
- */
-
 public class Grid {
 
-	private final int size;
+	private final int size, tileSize, buffer;
 	private int[][] map;
 
 	/** Creates a square grid with height and width equal to size */
-	public Grid(int size) {
+	public Grid(int size, int tileSize, int buffer) {
 		this.size = size;
+		this.tileSize = tileSize;
+		this.buffer = tileSize + buffer;
 		this.map = new int[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				setCell(i, j, 0);
 			}
 		}
+	}
+
+	public int getBuffer() {
+		return buffer;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public int getTileSize() {
+		return tileSize;
 	}
 
 	/** Returns the value of the cell at (x,y) */

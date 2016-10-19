@@ -9,6 +9,14 @@ public class Game {
 				createAndShowGUI();
 			}
 		});
+		gameLoop();
+	}
+
+	private static void gameLoop() {
+		while (true) {
+			// update logic
+			// render
+		}
 	}
 
 	private static void createAndShowGUI() {
