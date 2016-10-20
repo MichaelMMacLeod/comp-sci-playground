@@ -18,7 +18,7 @@ public class Game {
 
 	private static void gameLoop() {
 
-		int MS_PER_UPDATE = 250;
+		int MS_PER_UPDATE = 150;
 		double previous = System.currentTimeMillis();
 		double lag = 0;
 
