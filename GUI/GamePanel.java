@@ -19,6 +19,9 @@ public class GamePanel extends JPanel {
 	private final String RIGHT = "RIGHT";
 	private final String DOWN = "DOWN";
 	private final String NONE = "NONE";
+	private final Color SNAKE_COLOR = Color.GREEN;
+	private final Color FOOD_COLOR = Color.RED;
+	private final Color TILE_COLOR = Color.WHITE;
 
 	public GamePanel(int width, int height) {
 
@@ -101,11 +104,11 @@ public class GamePanel extends JPanel {
 			for (int j = 0; j < map.getSize(); j++) {
 
 				if (map.getCell(i, j) > 0) {
-					g.setColor(Color.BLUE);
+					g.setColor(SNAKE_COLOR);
 				} else if (map.getCell(i, j) == -1) {
-					g.setColor(Color.RED);
+					g.setColor(FOOD_COLOR);
 				} else {
-					g.setColor(Color.BLACK);
+					g.setColor(TILE_COLOR);
 				}
 				
 				g.fillRect(
