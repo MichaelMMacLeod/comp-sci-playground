@@ -33,22 +33,22 @@ public class Snake {
 		size += growth;
 	}
 
-	public void setSnoutX(int x) {
+	public void setX(int x) {
 
 		this.x = x;
 	}
 
-	public int getSnoutX() {
+	public int getX() {
 
 		return x;
 	}
 
-	public void setSnoutY(int y) {
+	public void setY(int y) {
 
 		this.y = y;
 	}
 
-	public int getSnoutY() {
+	public int getY() {
 
 		return y;
 	}

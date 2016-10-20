@@ -45,18 +45,6 @@ public class Grid {
 		map[x][y] = value;
 	}
 
-	/** Adds a positive or negative value to the cell at (x,y) */
-	public void addValueToCell(int x, int y, int value) {
-
-		map[x][y] += value;
-	}
-
-	/** Increments cell (x,y) by 1 */
-	public void incrementCell(int x, int y) {
-
-		map[x][y] += 1;
-	}
-
 	/** Decrements cell (x,y) by 1 */
 	public void decrementCell(int x, int y) {
 		

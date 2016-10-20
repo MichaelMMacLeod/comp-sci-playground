@@ -46,16 +46,16 @@ public class GamePanel extends JPanel {
 
 		switch (snake.getDirection()) {
 			case LEFT:
-				snake.setSnoutX(snake.getSnoutX() - 1);
+				snake.setX(snake.getX() - 1);
 				break;
 			case UP:
-				snake.setSnoutY(snake.getSnoutY() - 1);
+				snake.setY(snake.getY() - 1);
 				break;
 			case RIGHT:
-				snake.setSnoutX(snake.getSnoutX() + 1);
+				snake.setX(snake.getX() + 1);
 				break;
 			case DOWN:
-				snake.setSnoutY(snake.getSnoutY() + 1);
+				snake.setY(snake.getY() + 1);
 				break;
 			default:
 		}
@@ -63,12 +63,12 @@ public class GamePanel extends JPanel {
 		log.shift();
 		
 		// Close the program when the snake goes out of bounds
-		if (snake.getSnoutX() > map.getSize() - 1 || snake.getSnoutX() < 0 || 
-			snake.getSnoutY() > map.getSize() - 1 || snake.getSnoutY() < 0) {
+		if (snake.getX() > map.getSize() - 1 || snake.getX() < 0 || 
+			snake.getY() > map.getSize() - 1 || snake.getY() < 0) {
 			System.exit(0);
 		}
 		
-		if (snake.getSnoutX() == food.getX() && snake.getSnoutY() == food.getY()) {
+		if (snake.getX() == food.getX() && snake.getY() == food.getY()) {
 			food.newLocation(map);
 			snake.incrementSize();
 		}
@@ -77,7 +77,7 @@ public class GamePanel extends JPanel {
 			for (int j = 0; j < map.getSize(); j++) {
 
 				// Close the program when the snake hits itself
-				if (i == snake.getSnoutX() && j == snake.getSnoutY() && map.getCell(i, j) > 0 && !snake.getDirection().equals(NONE)) {
+				if (i == snake.getX() && j == snake.getY() && map.getCell(i, j) > 0 && !snake.getDirection().equals(NONE)) {
 					System.exit(0);
 				}
 
@@ -85,7 +85,7 @@ public class GamePanel extends JPanel {
 					map.decrementCell(i, j);
 				}
 
-				if (i == snake.getSnoutX() && j == snake.getSnoutY()) {
+				if (i == snake.getX() && j == snake.getY()) {
 					map.setCell(i, j, snake.getSize());
 				}
 
