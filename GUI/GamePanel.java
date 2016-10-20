@@ -116,6 +116,9 @@ public class GamePanel extends JPanel {
 					j * map.getBuffer(), 
 					map.getTileSize(), 
 					map.getTileSize());
+
+				g.setColor(Color.BLACK);
+				g.drawString("Size: " + Integer.toString(snake.getSize() - 1), 20, 20);
 			}
 		}
 	}
