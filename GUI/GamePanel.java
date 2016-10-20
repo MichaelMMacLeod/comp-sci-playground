@@ -25,6 +25,8 @@ class GamePanel extends JPanel {
 
 				if (map.getCell(i, j) > 0) {
 					g.setColor(Color.BLUE);
+				} else if (map.getCell(i, j) == -1) {
+					g.setColor(Color.RED);
 				} else {
 					g.setColor(Color.BLACK);
 				}
