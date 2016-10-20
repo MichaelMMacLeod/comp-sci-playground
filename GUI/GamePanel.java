@@ -7,13 +7,14 @@ class GamePanel extends JPanel {
 	private Grid map;
 
 	public GamePanel(int width, int height) {
+
 		this.width = width;
 		this.height = height;
 		this.map = new Grid(30, 20, 1);
 	}
 
 	public void updateLogic() {
-		
+
 	}
 	
 	protected void paintComponent(Graphics g) {
@@ -41,6 +42,7 @@ class GamePanel extends JPanel {
 	}
 
 	public Dimension getPreferredSize() {
+
 		return new Dimension(width, height);
 	}
 }

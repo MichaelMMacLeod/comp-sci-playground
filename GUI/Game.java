@@ -6,11 +6,13 @@ public class Game {
 	public static GamePanel gamePanel = new GamePanel(629, 629);
 
 	public static void main(String[] args) {
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
 			}
 		});
+
 		gameLoop();
 	}
 
@@ -39,7 +41,9 @@ public class Game {
 	}
 
 	private static void createAndShowGUI() {
+
 		JFrame frame = new JFrame("Game");
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(gamePanel);
 		frame.pack();
