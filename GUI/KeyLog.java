@@ -1,7 +1,11 @@
 public class KeyLog {
 
+	private final String LEFT = "LEFT";
+	private final String UP = "UP";
+	private final String RIGHT = "RIGHT";
+	private final String DOWN = "DOWN";
 	private final String NONE = "NONE";
-	String[] log = {NONE, NONE};
+	private String[] log = {NONE, NONE};
 
 	public KeyLog() {}
 
@@ -11,6 +15,22 @@ public class KeyLog {
 			log[0] = log[1];
 			log[1] = key;
 		}
+	}
+
+	public String oppositeKey(String key) {
+		
+		switch (key) {
+			case LEFT:
+				return RIGHT;
+			case UP:
+				return DOWN;
+			case RIGHT:
+				return LEFT;
+			case DOWN:
+				return UP;
+		}
+		
+		return NONE;
 	}
 
 	public String getKey() {

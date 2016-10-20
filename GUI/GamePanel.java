@@ -115,18 +115,30 @@ public class GamePanel extends JPanel {
 
 		public void keyPressed(KeyEvent e) {
 
+			// Don't instantly-kill yourself if you press the key opposite  
+			// your direction, that's just annoying
+			String opposite = log.oppositeKey(snake.getDirection());
+
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_A:
-					log.addKey(LEFT);
+					if (!opposite.equals(LEFT)) {
+						log.addKey(LEFT);
+					}
 					break;
 				case KeyEvent.VK_W:
-					log.addKey(UP);
+					if (!opposite.equals(UP)) {
+						log.addKey(UP);
+					}
 					break;
 				case KeyEvent.VK_D:
-					log.addKey(RIGHT);
+					if (!opposite.equals(RIGHT)) {
+						log.addKey(RIGHT);
+					}
 					break;
 				case KeyEvent.VK_S:
-					log.addKey(DOWN);
+					if (!opposite.equals(DOWN)) {
+						log.addKey(DOWN);
+					}
 					break;
 			}
 		}
