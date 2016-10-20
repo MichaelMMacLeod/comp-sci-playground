@@ -17,14 +17,18 @@ class GamePanel extends JPanel {
 	}
 	
 	protected void paintComponent(Graphics g) {
+
 		super.paintComponent(g);
+
 		for (int i = 0; i < map.getSize(); i++) {
 			for (int j = 0; j < map.getSize(); j++) {
+
 				if (map.getCell(i, j) > 0) {
 					g.setColor(Color.BLUE);
 				} else {
 					g.setColor(Color.BLACK);
 				}
+				
 				g.fillRect(
 					i * map.getBuffer(), 
 					j * map.getBuffer(), 

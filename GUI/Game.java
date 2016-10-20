@@ -15,19 +15,25 @@ public class Game {
 	}
 
 	private static void gameLoop() {
+
 		int MS_PER_UPDATE = 60;
 		double previous = System.currentTimeMillis();
 		double lag = 0;
+
 		while (true) {
+
 			double current = System.currentTimeMillis();
 			double elapsed = current - previous;
 			previous = current;
 			lag += elapsed;
+
 			// So the game runs at a constant speed on slower machines
 			while (lag >= MS_PER_UPDATE) {
 				gamePanel.updateLogic();
 				lag -= MS_PER_UPDATE;
 			}
+
+			// Render the game as often as we can
 			gamePanel.repaint();
 		}
 	}
