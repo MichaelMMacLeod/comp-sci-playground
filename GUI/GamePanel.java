@@ -138,21 +138,25 @@ public class GamePanel extends JPanel {
 
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_A:
+				case KeyEvent.VK_LEFT:
 					if (!opposite.equals(LEFT)) {
 						log.addKey(LEFT);
 					}
 					break;
 				case KeyEvent.VK_W:
+				case KeyEvent.VK_UP:
 					if (!opposite.equals(UP)) {
 						log.addKey(UP);
 					}
 					break;
 				case KeyEvent.VK_D:
+				case KeyEvent.VK_RIGHT:
 					if (!opposite.equals(RIGHT)) {
 						log.addKey(RIGHT);
 					}
 					break;
 				case KeyEvent.VK_S:
+				case KeyEvent.VK_DOWN:
 					if (!opposite.equals(DOWN)) {
 						log.addKey(DOWN);
 					}
