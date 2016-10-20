@@ -9,9 +9,10 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
 	private int width, height;
-	private Grid map;
+	private Grid map = new Grid(30, 20, 1);
+	private Food food = new Food();
 	private Snake snake = new Snake(15, 15, 10);
-	private KeyLis listener;
+	private KeyLis listener = new KeyLis();
 	private KeyLog log = new KeyLog();
 	private final String LEFT = "LEFT";
 	private final String UP = "UP";
@@ -23,11 +24,12 @@ public class GamePanel extends JPanel {
 
 		this.width = width;
 		this.height = height;
-		this.map = new Grid(30, 20, 1);
-		listener = new KeyLis();
+		
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(listener);
+
+		food.newLocation(map);
 	}
 
 	public void getInput() {
@@ -77,6 +79,10 @@ public class GamePanel extends JPanel {
 
 				if (map.getCell(i, j) > 0) {
 					map.decrementCell(i, j);
+				}
+
+				if (i == food.getX() && j == food.getY()) {
+					map.setCell(i, j, -1);
 				}
 			}
 		}
