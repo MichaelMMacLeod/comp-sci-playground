@@ -12,10 +12,12 @@ public class GamePanel extends JPanel {
 	private Grid map;
 	private Snake snake = new Snake(15, 15, 10);
 	private KeyLis listener;
+	private KeyLog log = new KeyLog();
 	private final String LEFT = "LEFT";
 	private final String UP = "UP";
 	private final String RIGHT = "RIGHT";
 	private final String DOWN = "DOWN";
+	private final String NONE = "NONE";
 
 	public GamePanel(int width, int height) {
 
@@ -43,6 +45,10 @@ public class GamePanel extends JPanel {
 			}
 		}
 
+		if (!log.getKey().equals(NONE)) {
+			snake.setDirection(log.getKey());
+		}
+
 		switch (snake.getDirection()) {
 			case LEFT:
 				snake.setSnoutX(snake.getSnoutX() - 1);
@@ -58,6 +64,8 @@ public class GamePanel extends JPanel {
 				break;
 			default:
 		}
+
+		log.shift();
 	}
 	
 	protected void paintComponent(Graphics g) {
@@ -95,16 +103,16 @@ public class GamePanel extends JPanel {
 
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_A:
-					snake.setDirection(LEFT);
+					log.addKey(LEFT);
 					break;
 				case KeyEvent.VK_W:
-					snake.setDirection(UP);
+					log.addKey(UP);
 					break;
 				case KeyEvent.VK_D:
-					snake.setDirection(RIGHT);
+					log.addKey(RIGHT);
 					break;
 				case KeyEvent.VK_S:
-					snake.setDirection(DOWN);
+					log.addKey(DOWN);
 					break;
 			}
 		}
