@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Font;
 
 import javax.swing.JPanel;
 
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel {
 	private final Color SNAKE_COLOR = Color.GREEN;
 	private final Color FOOD_COLOR = Color.RED;
 	private final Color TILE_COLOR = Color.WHITE;
+	private final Font FONT = new Font("Courier", Font.BOLD, 20);
 
 	public GamePanel(int width, int height) {
 
@@ -118,6 +120,7 @@ public class GamePanel extends JPanel {
 					map.getTileSize());
 
 				g.setColor(Color.BLACK);
+				g.setFont(FONT);
 				g.drawString("Size: " + Integer.toString(snake.getSize()), 20, 20);
 			}
 		}
