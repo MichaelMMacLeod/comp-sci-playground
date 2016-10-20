@@ -5,6 +5,7 @@ class GamePanel extends JPanel {
 
 	private int width, height;
 	private Grid map;
+	private Snake snake = new Snake(10);
 
 	public GamePanel(int width, int height) {
 
