@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Game {
 
-	public static GamePanel gamePanel = new GamePanel(500, 500);
+	public static GamePanel gamePanel = new GamePanel(629, 629);
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

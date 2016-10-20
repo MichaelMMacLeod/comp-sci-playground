@@ -9,7 +9,7 @@ class GamePanel extends JPanel {
 	public GamePanel(int width, int height) {
 		this.width = width;
 		this.height = height;
-		this.map = new Grid(10, 40, 1);
+		this.map = new Grid(30, 20, 1);
 	}
 
 	public void updateLogic() {
@@ -20,6 +20,11 @@ class GamePanel extends JPanel {
 		super.paintComponent(g);
 		for (int i = 0; i < map.getSize(); i++) {
 			for (int j = 0; j < map.getSize(); j++) {
+				if (map.getCell(i, j) > 0) {
+					g.setColor(Color.BLUE);
+				} else {
+					g.setColor(Color.BLACK);
+				}
 				g.fillRect(
 					i * map.getBuffer(), 
 					j * map.getBuffer(), 
