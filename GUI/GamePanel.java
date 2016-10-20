@@ -30,6 +30,13 @@ public class GamePanel extends JPanel {
 		this.addKeyListener(listener);
 	}
 
+	public void getInput() {
+
+		if (!log.getKey().equals(NONE)) {
+			snake.setDirection(log.getKey());
+		}
+	}
+	
 	public void updateLogic() {
 
 		for (int i = 0; i < map.getSize(); i++) {
@@ -43,10 +50,6 @@ public class GamePanel extends JPanel {
 					map.decrementCell(i, j);
 				}
 			}
-		}
-
-		if (!log.getKey().equals(NONE)) {
-			snake.setDirection(log.getKey());
 		}
 
 		switch (snake.getDirection()) {
