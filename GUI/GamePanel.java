@@ -12,6 +12,7 @@ public class GamePanel extends JPanel {
 	private Grid map;
 	private Snake snake = new Snake(15, 15, 10);
 	private KeyLis listener;
+	private char key;
 
 	public GamePanel(int width, int height) {
 
@@ -61,7 +62,21 @@ public class GamePanel extends JPanel {
 
 		public void keyPressed(KeyEvent e) {
 
-			System.out.println(e);
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_A:
+					key = 'a';
+					break;
+				case KeyEvent.VK_W:
+					key = 'w';
+					break;
+				case KeyEvent.VK_D:
+					key = 'd';
+					break;
+				case KeyEvent.VK_S:
+					key = 's';
+					break;
+			}
+			System.out.println(key);
 		}
 	}
 }
