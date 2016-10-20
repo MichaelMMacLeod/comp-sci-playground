@@ -11,7 +11,7 @@ public class GamePanel extends JPanel {
 	private int width, height;
 	private Grid map = new Grid(30, 20, 1);
 	private Food food = new Food();
-	private Snake snake = new Snake(15, 15, 10);
+	private Snake snake = new Snake(15, 15, 2, 2);
 	private KeyLis listener = new KeyLis();
 	private KeyLog log = new KeyLog();
 	private final String LEFT = "LEFT";
@@ -63,6 +63,11 @@ public class GamePanel extends JPanel {
 		if (snake.getSnoutX() > map.getSize() - 1 || snake.getSnoutX() < 0 || 
 			snake.getSnoutY() > map.getSize() - 1 || snake.getSnoutY() < 0) {
 			System.exit(0);
+		}
+		
+		if (snake.getSnoutX() == food.getX() && snake.getSnoutY() == food.getY()) {
+			food.newLocation(map);
+			snake.incrementSize();
 		}
 		
 		for (int i = 0; i < map.getSize(); i++) {
