@@ -11,7 +11,7 @@ public class GamePanel extends JPanel {
 	private int width, height;
 	private Grid map = new Grid(30, 20, 1);
 	private Food food = new Food();
-	private Snake snake = new Snake(15, 15, 2, 2);
+	private Snake snake = new Snake(15, 15, 1, 2);
 	private KeyLis listener = new KeyLis();
 	private KeyLog log = new KeyLog();
 	private final String LEFT = "LEFT";
@@ -80,13 +80,13 @@ public class GamePanel extends JPanel {
 				if (i == snake.getSnoutX() && j == snake.getSnoutY() && map.getCell(i, j) > 0 && !snake.getDirection().equals(NONE)) {
 					System.exit(0);
 				}
-				
-				if (i == snake.getSnoutX() && j == snake.getSnoutY()) {
-					map.setCell(i, j, snake.getSize());
-				} 
 
 				if (map.getCell(i, j) > 0) {
 					map.decrementCell(i, j);
+				}
+
+				if (i == snake.getSnoutX() && j == snake.getSnoutY()) {
+					map.setCell(i, j, snake.getSize());
 				}
 
 				if (i == food.getX() && j == food.getY()) {
@@ -118,7 +118,7 @@ public class GamePanel extends JPanel {
 					map.getTileSize());
 
 				g.setColor(Color.BLACK);
-				g.drawString("Size: " + Integer.toString(snake.getSize() - 1), 20, 20);
+				g.drawString("Size: " + Integer.toString(snake.getSize()), 20, 20);
 			}
 		}
 	}
