@@ -1,17 +1,27 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-class GamePanel extends JPanel {
+import javax.swing.JPanel;
+
+public class GamePanel extends JPanel {
 
 	private int width, height;
 	private Grid map;
 	private Snake snake = new Snake(15, 15, 10);
+	private KeyLis listener;
 
 	public GamePanel(int width, int height) {
 
 		this.width = width;
 		this.height = height;
 		this.map = new Grid(30, 20, 1);
+		listener = new KeyLis();
+		this.setFocusable(true);
+		this.requestFocus();
+		this.addKeyListener(listener);
 	}
 
 	public void updateLogic() {
@@ -45,5 +55,13 @@ class GamePanel extends JPanel {
 	public Dimension getPreferredSize() {
 
 		return new Dimension(width, height);
+	}
+	
+	private class KeyLis extends KeyAdapter {
+
+		public void keyPressed(KeyEvent e) {
+
+			System.out.println(e);
+		}
 	}
 }
