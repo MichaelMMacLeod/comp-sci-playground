@@ -39,19 +39,6 @@ public class GamePanel extends JPanel {
 	
 	public void updateLogic() {
 
-		for (int i = 0; i < map.getSize(); i++) {
-			for (int j = 0; j < map.getSize(); j++) {
-
-				if (i == snake.getSnoutX() && j == snake.getSnoutY()) {
-					map.setCell(i, j, snake.getSize());
-				}
-
-				if (map.getCell(i, j) > 0) {
-					map.decrementCell(i, j);
-				}
-			}
-		}
-
 		switch (snake.getDirection()) {
 			case LEFT:
 				snake.setSnoutX(snake.getSnoutX() - 1);
@@ -69,6 +56,19 @@ public class GamePanel extends JPanel {
 		}
 
 		log.shift();
+		
+		for (int i = 0; i < map.getSize(); i++) {
+			for (int j = 0; j < map.getSize(); j++) {
+
+				if (i == snake.getSnoutX() && j == snake.getSnoutY()) {
+					map.setCell(i, j, snake.getSize());
+				}
+
+				if (map.getCell(i, j) > 0) {
+					map.decrementCell(i, j);
+				}
+			}
+		}
 	}
 	
 	protected void paintComponent(Graphics g) {
