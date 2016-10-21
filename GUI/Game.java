@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class Game {
 
@@ -48,8 +50,16 @@ public class Game {
 		JFrame frame = new JFrame("Game");
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);
+
+		gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		
 		frame.add(gamePanel);
 		frame.pack();
+
+		// Center the window
+		frame.setLocationRelativeTo(null);
+		
 		frame.setVisible(true);
 	}
 }
