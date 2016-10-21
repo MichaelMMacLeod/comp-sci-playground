@@ -164,6 +164,10 @@ public class GamePanel extends JPanel {
 						log.addKey(DOWN);
 					}
 					break;
+				case KeyEvent.VK_ESCAPE:
+					System.exit(0);
+					break;
+				default:
 			}
 		}
 	}
