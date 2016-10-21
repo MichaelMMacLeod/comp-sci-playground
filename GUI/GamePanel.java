@@ -70,6 +70,11 @@ public class GamePanel extends JPanel {
 			System.exit(0);
 		}
 		
+		// Close the program when the snake hits itself
+		if (map.getCell(snake.getX(), snake.getY()) > 0 && !snake.getDirection().equals(NONE)) {
+			System.exit(0);
+		}
+
 		if (snake.getX() == food.getX() && snake.getY() == food.getY()) {
 			food.newLocation(map);
 			snake.incrementSize();
@@ -77,11 +82,6 @@ public class GamePanel extends JPanel {
 		
 		for (int i = 0; i < map.getSize(); i++) {
 			for (int j = 0; j < map.getSize(); j++) {
-
-				// Close the program when the snake hits itself
-				if (i == snake.getX() && j == snake.getY() && map.getCell(i, j) > 0 && !snake.getDirection().equals(NONE)) {
-					System.exit(0);
-				}
 
 				if (map.getCell(i, j) > 0) {
 					map.decrementCell(i, j);
