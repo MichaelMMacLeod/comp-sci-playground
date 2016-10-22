@@ -8,8 +8,14 @@ public class Menu {
 	private Color color = Color.BLACK;
 	private MenuItem[] items = {};
 	private boolean hidden = true;
+	private int x;
+	private int y;
 
-	public Menu() {}
+	public Menu(int x, int y) {
+
+		this.x = x;
+		this.y = y;
+	}
 	
 	public void setFont(String font, int flag, int size, Color color) {
 
@@ -40,7 +46,7 @@ public class Menu {
 			g.setFont(font);
 
 			for (int i = 0; i < items.length; i++) {
-				g.drawString(items[i].getText(), 20, (i + 1) * 35);
+				g.drawString(items[i].getText(), x, (i + 1) * y);
 			}
 		}
 	}
