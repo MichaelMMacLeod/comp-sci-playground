@@ -38,6 +38,7 @@ public class GamePanel extends JPanel {
 		food.newLocation(map);
 
 		menu.addItem(snakeLength);
+		menu.show();
 	}
 
 	public void getInput() {
@@ -168,6 +169,9 @@ public class GamePanel extends JPanel {
 					break;
 				case KeyEvent.VK_ESCAPE:
 					System.exit(0);
+					break;
+				case KeyEvent.VK_SPACE:
+					menu.toggle();
 					break;
 				default:
 			}

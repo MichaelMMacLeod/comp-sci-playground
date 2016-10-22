@@ -7,6 +7,7 @@ public class Menu {
 	private Font font = new Font("Courier", Font.PLAIN, 20);
 	private Color color = Color.BLACK;
 	private MenuItem[] items = {};
+	private boolean hidden = true;
 
 	public Menu() {}
 	
@@ -30,13 +31,17 @@ public class Menu {
 		items = newArray;
 	}
 
+	/** Displays the menu on screen if hidden is false */
 	public void display(Graphics g) {
 
-		g.setColor(color);
-		g.setFont(font);
+		if (!hidden) {
 
-		for (int i = 0; i < items.length; i++) {
-			g.drawString(items[i].getText(), 20, (i + 1) * 35);
+			g.setColor(color);
+			g.setFont(font);
+
+			for (int i = 0; i < items.length; i++) {
+				g.drawString(items[i].getText(), 20, (i + 1) * 35);
+			}
 		}
 	}
 
@@ -48,5 +53,20 @@ public class Menu {
 	public void setColor(Color color) {
 
 		this.color = color;
+	}
+
+	public void hide() {
+
+		hidden = true;
+	}
+
+	public void show() {
+
+		hidden = false;
+	}
+
+	public void toggle() {
+
+		hidden = !hidden;
 	}
 }
