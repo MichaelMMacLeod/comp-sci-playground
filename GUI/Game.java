@@ -6,6 +6,8 @@ import javax.swing.border.LineBorder;
 public class Game {
 
 	public static GamePanel gamePanel = new GamePanel(629, 629);
+	private static final int[] MS_PER_UPDATE = {150, 125, 100, 75, 50};
+	private static int selectedMS = 2; 
 
 	public static void main(String[] args) {
 
@@ -18,9 +20,18 @@ public class Game {
 		gameLoop();
 	}
 
+	public static int getSpeed() {
+
+		return selectedMS + 1;
+	}
+
+	public static void toggleSpeed() {
+
+		selectedMS = selectedMS == MS_PER_UPDATE.length - 1 ? 0 : selectedMS + 1;
+	}
+
 	private static void gameLoop() {
 
-		int MS_PER_UPDATE = 100;
 		double previous = System.currentTimeMillis();
 		double lag = 0;
 
@@ -35,9 +46,9 @@ public class Game {
 			lag += elapsed;
 
 			// So the game runs at a constant speed on slower machines
-			while (lag >= MS_PER_UPDATE) {
+			while (lag >= MS_PER_UPDATE[selectedMS]) {
 				gamePanel.updateLogic();
-				lag -= MS_PER_UPDATE;
+				lag -= MS_PER_UPDATE[selectedMS];
 			}
 
 			// Render the game as often as we can
