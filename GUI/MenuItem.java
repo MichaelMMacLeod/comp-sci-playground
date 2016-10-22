@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class MenuItem {
 
 	private String text = "";
@@ -7,7 +9,6 @@ public class MenuItem {
 	public void setText(String text) {
 
 		this.text = text;
-		this.color = color;
 	}
 
 	public String getText() {
