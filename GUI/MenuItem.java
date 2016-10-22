@@ -15,4 +15,9 @@ public class MenuItem {
 
 		return text;
 	}
+
+	public int getLength() {
+
+		return text.length();
+	}
 }

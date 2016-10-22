@@ -23,7 +23,7 @@ public class GamePanel extends JPanel {
 	private final Color SNAKE_COLOR = Color.GREEN;
 	private final Color FOOD_COLOR = Color.RED;
 	private final Color TILE_COLOR = Color.WHITE;
-	private Menu menu = new Menu(20, 35);
+	private Menu menu = new Menu(20, 35, false);
 	private MenuItem snakeLength = new MenuItem();
 
 	public GamePanel(int width, int height) {
@@ -125,7 +125,7 @@ public class GamePanel extends JPanel {
 			}
 		}
 
-		snakeLength.setText("Size: " + Integer.toString(snake.getSize()));
+		snakeLength.setText("[Size: " + Integer.toString(snake.getSize()) + "]");
 		menu.display(g);
 	}
 

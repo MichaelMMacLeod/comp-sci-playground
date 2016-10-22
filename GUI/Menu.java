@@ -4,23 +4,31 @@ import java.awt.Font;
 
 public class Menu {
 
-	private Font font = new Font("Courier", Font.PLAIN, 20);
-	private Color color = Color.BLACK;
+	private Font font;
+	private Color color;
+	private int size;
 	private MenuItem[] items = {};
 	private boolean hidden = true;
+	private boolean vertical;
 	private int x;
 	private int y;
 
-	public Menu(int x, int y) {
+	public Menu(int x, int y, boolean vertical) {
 
 		this.x = x;
 		this.y = y;
+		this.vertical = vertical;
+
+		size = 20;
+		font = new Font("Courier", Font.PLAIN, size);
+		color = Color.BLACK;
 	}
 	
 	public void setFont(String font, int flag, int size, Color color) {
 
 		this.font = new Font(font, flag, size);
 		this.color = color;
+		this.size = size;
 	}
 
 	/** Places newItem at the end of the existing items array */
@@ -45,10 +53,29 @@ public class Menu {
 			g.setColor(color);
 			g.setFont(font);
 
+			int spacing = 0;
+
 			for (int i = 0; i < items.length; i++) {
-				g.drawString(items[i].getText(), x, (i + 1) * y);
+
+				if (vertical) {
+					g.drawString(items[i].getText(), x, getTextSize() * i + y);
+				} else {
+					g.drawString(items[i].getText(), spacing + x, y);
+					spacing += g.getFontMetrics().stringWidth(items[i].getText());
+				}
 			}
 		}
+	}
+
+
+	public Font getFont() {
+
+		return font;
+	}
+
+	public int getTextSize() {
+
+		return size;
 	}
 
 	public Color getColor() {
