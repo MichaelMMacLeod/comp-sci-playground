@@ -27,6 +27,7 @@ public class GamePanel extends JPanel {
 	private Menu menu = new Menu(20, 35, false);
 	private MenuItem snakeLength = new MenuItem();
 	private MenuItem snakeSpeed = new MenuItem();
+	private MenuItem snakeGrowth = new MenuItem();
 
 	public GamePanel(int width, int height) {
 
@@ -41,6 +42,7 @@ public class GamePanel extends JPanel {
 
 		menu.addItem(snakeLength);
 		menu.addItem(snakeSpeed);
+		menu.addItem(snakeGrowth);
 		menu.show();
 	}
 
@@ -130,6 +132,7 @@ public class GamePanel extends JPanel {
 
 		snakeLength.setText("[Size: " + Integer.toString(snake.getSize()) + "]");
 		snakeSpeed.setText("[Speed: " + Integer.toString(Game.getSpeed()) + "]");
+		snakeGrowth.setText("[Growth: " + Integer.toString(snake.getGrowth()) + "]");
 		menu.display(g);
 	}
 
@@ -179,6 +182,9 @@ public class GamePanel extends JPanel {
 					break;
 				case KeyEvent.VK_SHIFT:
 					Game.toggleSpeed();
+					break;
+				case KeyEvent.VK_G:
+					snake.toggleGrowth();
 					break;
 				default:
 			}

@@ -3,18 +3,30 @@ public class Snake {
 	private int size;
 	private int x;
 	private int y;
-	private int growth;
+	private final int[] GROWTH = {1, 2, 4, 8, 16};
+	private int selectedGrowth = 1;
 	private String direction = "NONE";
 
-	public Snake(int x, int y, int size, int growth) {
+	public Snake(int x, int y, int size, int selectedGrowth) {
 
 		this.size = size;
 		this.x = x;
 		this.y = y;
-		this.growth = growth;
+		this.selectedGrowth = selectedGrowth;
+	}
+
+	public int getGrowth() {
+
+		return GROWTH[selectedGrowth];
+	}
+
+	public void toggleGrowth() {
+
+		selectedGrowth = selectedGrowth == GROWTH.length - 1 ? 0 : selectedGrowth + 1;
 	}
 
 	public void setDirection(String direction) {
+
 		this.direction = direction;
 	}
 
@@ -30,7 +42,7 @@ public class Snake {
 
 	public void incrementSize() {
 
-		size += growth;
+		size += GROWTH[selectedGrowth];
 	}
 
 	public void setX(int x) {
