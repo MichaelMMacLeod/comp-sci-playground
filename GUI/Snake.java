@@ -4,7 +4,7 @@ public class Snake {
 	private int x;
 	private int y;
 	private final int[] GROWTH = {1, 2, 4, 8, 16};
-	private int selectedGrowth = 1;
+	private int selectedGrowth;
 	private String direction = "NONE";
 
 	public Snake(int x, int y, int size, int selectedGrowth) {

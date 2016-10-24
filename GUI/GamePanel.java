@@ -12,7 +12,7 @@ public class GamePanel extends JPanel {
 	private int width, height;
 	private Grid map = new Grid(30, 20, 1);
 	private Food food = new Food();
-	private Snake snake = new Snake(15, 15, 1, 2);
+	private Snake snake = new Snake(15, 15, 1, 1);
 	private KeyLis listener = new KeyLis();
 	private KeyLog log = new KeyLog();
 	private final String LEFT = "LEFT";
