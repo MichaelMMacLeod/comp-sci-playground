@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
 	private int width, height;
-	private KeyLis listener = new KeyLis();
+	private Listener listener = new Listener();
+	private Paddle paddle = new Paddle(100, 0, 100);
 
 	public GamePanel(int width, int height) {
 
@@ -28,12 +29,19 @@ public class GamePanel extends JPanel {
 	
 	public void updateLogic() {
 
-		
 	}
 	
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
+
+		g.fillOval
+		(
+			(int) paddle.getPos()[0], 
+			(int) paddle.getPos()[1], 
+			(int) paddle.getRadius(), 
+			(int) paddle.getRadius()
+		);
 
 	}
 
@@ -42,8 +50,21 @@ public class GamePanel extends JPanel {
 		return new Dimension(width, height);
 	}
 	
-	private class KeyLis extends KeyAdapter {
+	private class Listener extends KeyAdapter {
 
+		public void keyPressed(KeyEvent e) {
 
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_A:
+					paddle.rotate(1);
+					break;
+				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_D:
+					paddle.rotate(-1);
+					break;
+				default: break;
+			}
+		}
 	}
 }
