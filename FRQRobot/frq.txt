@@ -1,0 +1,14 @@
+/** 2004 AP COMPUTER SCIENCE A FREE-RESPONSE QUESTIONS #4 */
+
+// a)
+
+private boolean forwardMoveBlocked() {
+	return pos + 1 == hall.length;
+}
+
+// b)
+
+private void move() {
+	if (hall[pos] > 0) 
+		hall[pos]--;
+}
