@@ -2,13 +2,16 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class Game {
 
 	public static GamePanel gamePanel = new GamePanel(500, 500);
-	private static final int MS_PER_UPDATE = 30;
+	private static final int MS_PER_UPDATE = 10;
+	public static boolean clockwise = false;
+	public static boolean moving = false;
 
 	public static void main(String[] args) {
 
@@ -56,8 +59,42 @@ public class Game {
 
 		gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		
-		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("W"), "pressed");
-		gamePanel.getActionMap().put("pressed", )
+		Action rotate = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				switch (e.getActionCommand()) {
+					case "a":
+						moving = true;
+						clockwise = false;
+						break;
+					case "d":
+						moving = true;
+						clockwise = true;
+						break;
+					default: break;
+				}
+			}
+		};
+
+		Action stop = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				switch (e.getActionCommand()) {
+					case "a":
+						moving = false;
+						break;
+					case "d":
+						moving = false;
+						break;
+					default: break;
+				}
+			}
+		};
+
+		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
+		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
+		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
+		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
+		gamePanel.getActionMap().put("pressed", rotate);
+		gamePanel.getActionMap().put("released", stop);
 
 		frame.add(gamePanel);
 		frame.pack();
