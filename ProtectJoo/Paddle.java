@@ -1,7 +1,7 @@
 public class Paddle {
 
 	private double radius, rotation, scalar;
-	private double ROT_AMMOUNT = Math.PI / 128;
+	private double ROT_AMMOUNT = Math.PI / 100	;
 
 	public Paddle(double radius, double rotation, double scalar) {
 
@@ -21,7 +21,8 @@ public class Paddle {
 	 */
 	public double[] getPos() {
 
-		double[] pos = {250 + scalar * Math.cos(rotation), 250 + scalar * Math.sin(rotation)};
+		double[] center = {250 - radius / 2, 250 - radius / 2};
+		double[] pos = {center[0] + scalar * Math.cos(rotation), center[1] + scalar * Math.sin(rotation)};
 
 		// System.out.println(pos[0] + " " + pos[1] + " " + rotation);
 

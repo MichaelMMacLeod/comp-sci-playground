@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
 	private int width, height;
-	private Paddle paddle = new Paddle(100, 0, 100);
+	private Paddle paddle = new Paddle(75, 0, 100);
 
 	public GamePanel(int width, int height) {
 
