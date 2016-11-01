@@ -54,17 +54,17 @@ public class GamePanel extends JPanel {
 
 		public void keyPressed(KeyEvent e) {
 
-			switch (e.getKeyCode()) {
-				case KeyEvent.VK_LEFT:
-				case KeyEvent.VK_A:
-					paddle.rotate(-1);
-					break;
-				case KeyEvent.VK_RIGHT:
-				case KeyEvent.VK_D:
-					paddle.rotate(1);
-					break;
-				default: break;
-			}
+			// switch (e.getKeyCode()) {
+			// 	case KeyEvent.VK_LEFT:
+			// 	case KeyEvent.VK_A:
+			// 		paddle.rotate(-1);
+			// 		break;
+			// 	case KeyEvent.VK_RIGHT:
+			// 	case KeyEvent.VK_D:
+			// 		paddle.rotate(1);
+			// 		break;
+			// 	default: break;
+			// }
 		}
 	}
 }

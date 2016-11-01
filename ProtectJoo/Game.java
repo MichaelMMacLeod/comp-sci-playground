@@ -1,3 +1,5 @@
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.Border;
@@ -54,6 +56,9 @@ public class Game {
 
 		gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		
+		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("W"), "pressed");
+		gamePanel.getActionMap().put("pressed", )
+
 		frame.add(gamePanel);
 		frame.pack();
 
