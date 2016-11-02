@@ -1,18 +1,18 @@
 public class Paddle {
 
-	private double radius, rotation, scalar;
+	private double diameter, rotation, scalar;
 	private double ROT_AMMOUNT = Math.PI / 100	;
 
-	public Paddle(double radius, double rotation, double scalar) {
+	public Paddle(double diameter, double rotation, double scalar) {
 
-		this.radius = radius;
+		this.diameter = diameter;
 		this.rotation = rotation;
 		this.scalar = scalar;
 	}
 
-	public double getRadius() {
+	public double getDiameter() {
 
-		return radius;
+		return diameter;
 	}
 
 	/** Returns the center coordinates 
@@ -21,7 +21,7 @@ public class Paddle {
 	 */
 	public double[] getPos() {
 
-		double[] center = {250 - radius / 2, 250 - radius / 2};
+		double[] center = {250 - diameter / 2, 250 - diameter / 2};
 		double[] pos = {center[0] + scalar * Math.cos(rotation), center[1] + scalar * Math.sin(rotation)};
 
 		return pos;

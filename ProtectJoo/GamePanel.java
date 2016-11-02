@@ -47,9 +47,9 @@ public class GamePanel extends JPanel {
 		(
 			(int) paddle.getPos()[0], 
 			(int) paddle.getPos()[1], 
-			(int) paddle.getRadius(), 
-			(int) paddle.getRadius()
-			);
+			(int) paddle.getDiameter(), 
+			(int) paddle.getDiameter()
+		);
 
 		// Zone
 		g.setColor(Color.GRAY);
@@ -59,7 +59,7 @@ public class GamePanel extends JPanel {
 			250 - 120 / 2,
 			120, 
 			120
-			);
+		);
 
 		// Joo
 		g.fillOval
@@ -68,7 +68,7 @@ public class GamePanel extends JPanel {
 			(int) joo.getY(),
 			50, 
 			50
-			);
+		);
 
 	}
 
