@@ -13,6 +13,11 @@ public class Joo extends Circle {
 		initPos();
 	}
 
+	// @param verticalWall is false if the wall is horizontal, true if it is vertical
+	public void collideWith(boolean verticalWall) {
+		direction = verticalWall ? Math.PI - direction : -direction;
+	}
+
 	private void initPos() {
 
 		double rand = Math.random() * Math.PI * 2;

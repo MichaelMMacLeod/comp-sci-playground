@@ -31,7 +31,7 @@ public class GamePanel extends JPanel {
 	
 	public void updateLogic() {
 
-		if (keyLis.getClockwise()) 
+		if (keyLis.getClockwise())
 			paddle.rotate(1);
 		if (keyLis.getCounterclockwise())
 			paddle.rotate(-1);
