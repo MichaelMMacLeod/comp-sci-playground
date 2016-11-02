@@ -66,8 +66,8 @@ public class GamePanel extends JPanel {
 		(
 			(int) joo.getX(), 
 			(int) joo.getY(),
-			100, 
-			100
+			50, 
+			50
 			);
 
 	}
