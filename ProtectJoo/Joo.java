@@ -1,9 +1,7 @@
 import java.awt.Color;
 
-public class Joo {
+public class Joo extends Circle {
 
-	private Color color;
-	private double x, y, diameter;
 	private double direction = Math.random() * Math.PI * 2;
 	private final double SPEED = 2;
 
@@ -14,11 +12,6 @@ public class Joo {
 
 		initPos();
 	}
-
-	public Color getColor() { return color; }
-	public double getDiameter() { return diameter; }
-	public double getX() { return x; }
-	public double getY() { return y; }
 
 	private void initPos() {
 

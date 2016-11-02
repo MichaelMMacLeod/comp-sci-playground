@@ -1,9 +1,8 @@
 import java.awt.Color;
 
-public class Paddle {
+public class Paddle extends Circle {
 
-	private Color color;
-	private double x, y, diameter, rotation, scalar;
+	private double rotation, scalar;
 	private double ROT_AMMOUNT = Math.PI / 100	;
 
 	public Paddle(double diameter, double rotation, double scalar, Color color) {
@@ -15,11 +14,6 @@ public class Paddle {
 
 		rotate(0); // Initialize x and y
 	}
-
-	public Color getColor() { return color; }
-	public double getDiameter() { return diameter; }
-	public double getX() { return x; }
-	public double getY() { return y; }
 
 	// @param direction is +1 for clockwise and -1 for counterclockwise
 	public void rotate(int direction) {
