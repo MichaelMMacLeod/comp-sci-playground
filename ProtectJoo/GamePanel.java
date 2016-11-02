@@ -16,8 +16,7 @@ public class GamePanel extends JPanel {
 	private Paddle paddle = new Paddle(75, 0, 100);
 	private Joo joo = new Joo();
 
-	public boolean clockwise = false;
-	public boolean moving = false;
+	private KeyLis keyLis = new KeyLis(this);
 
 	public GamePanel(int width, int height) {
 
@@ -26,43 +25,6 @@ public class GamePanel extends JPanel {
 		
 		this.setFocusable(true);
 		this.requestFocus();
-
-		Action rotate = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				switch (e.getActionCommand()) {
-					case "a":
-						moving = true;
-						clockwise = false;
-						break;
-					case "d":
-						moving = true;
-						clockwise = true;
-						break;
-					default: break;
-				}
-			}
-		};
-
-		Action stop = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				switch (e.getActionCommand()) {
-					case "a":
-						moving = false;
-						break;
-					case "d":
-						moving = false;
-						break;
-					default: break;
-				}
-			}
-		};
-
-		this.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
-		this.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
-		this.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
-		this.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
-		this.getActionMap().put("pressed", rotate);
-		this.getActionMap().put("released", stop);
 	}
 
 	public void getInput() {
@@ -70,9 +32,9 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void updateLogic() {
-		if (moving && clockwise) 
+		if (keyLis.getMoving() && keyLis.getClockwise()) 
 			paddle.rotate(1);
-		if (moving && !clockwise)
+		if (keyLis.getMoving() && !keyLis.getClockwise())
 			paddle.rotate(-1);
 		joo.move();
 	}
@@ -88,7 +50,7 @@ public class GamePanel extends JPanel {
 			(int) paddle.getPos()[1], 
 			(int) paddle.getRadius(), 
 			(int) paddle.getRadius()
-		);
+			);
 
 		g.setColor(Color.GRAY);
 		g.fillOval
@@ -97,7 +59,7 @@ public class GamePanel extends JPanel {
 			250 - 120 / 2,
 			120, 
 			120
-		);
+			);
 
 		// Joo
 		g.fillOval
@@ -106,12 +68,61 @@ public class GamePanel extends JPanel {
 			(int) joo.getY(),
 			100, 
 			100
-		);
+			);
 
 	}
 
 	public Dimension getPreferredSize() {
 
 		return new Dimension(width, height);
+	}
+
+	private class KeyLis {
+
+		private boolean clockwise = false;
+		private boolean moving = false;
+
+		public boolean getClockwise() { return clockwise; }
+		public boolean getMoving() { return moving; }
+
+		public KeyLis(GamePanel context) {
+
+			Action rotate = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					switch (e.getActionCommand()) {
+						case "a":
+							moving = true;
+							clockwise = false;
+							break;
+						case "d":
+							moving = true;
+							clockwise = true;
+							break;
+						default: break;
+					}
+				}
+			};
+
+			Action stop = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					switch (e.getActionCommand()) {
+						case "a":
+							moving = false;
+							break;
+						case "d":
+							moving = false;
+							break;
+						default: break;
+					}
+				}
+			};
+
+			context.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
+			context.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
+			context.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
+			context.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
+			context.getActionMap().put("pressed", rotate);
+			context.getActionMap().put("released", stop);
+		}
 	}
 }
