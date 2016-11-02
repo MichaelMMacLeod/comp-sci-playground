@@ -12,6 +12,8 @@ public class Joo {
 	}
 
 	public double getDiameter() { return diameter; };
+	public double getX() { return x; }
+	public double getY() { return y; }
 
 	private void initPos() {
 
@@ -26,7 +28,4 @@ public class Joo {
 		x += Math.cos(direction) * SPEED;
 		y += Math.sin(direction) * SPEED;
 	}
-
-	public double getX() { return x; }
-	public double getY() { return y; }
 }
