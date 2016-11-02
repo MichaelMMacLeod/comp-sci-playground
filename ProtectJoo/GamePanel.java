@@ -45,8 +45,8 @@ public class GamePanel extends JPanel {
 		g.setColor(Color.BLUE);
 		g.fillOval
 		(
-			(int) paddle.getPos()[0], 
-			(int) paddle.getPos()[1], 
+			(int) paddle.getX(), 
+			(int) paddle.getY(), 
 			(int) paddle.getDiameter(), 
 			(int) paddle.getDiameter()
 		);
