@@ -32,9 +32,9 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void updateLogic() {
-		if (keyLis.getMoving() && keyLis.getClockwise()) 
+		if (keyLis.getClockwise()) 
 			paddle.rotate(1);
-		if (keyLis.getMoving() && !keyLis.getClockwise())
+		if (keyLis.getCounterclockwise())
 			paddle.rotate(-1);
 		joo.move();
 	}
@@ -79,11 +79,19 @@ public class GamePanel extends JPanel {
 
 	private class KeyLis {
 
-		private boolean clockwise = false;
-		private boolean moving = false;
+		private boolean[] movement = 
+		{
+			false, // directions[0] is counterclockwise movement
+			false  // directions[1] is clockwise movement
+		};
 
-		public boolean getClockwise() { return clockwise; }
-		public boolean getMoving() { return moving; }
+		public boolean getClockwise() {
+			return movement[1];
+		}
+
+		public boolean getCounterclockwise() {
+			return movement[0];
+		}
 
 		public KeyLis(GamePanel context) {
 
@@ -91,12 +99,10 @@ public class GamePanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					switch (e.getActionCommand()) {
 						case "a":
-							moving = true;
-							clockwise = false;
+							movement[0] = true;
 							break;
 						case "d":
-							moving = true;
-							clockwise = true;
+							movement[1] = true;
 							break;
 						default: break;
 					}
@@ -107,10 +113,10 @@ public class GamePanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					switch (e.getActionCommand()) {
 						case "a":
-							moving = false;
+							movement[0] = false;
 							break;
 						case "d":
-							moving = false;
+							movement[1] = false;
 							break;
 						default: break;
 					}
