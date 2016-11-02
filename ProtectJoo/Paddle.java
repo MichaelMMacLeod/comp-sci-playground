@@ -10,10 +10,9 @@ public class Paddle {
 		this.scalar = scalar;
 	}
 
-	public double getDiameter() {
-
-		return diameter;
-	}
+	public double getDiameter() { return diameter; }
+	
+	public double getRotation() { return rotation; }
 
 	/** Returns the center coordinates 
 	 *  pos[0] is x
@@ -33,11 +32,6 @@ public class Paddle {
 	public void rotate(int direction) {
 
 		setRotation(direction * ROT_AMMOUNT);
-	}
-
-	public double getRotation() {
-
-		return rotation;
 	}
 
 	/** Keeps rotation within reasonable bounds */

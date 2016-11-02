@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
 
 	private int width, height;
 	private Paddle paddle = new Paddle(75, 0, 100);
-	private Joo joo = new Joo();
+	private Joo joo = new Joo(50);
 
 	private KeyLis keyLis = new KeyLis(this);
 
@@ -66,8 +66,8 @@ public class GamePanel extends JPanel {
 		(
 			(int) joo.getX(), 
 			(int) joo.getY(),
-			50, 
-			50
+			(int) joo.getDiameter(), 
+			(int) joo.getDiameter()
 		);
 
 	}

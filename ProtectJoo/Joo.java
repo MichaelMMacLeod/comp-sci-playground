@@ -1,14 +1,17 @@
 public class Joo {
 
-	private double x;
-	private double y;
+	private double x, y, diameter;
 	private double direction = Math.random() * Math.PI * 2;
 	private final double SPEED = 2;
 
-	public Joo() {
+	public Joo(double diameter) {
+
+		this.diameter = diameter;
 
 		initPos();
 	}
+
+	public double getDiameter() { return diameter; };
 
 	private void initPos() {
 
