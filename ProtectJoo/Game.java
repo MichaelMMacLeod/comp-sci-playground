@@ -28,9 +28,6 @@ public class Game {
 		double lag = 0;
 
 		while (true) {
-
-			// Get input as often as we can
-			gamePanel.getInput();
 			
 			double current = System.currentTimeMillis();
 			double elapsed = current - previous;

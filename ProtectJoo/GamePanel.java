@@ -26,16 +26,14 @@ public class GamePanel extends JPanel {
 		this.setFocusable(true);
 		this.requestFocus();
 	}
-
-	public void getInput() {
-
-	}
 	
 	public void updateLogic() {
+
 		if (keyLis.getClockwise()) 
 			paddle.rotate(1);
 		if (keyLis.getCounterclockwise())
 			paddle.rotate(-1);
+
 		joo.move();
 	}
 	
@@ -43,6 +41,7 @@ public class GamePanel extends JPanel {
 
 		super.paintComponent(g);
 
+		// Paddle
 		g.setColor(Color.BLUE);
 		g.fillOval
 		(
@@ -52,6 +51,7 @@ public class GamePanel extends JPanel {
 			(int) paddle.getRadius()
 			);
 
+		// Zone
 		g.setColor(Color.GRAY);
 		g.fillOval
 		(
