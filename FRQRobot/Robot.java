@@ -1,42 +1,53 @@
-// sorry for long text file
+public class Robot {
 
-/*********************************************************
- * 2004 AP COMPUTER SCIENCE A FREE-RESPONSE QUESTIONS #4 *
- *********************************************************/
+	private int[] hall;
+	private int pos;
+	private boolean facingRight;
+	private int moves = 0;
 
-// a)
-
-private boolean forwardMoveBlocked() {
-	return facingRight ? pos + 1 == hall.length : pos == 0;
-}
-
-// b)
-
-private void move() {
-	if (hall[pos] > 0)
-		hall[pos]--;
-	if (!forwardMoveBlocked() && hall[pos] == 0)
-		pos += facingRight ? 1 : -1;
-	else if (hall[pos] == 0)
-		facingRight = !facingRight;
-}
-
-// c)
-
-public int clearHall() {
-	int moves = 0, trash = 0;
-	for (int i = 0; i < hall.length; i++) {
-		trash += hall[i];
+	public Robot(int[] hall, int pos, boolean facingRight) {
+		this.hall = hall;
+		this.pos = pos;
+		this.facingRight = facingRight;
 	}
-	while (trash > 0) {
-		move();
-		moves++;
-		trash = 0;
+
+	public String getHall() {
+		String strHall = "";
+		for (int i = 0; i < hall.length; i++) {
+			strHall += hall[i] + " ";
+		}
+		return strHall;
+	}
+
+	private boolean forwardMoveBlocked() {
+		return facingRight ? pos + 1 == hall.length : pos == 0;
+	}
+
+	private void move() {
+		if (hall[pos] > 0)
+			hall[pos]--;
+		if (!forwardMoveBlocked() && hall[pos] == 0)
+			pos += facingRight ? 1 : -1;
+		else if (hall[pos] == 0)
+			facingRight = !facingRight;
+		System.out.println("hall: " + getHall() + (facingRight ? " right" : " left") + " " + moves + " move(s)");
+	}
+
+	public int clearHall() {
+		while (!hallIsClear()) {
+			move();
+			moves++;
+		}
+		return moves;
+	}
+
+	private boolean hallIsClear() {
+		int trash = 0;
 		for (int i = 0; i < hall.length; i++) {
 			trash += hall[i];
 		}
+		return !(trash > 0);
 	}
-	return moves;
 }
 
 /************************************************************
