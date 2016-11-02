@@ -13,8 +13,10 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
 	private int width, height;
+
 	private Paddle paddle = new Paddle(75, 0, 100, Color.BLUE);
 	private Joo joo = new Joo(50, Color.BLACK);
+	private Zone zone = new Zone(250, 250, 120, Color.GRAY);
 
 	private KeyLis keyLis = new KeyLis(this);
 
@@ -52,13 +54,13 @@ public class GamePanel extends JPanel {
 		);
 
 		// Zone
-		g.setColor(Color.GRAY);
+		g.setColor(zone.getColor());
 		g.fillOval
 		(
-			250 - 120 / 2, 
-			250 - 120 / 2,
-			120, 
-			120
+			(int) zone.getX(), 
+			(int) zone.getY(),
+			(int) zone.getDiameter(), 
+			(int) zone.getDiameter()
 		);
 
 		// Joo
