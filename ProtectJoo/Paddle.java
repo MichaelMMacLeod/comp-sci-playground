@@ -24,8 +24,6 @@ public class Paddle {
 		double[] center = {250 - radius / 2, 250 - radius / 2};
 		double[] pos = {center[0] + scalar * Math.cos(rotation), center[1] + scalar * Math.sin(rotation)};
 
-		// System.out.println(pos[0] + " " + pos[1] + " " + rotation);
-
 		return pos;
 	}
 
@@ -42,14 +40,14 @@ public class Paddle {
 		return rotation;
 	}
 
-	/** Keeps rotation within (-2 * PI, 2 * PI) */
+	/** Keeps rotation within reasonable bounds */
 	private void setRotation(double ammount) {
 
 		rotation += ammount;
 
-		// while (Math.abs(rotation) >= 2 * Math.PI) {
+		while (Math.abs(rotation) >= 2 * Math.PI) {
 
-		// 	rotation += rotation > 0 ? -2 * Math.PI : 2 * Math.PI;
-		// }
+			rotation += rotation > 0 ? -2 * Math.PI : 2 * Math.PI;
+		}
 	}
 }
