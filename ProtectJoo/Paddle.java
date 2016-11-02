@@ -1,17 +1,22 @@
+import java.awt.Color;
+
 public class Paddle {
 
+	private Color color;
 	private double x, y, diameter, rotation, scalar;
 	private double ROT_AMMOUNT = Math.PI / 100	;
 
-	public Paddle(double diameter, double rotation, double scalar) {
+	public Paddle(double diameter, double rotation, double scalar, Color color) {
 
+		this.color = color;
 		this.diameter = diameter;
 		this.rotation = rotation;
 		this.scalar = scalar;
 
 		rotate(0); // Initialize x and y
 	}
-	
+
+	public Color getColor() { return color; }
 	public double getDiameter() { return diameter; }
 	public double getX() { return x; }
 	public double getY() { return y; }

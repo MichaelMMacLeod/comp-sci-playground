@@ -1,17 +1,22 @@
+import java.awt.Color;
+
 public class Joo {
 
+	private Color color;
 	private double x, y, diameter;
 	private double direction = Math.random() * Math.PI * 2;
 	private final double SPEED = 2;
 
-	public Joo(double diameter) {
+	public Joo(double diameter, Color color) {
 
+		this.color = color;
 		this.diameter = diameter;
 
 		initPos();
 	}
 
-	public double getDiameter() { return diameter; };
+	public Color getColor() { return color; }
+	public double getDiameter() { return diameter; }
 	public double getX() { return x; }
 	public double getY() { return y; }
 

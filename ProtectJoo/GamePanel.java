@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
 	private int width, height;
-	private Paddle paddle = new Paddle(75, 0, 100);
-	private Joo joo = new Joo(50);
+	private Paddle paddle = new Paddle(75, 0, 100, Color.BLUE);
+	private Joo joo = new Joo(50, Color.BLACK);
 
 	private KeyLis keyLis = new KeyLis(this);
 
@@ -42,7 +42,7 @@ public class GamePanel extends JPanel {
 		super.paintComponent(g);
 
 		// Paddle
-		g.setColor(Color.BLUE);
+		g.setColor(paddle.getColor());
 		g.fillOval
 		(
 			(int) paddle.getX(), 
@@ -62,6 +62,7 @@ public class GamePanel extends JPanel {
 		);
 
 		// Joo
+		g.setColor(joo.getColor());
 		g.fillOval
 		(
 			(int) joo.getX(), 
