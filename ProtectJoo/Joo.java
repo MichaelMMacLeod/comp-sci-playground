@@ -3,10 +3,13 @@ import java.awt.Color;
 public class Joo extends Circle {
 
 	private double direction;
+	private double nextDirection;
 	private double speed = 2;
 	private double scalar;
 	private GamePanel panel;
 	private final double SPEED = 2;
+	private double nextX;
+	private double nextY;
 
 	public Joo(double diameter, Color color, double scalar, GamePanel panel) {
 
@@ -14,7 +17,30 @@ public class Joo extends Circle {
 		this.diameter = diameter;
 		this.scalar = scalar;
 		this.panel = panel;
+
+		nextX = scalar + panel.getWidth() / 2 - diameter / 2;
+		nextY = scalar + panel.getHeight() / 2 - diameter / 2;
+
+		double[] possibleDirections = 
+		{
+			Math.PI / 6,
+			Math.PI / 3,
+			2 * Math.PI / 3,
+			5 * Math.PI / 6,
+			7 * Math.PI / 6,
+			4 * Math.PI / 3,
+			5 * Math.PI / 3,
+			11 * Math.PI / 6
+		};
+		nextDirection = possibleDirections
+		[
+			(int) (Math.random() * (possibleDirections.length - 1))
+		];
 	}
+
+	public double getNextX() { return nextX; }
+	public double getNextY() { return nextY; }
+	public double getNextDirection() { return nextDirection; }
 
 	public void stop() {
 
@@ -76,8 +102,12 @@ public class Joo extends Circle {
 
 		double rand = Math.random() * Math.PI * 2;
 
-		x = Math.cos(rand) * scalar + panel.getWidth() / 2 - diameter / 2;
-		y = Math.sin(rand) * scalar + panel.getHeight() / 2 - diameter / 2;
+		x = nextX;
+		y = nextY;
+		direction = nextDirection;
+
+		nextX = Math.cos(rand) * scalar + panel.getWidth() / 2 - diameter / 2;
+		nextY = Math.sin(rand) * scalar + panel.getHeight() / 2 - diameter / 2;
 
 		double[] possibleDirections = 
 		{
@@ -91,7 +121,7 @@ public class Joo extends Circle {
 			11 * Math.PI / 6
 		};
 
-		direction = possibleDirections
+		nextDirection = possibleDirections
 		[
 			(int) (Math.random() * (possibleDirections.length - 1))
 		];

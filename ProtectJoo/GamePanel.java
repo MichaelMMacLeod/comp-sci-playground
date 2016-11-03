@@ -91,6 +91,22 @@ public class GamePanel extends JPanel {
 		);
 
 		// Joo
+		g.setColor(Color.GRAY);
+		g.fillOval
+		(
+			(int) joo.getNextX(), 
+			(int) joo.getNextY(), 
+			(int) joo.getDiameter() / 2, 
+			(int) joo.getDiameter() / 2
+		);
+		g.setColor(Color.BLACK);
+		g.fillOval
+		(
+			(int) (joo.getNextX() + 10 * Math.cos(joo.getNextDirection()) + joo.getDiameter() / 8), 
+			(int) (joo.getNextY() + 10 * Math.sin(joo.getNextDirection()) + joo.getDiameter() / 8), 
+			(int) joo.getDiameter() / 4, 
+			(int) joo.getDiameter() / 4
+		);
 		g.drawImage
 		(
 			jooImage, 
