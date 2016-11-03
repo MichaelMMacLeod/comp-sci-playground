@@ -85,15 +85,17 @@ public class Joo extends Circle {
 	/** Returns true if Joo collides with object */
 	public boolean checkCollision(Circle object) {
 
-		double a = 
+		double a, b, c;
+		a = 
 			(object.getX() + object.getDiameter() / 2) - 
-			(x + diameter / 2),
-			   b = 
+			(x + diameter / 2);
+		b = 
 			(object.getY() + object.getDiameter() / 2) - 
-			(y + diameter / 2),
-		       c = Math.sqrt(a * a + b * b);
+			(y + diameter / 2);
+		c = Math.sqrt(a * a + b * b);
 
-		if (c < diameter / 2)
+
+		if (c < (diameter + object.getDiameter()) / 4)
 			return true;
 
 		return false;

@@ -65,6 +65,7 @@ public class GamePanel extends JPanel {
 		}
 
 		if (joo.checkCollision(paddle)) {
+			zone.incrementDiameter();
 			joo.init();
 			points += 500;
 		}
