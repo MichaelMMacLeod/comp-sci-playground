@@ -32,6 +32,11 @@ public class GamePanel extends JPanel {
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 
+	public void restart() {
+
+		joo.init();
+	}
+
 	public void updateLogic() {
 
 		if (keyLis.getClockwise())
@@ -46,7 +51,7 @@ public class GamePanel extends JPanel {
 		}
 
 		if (joo.checkCollision(paddle))
-			joo.initPos();
+			joo.init();
 
 		if (joo.checkCollision(zone))
 			joo.stop();
@@ -109,7 +114,7 @@ public class GamePanel extends JPanel {
 			return movement[0];
 		}
 
-		public KeyLis(GamePanel context) {
+		public KeyLis(GamePanel panel) {
 
 			Action rotate = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
@@ -134,17 +139,21 @@ public class GamePanel extends JPanel {
 						case "d":
 							movement[1] = false;
 							break;
+						case "\n":
+							panel.restart();
+							break;
 						default: break;
 					}
 				}
 			};
 
-			context.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
-			context.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
-			context.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
-			context.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
-			context.getActionMap().put("pressed", rotate);
-			context.getActionMap().put("released", stop);
+			panel.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released ENTER"), "released");
+			panel.getActionMap().put("pressed", rotate);
+			panel.getActionMap().put("released", stop);
 		}
 	}
 }

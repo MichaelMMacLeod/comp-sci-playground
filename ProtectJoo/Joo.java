@@ -4,13 +4,14 @@ public class Joo extends Circle {
 
 	private double direction;
 	private double speed = 2;
+	private final double SPEED = 2;
 
 	public Joo(double diameter, Color color) {
 
 		this.color = color;
 		this.diameter = diameter;
 
-		initPos();
+		init();
 	}
 
 	public void stop() {
@@ -69,7 +70,7 @@ public class Joo extends Circle {
 		return false;
 	}
 
-	public void initPos() {
+	public void init() {
 
 		double rand = Math.random() * Math.PI * 2;
 
@@ -77,6 +78,8 @@ public class Joo extends Circle {
 		y = Math.sin(rand) * 200 + 250 - 50 / 2;
 
 		direction = Math.random() * Math.PI * 2;
+
+		speed = SPEED;
 	}
 
 	public void move() {
