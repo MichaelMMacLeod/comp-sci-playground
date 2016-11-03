@@ -21,6 +21,7 @@ public class GamePanel extends JPanel {
 	private Zone zone = new Zone(250, 250, 120, Color.GRAY);
 
 	private Image jooImage = new ImageIcon("MrJooFace.png").getImage();
+	private Image zoneImage = new ImageIcon("CarDoor.png").getImage();
 
 	private KeyLis keyLis = new KeyLis(this);
 
@@ -76,24 +77,18 @@ public class GamePanel extends JPanel {
 		);
 
 		// Zone
-		g.setColor(zone.getColor());
-		g.fillOval
+		// g.setColor(zone.getColor());
+		g.drawImage
 		(
+			zoneImage, 
 			(int) zone.getX(), 
-			(int) zone.getY(),
+			(int) zone.getY(), 
 			(int) zone.getDiameter(), 
-			(int) zone.getDiameter()
+			(int) zone.getDiameter(), 
+			this
 		);
 
 		// Joo
-		// g.setColor(joo.getColor());
-		// g.fillOval
-		// (
-		// 	(int) joo.getX(), 
-		// 	(int) joo.getY(),
-		// 	(int) joo.getDiameter(), 
-		// 	(int) joo.getDiameter()
-		// );
 		g.drawImage
 		(
 			jooImage, 
