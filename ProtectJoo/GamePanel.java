@@ -44,6 +44,9 @@ public class GamePanel extends JPanel {
 		for (int i = 0; i < 4; i++) {
 			joo.checkBounce(this, i);
 		}
+
+		if (joo.checkCollision(paddle))
+			joo.initPos();
 	}
 	
 	protected void paintComponent(Graphics g) {

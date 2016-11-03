@@ -2,7 +2,7 @@ import java.awt.Color;
 
 public class Joo extends Circle {
 
-	private double direction = Math.random() * Math.PI * 2;
+	private double direction;
 	private final double SPEED = 2;
 
 	public Joo(double diameter, Color color) {
@@ -28,31 +28,50 @@ public class Joo extends Circle {
 
 		switch (wall) {
 			case 0:
-				if (getY() <= 0)
+				if (y <= 0)
 					direction = -direction;
 				break;
 			case 1:
-				if (getX() + diameter >= panel.getWidth())
+				if (x + diameter >= panel.getWidth())
 					direction = Math.PI - direction;
 				break;
 			case 2:
-				if (getY() + diameter >= panel.getHeight())
+				if (y + diameter >= panel.getHeight())
 					direction = -direction;
 				break;
 			case 3:
-				if (getX() <= 0)
+				if (x <= 0)
 					direction = Math.PI - direction;
 				break;
 			default: break;
 		}
 	}
 
-	private void initPos() {
+	/** Returns true if Joo collides with object */
+	public boolean checkCollision(Circle object) {
+
+		double a = 
+			(object.getX() + object.getDiameter() / 2) - 
+			(x + diameter / 2),
+			   b = 
+			(object.getY() + object.getDiameter() / 2) - 
+			(y + diameter / 2),
+		       c = Math.sqrt(a * a + b * b);
+		       
+		if (c < diameter)
+			return true;
+
+		return false;
+	}
+
+	public void initPos() {
 
 		double rand = Math.random() * Math.PI * 2;
 
 		x = Math.cos(rand) * 200 + 250 - 50 / 2;
 		y = Math.sin(rand) * 200 + 250 - 50 / 2;
+
+		direction = Math.random() * Math.PI * 2;
 	}
 
 	public void move() {
