@@ -53,6 +53,7 @@ public class Game {
 		frame.setUndecorated(true);
 
 		gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		gamePanel.setBackground(Color.WHITE);
 
 		frame.add(gamePanel);
 		frame.pack();

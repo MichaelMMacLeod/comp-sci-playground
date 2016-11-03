@@ -82,7 +82,7 @@ public class GamePanel extends JPanel {
 
 		// Paddle
 		g.setColor(paddle.getColor());
-		g.fillOval
+		g.drawOval
 		(
 			(int) paddle.getX(), 
 			(int) paddle.getY(), 
@@ -111,11 +111,11 @@ public class GamePanel extends JPanel {
 			(int) joo.getDiameter() / 2, 
 			(int) joo.getDiameter() / 2
 		);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.fillOval
 		(
-			(int) (joo.getNextX() + 10 * Math.cos(joo.getNextDirection()) + joo.getDiameter() / 8), 
-			(int) (joo.getNextY() + 10 * Math.sin(joo.getNextDirection()) + joo.getDiameter() / 8), 
+			(int) (joo.getNextX() + 20 * Math.cos(joo.getNextDirection()) + joo.getDiameter() / 8), 
+			(int) (joo.getNextY() + 20 * Math.sin(joo.getNextDirection()) + joo.getDiameter() / 8), 
 			(int) joo.getDiameter() / 4, 
 			(int) joo.getDiameter() / 4
 		);
