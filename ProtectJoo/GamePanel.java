@@ -116,7 +116,7 @@ public class GamePanel extends JPanel {
 
 		public KeyLis(GamePanel panel) {
 
-			Action rotate = new AbstractAction() {
+			Action press = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					switch (e.getActionCommand()) {
 						case "a":
@@ -130,7 +130,7 @@ public class GamePanel extends JPanel {
 				}
 			};
 
-			Action stop = new AbstractAction() {
+			Action release = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					switch (e.getActionCommand()) {
 						case "a":
@@ -152,8 +152,8 @@ public class GamePanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released ENTER"), "released");
-			panel.getActionMap().put("pressed", rotate);
-			panel.getActionMap().put("released", stop);
+			panel.getActionMap().put("pressed", press);
+			panel.getActionMap().put("released", release);
 		}
 	}
 }
