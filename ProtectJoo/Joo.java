@@ -13,9 +13,38 @@ public class Joo extends Circle {
 		initPos();
 	}
 
-	// @param verticalWall is false if the wall is horizontal, true if it is vertical
-	public void collideWith(boolean verticalWall) {
-		direction = verticalWall ? Math.PI - direction : -direction;
+	/**
+	 * Checks collisions with walls, and adjusts direction accordingly.
+	 * 
+	 * @param wall can be 0 through 3 (see below)
+	 * 
+	 *    0
+	 *    |
+	 * 3--#--1
+	 *    |
+	 *    2
+	 */
+	public void checkBounce(GamePanel panel, int wall) {
+
+		switch (wall) {
+			case 0:
+				if (getY() <= 0)
+					direction = -direction;
+				break;
+			case 1:
+				if (getX() + diameter >= panel.getWidth())
+					direction = Math.PI - direction;
+				break;
+			case 2:
+				if (getY() + diameter >= panel.getHeight())
+					direction = -direction;
+				break;
+			case 3:
+				if (getX() <= 0)
+					direction = Math.PI - direction;
+				break;
+			default: break;
+		}
 	}
 
 	private void initPos() {

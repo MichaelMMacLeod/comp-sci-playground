@@ -28,7 +28,10 @@ public class GamePanel extends JPanel {
 		this.setFocusable(true);
 		this.requestFocus();
 	}
-	
+		
+	public int getWidth() { return width; }
+	public int getHeight() { return height; }
+
 	public void updateLogic() {
 
 		if (keyLis.getClockwise())
@@ -37,6 +40,10 @@ public class GamePanel extends JPanel {
 			paddle.rotate(-1);
 
 		joo.move();
+
+		for (int i = 0; i < 4; i++) {
+			joo.checkBounce(this, i);
+		}
 	}
 	
 	protected void paintComponent(Graphics g) {
