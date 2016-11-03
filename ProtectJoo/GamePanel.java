@@ -1,3 +1,5 @@
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.Action;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
@@ -14,9 +16,11 @@ public class GamePanel extends JPanel {
 
 	private int width, height;
 
-	private Paddle paddle = new Paddle(75, 0, 100, Color.BLUE);
-	private Joo joo = new Joo(50, Color.BLACK);
+	private Paddle paddle = new Paddle(50, 0, 100, Color.BLUE);
+	private Joo joo = new Joo(100, Color.BLACK);
 	private Zone zone = new Zone(250, 250, 120, Color.GRAY);
+
+	private Image jooImage = new ImageIcon("MrJooFace.png").getImage();
 
 	private KeyLis keyLis = new KeyLis(this);
 
@@ -82,13 +86,22 @@ public class GamePanel extends JPanel {
 		);
 
 		// Joo
-		g.setColor(joo.getColor());
-		g.fillOval
+		// g.setColor(joo.getColor());
+		// g.fillOval
+		// (
+		// 	(int) joo.getX(), 
+		// 	(int) joo.getY(),
+		// 	(int) joo.getDiameter(), 
+		// 	(int) joo.getDiameter()
+		// );
+		g.drawImage
 		(
+			jooImage, 
 			(int) joo.getX(), 
-			(int) joo.getY(),
+			(int) joo.getY(), 
 			(int) joo.getDiameter(), 
-			(int) joo.getDiameter()
+			(int) joo.getDiameter(), 
+			this
 		);
 
 	}

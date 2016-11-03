@@ -64,7 +64,7 @@ public class Joo extends Circle {
 			(y + diameter / 2),
 		       c = Math.sqrt(a * a + b * b);
 
-		if (c < diameter)
+		if (c < diameter / 2)
 			return true;
 
 		return false;
