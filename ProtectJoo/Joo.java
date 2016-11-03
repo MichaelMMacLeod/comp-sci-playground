@@ -4,14 +4,16 @@ public class Joo extends Circle {
 
 	private double direction;
 	private double speed = 2;
+	private double scalar;
+	private GamePanel panel;
 	private final double SPEED = 2;
 
-	public Joo(double diameter, Color color) {
+	public Joo(double diameter, Color color, double scalar, GamePanel panel) {
 
 		this.color = color;
 		this.diameter = diameter;
-
-		init();
+		this.scalar = scalar;
+		this.panel = panel;
 	}
 
 	public void stop() {
@@ -30,7 +32,7 @@ public class Joo extends Circle {
 	 *    |
 	 *    2
 	 */
-	public void checkBounce(GamePanel panel, int wall) {
+	public void checkBounce(int wall) {
 
 		switch (wall) {
 			case 0:
@@ -74,10 +76,25 @@ public class Joo extends Circle {
 
 		double rand = Math.random() * Math.PI * 2;
 
-		x = Math.cos(rand) * 200 + 250 - 50 / 2;
-		y = Math.sin(rand) * 200 + 250 - 50 / 2;
+		x = Math.cos(rand) * scalar + panel.getWidth() / 2 - diameter / 2;
+		y = Math.sin(rand) * scalar + panel.getHeight() / 2 - diameter / 2;
 
-		direction = Math.random() * Math.PI * 2;
+		double[] possibleDirections = 
+		{
+			Math.PI / 6,
+			Math.PI / 3,
+			2 * Math.PI / 3,
+			5 * Math.PI / 6,
+			7 * Math.PI / 6,
+			4 * Math.PI / 3,
+			5 * Math.PI / 3,
+			11 * Math.PI / 6
+		};
+
+		direction = possibleDirections
+		[
+			(int) (Math.random() * (possibleDirections.length - 1))
+		];
 
 		speed = SPEED;
 	}

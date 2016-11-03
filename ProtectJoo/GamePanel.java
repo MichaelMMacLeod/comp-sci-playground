@@ -17,7 +17,7 @@ public class GamePanel extends JPanel {
 	private int width, height;
 
 	private Paddle paddle = new Paddle(50, 0, 100, Color.BLUE);
-	private Joo joo = new Joo(100, Color.BLACK);
+	private Joo joo = new Joo(100, Color.BLACK, 175, this);
 	private Zone zone = new Zone(250, 250, 120, Color.GRAY);
 
 	private Image jooImage = new ImageIcon("MrJooFace.png").getImage();
@@ -32,6 +32,8 @@ public class GamePanel extends JPanel {
 		
 		this.setFocusable(true);
 		this.requestFocus();
+
+		joo.init();
 	}
 		
 	public int getWidth() { return width; }
@@ -52,7 +54,7 @@ public class GamePanel extends JPanel {
 		joo.move();
 
 		for (int i = 0; i < 4; i++) {
-			joo.checkBounce(this, i);
+			joo.checkBounce(i);
 		}
 
 		if (joo.checkCollision(paddle))
