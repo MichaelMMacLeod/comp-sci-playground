@@ -41,6 +41,7 @@ public class Joo extends Circle {
 	public double getNextX() { return nextX; }
 	public double getNextY() { return nextY; }
 	public double getNextDirection() { return nextDirection; }
+	public double getSpeed() { return speed; }
 
 	public void stop() {
 

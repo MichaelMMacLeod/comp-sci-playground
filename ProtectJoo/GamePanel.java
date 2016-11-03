@@ -16,6 +16,8 @@ public class GamePanel extends JPanel {
 
 	private int width, height;
 
+	private int points = 0;
+
 	private Paddle paddle = new Paddle(50, 0, 100, Color.BLUE);
 	private Joo joo = new Joo(100, Color.BLACK, 175, this);
 	private Zone zone = new Zone(250, 250, 120, Color.GRAY);
@@ -42,9 +44,14 @@ public class GamePanel extends JPanel {
 	public void restart() {
 
 		joo.init();
+
+		points = 0;
 	}
 
 	public void updateLogic() {
+
+		if (joo.getSpeed() > 0)
+			points += 1;
 
 		if (keyLis.getClockwise())
 			paddle.rotate(1);
@@ -57,8 +64,10 @@ public class GamePanel extends JPanel {
 			joo.checkBounce(i);
 		}
 
-		if (joo.checkCollision(paddle))
+		if (joo.checkCollision(paddle)) {
 			joo.init();
+			points += 500;
+		}
 
 		if (joo.checkCollision(zone))
 			joo.stop();
@@ -67,6 +76,9 @@ public class GamePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
+
+		// Points
+		g.drawString("Empty Stares: " + Integer.toString(points), 20, 35);
 
 		// Paddle
 		g.setColor(paddle.getColor());
