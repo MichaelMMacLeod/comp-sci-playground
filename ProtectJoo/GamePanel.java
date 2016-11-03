@@ -149,6 +149,9 @@ public class GamePanel extends JPanel {
 						case "d":
 							movement[1] = false;
 							break;
+						case " ":
+							paddle.jump();
+							break;
 						case "\n":
 							panel.restart();
 							break;
@@ -162,6 +165,7 @@ public class GamePanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released ENTER"), "released");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released SPACE"), "released");
 			panel.getActionMap().put("pressed", press);
 			panel.getActionMap().put("released", release);
 		}

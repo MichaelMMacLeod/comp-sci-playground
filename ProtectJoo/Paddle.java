@@ -15,8 +15,14 @@ public class Paddle extends Circle {
 		rotate(0); // Initialize x and y
 	}
 
+	/** Rotates the paddle pi radians */
+	public void jump() {
+
+		rotate(Math.PI / ROT_AMMOUNT);
+	}
+
 	// @param direction is +1 for clockwise and -1 for counterclockwise
-	public void rotate(int direction) {
+	public void rotate(double direction) {
 
 		rotation += direction * ROT_AMMOUNT;
 
