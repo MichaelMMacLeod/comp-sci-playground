@@ -3,7 +3,7 @@ import java.awt.Color;
 public class Joo extends Circle {
 
 	private double direction;
-	private final double SPEED = 2;
+	private double speed = 2;
 
 	public Joo(double diameter, Color color) {
 
@@ -11,6 +11,11 @@ public class Joo extends Circle {
 		this.diameter = diameter;
 
 		initPos();
+	}
+
+	public void stop() {
+
+		speed = 0;
 	}
 
 	/**
@@ -57,7 +62,7 @@ public class Joo extends Circle {
 			(object.getY() + object.getDiameter() / 2) - 
 			(y + diameter / 2),
 		       c = Math.sqrt(a * a + b * b);
-		       
+
 		if (c < diameter)
 			return true;
 
@@ -76,7 +81,7 @@ public class Joo extends Circle {
 
 	public void move() {
 
-		x += Math.cos(direction) * SPEED;
-		y += Math.sin(direction) * SPEED;
+		x += Math.cos(direction) * speed;
+		y += Math.sin(direction) * speed;
 	}
 }

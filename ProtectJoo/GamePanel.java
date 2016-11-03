@@ -47,6 +47,9 @@ public class GamePanel extends JPanel {
 
 		if (joo.checkCollision(paddle))
 			joo.initPos();
+
+		if (joo.checkCollision(zone))
+			joo.stop();
 	}
 	
 	protected void paintComponent(Graphics g) {
