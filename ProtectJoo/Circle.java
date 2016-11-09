@@ -9,4 +9,6 @@ public abstract class Circle {
 	public double getDiameter() { return diameter; }
 	public double getX() { return x; }
 	public double getY() { return y; }
+	public double getCenterX() { return getX() + getDiameter() / 2; }
+	public double getCenterY() { return getY() + getDiameter() / 2; }
 }
