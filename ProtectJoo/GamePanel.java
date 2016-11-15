@@ -153,7 +153,7 @@ public class GamePanel extends JPanel {
 			return movement[0];
 		}
 
-		public KeyLis(GamePanel panel) {
+		public KeyLis(final GamePanel panel) {
 
 			Action press = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
