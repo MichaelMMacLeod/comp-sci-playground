@@ -17,6 +17,9 @@ public class GamePanel extends JPanel {
 	private int width, height;
 
 	private KeyLis keyLis = new KeyLis(this);
+	private int mapWidth = 15;
+	private int mapHeight = 15;
+	private int[][] map;
 
 	public GamePanel(int width, int height) {
 
@@ -25,6 +28,10 @@ public class GamePanel extends JPanel {
 		
 		this.setFocusable(true);
 		this.requestFocus();
+
+		map = new int[mapHeight][mapWidth];
+
+		restart();
 	}
 		
 	public int width() { return width; }
@@ -32,6 +39,27 @@ public class GamePanel extends JPanel {
 
 	public void restart() {
 
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				map[i][j] = -1;
+			}
+		}
+
+		// initiate ships
+		for (int size = 1; size <= 4; size++) {
+
+			int x = (int) (Math.random() * (mapWidth - size));
+			int y = (int) (Math.random() * (mapHeight - size));
+			boolean horizontal = x % 2 == 0;
+
+			for (int i = 0; i < size; i++) {
+				if (horizontal) {
+					map[y + i][x] = 1;
+				} else {
+					map[y][x + i] = 1;
+				}
+			}
+		}
 	}
 
 	public void updateLogic() {
@@ -41,6 +69,18 @@ public class GamePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
+
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+
+				if (map[i][j] > 0)
+					g.setColor(Color.RED);
+				else
+					g.setColor(Color.BLACK);
+				
+				g.fillRect(i * 30, j * 30, 28, 28);
+			}
+		}
 	}
 
 	public Dimension getPreferredSize() {
@@ -50,11 +90,7 @@ public class GamePanel extends JPanel {
 
 	private static class KeyLis {
 
-		private enum Command {
-			A, W, D, S, FIRE, QUIT
-		}
-
-		private Command[] log;
+		private String[] log = {""};
 		
 		public KeyLis(GamePanel panel) {
 
@@ -62,7 +98,13 @@ public class GamePanel extends JPanel {
 
 				public void actionPerformed(ActionEvent e) {
 
-					Command cmd = e.getActionCommand();
+					String[] logNew = new String[log.length + 1];
+					for (int i = 0; i < log.length; i++) {
+						logNew[i] = log[i];
+					}
+					logNew[logNew.length - 1] = e.getActionCommand();
+
+					log = logNew;
 				}
 			};
 
@@ -72,6 +114,22 @@ public class GamePanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("S"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed");
 			panel.getActionMap().put("pressed", press);
+		}
+
+		/**
+		 * Returns log[0], then shifts the array left by 1
+		 */
+		public String getCmd() {
+
+			String cmd = log[0];
+
+			String[] logNew = new String[log.length - 1];
+			for (int i = 0; i < logNew.length; i++) {
+				logNew[i] = log[i + 1];
+			}
+			log = logNew;
+
+			return cmd;
 		}
 	}
 }
