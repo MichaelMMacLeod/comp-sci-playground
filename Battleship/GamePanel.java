@@ -20,6 +20,10 @@ public class GamePanel extends JPanel {
 	private int mapWidth = 15;
 	private int mapHeight = 15;
 	private int[][] map;
+	private Ship ship1;
+	private Ship ship2;
+	private Ship ship3;
+	private Ship ship4;
 
 	public GamePanel(int width, int height) {
 
@@ -33,7 +37,11 @@ public class GamePanel extends JPanel {
 
 		restart();
 	}
-		
+	
+	public void setCell(int x, int y, int value) {
+		map[y][x] = value;
+	}
+
 	public int width() { return width; }
 	public int height() { return height; }
 
@@ -41,25 +49,42 @@ public class GamePanel extends JPanel {
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
-				map[i][j] = -1;
+				setCell(i, j, -1);
 			}
 		}
 
-		// initiate ships
-		for (int size = 1; size <= 4; size++) {
-
-			int x = (int) (Math.random() * (mapWidth - size));
-			int y = (int) (Math.random() * (mapHeight - size));
-			boolean horizontal = x % 2 == 0;
-
-			for (int i = 0; i < size; i++) {
-				if (horizontal) {
-					map[y + i][x] = 1;
-				} else {
-					map[y][x + i] = 1;
-				}
+		ship1 = new Ship(1, map, this);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
 			}
+			System.out.println("printed 1");
 		}
+		System.out.println();
+		ship2 = new Ship(2, map, this);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
+			}
+			System.out.println("printed 2");
+		}
+		System.out.println();
+		ship3 = new Ship(3, map, this);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
+			}
+			System.out.println("printed 3");
+		}
+		System.out.println();
+		ship4 = new Ship(4, map, this);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
+			}
+			System.out.println("printed 4");
+		}
+		System.out.println();
 	}
 
 	public void updateLogic() {
@@ -117,7 +142,7 @@ public class GamePanel extends JPanel {
 		}
 
 		/**
-		 * Returns log[0], then shifts the array left by 1
+		 * Returns log[0] and shifts the array left by 1
 		 */
 		public String getCmd() {
 
