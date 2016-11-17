@@ -54,37 +54,9 @@ public class GamePanel extends JPanel {
 		}
 
 		ship1 = new Ship(1, map, this);
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
-			}
-			System.out.println("printed 1");
-		}
-		System.out.println();
 		ship2 = new Ship(2, map, this);
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
-			}
-			System.out.println("printed 2");
-		}
-		System.out.println();
 		ship3 = new Ship(3, map, this);
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
-			}
-			System.out.println("printed 3");
-		}
-		System.out.println();
 		ship4 = new Ship(4, map, this);
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				System.out.print((map[j][i] < 0 ? 1 : 0) + " ");
-			}
-			System.out.println("printed 4");
-		}
-		System.out.println();
 	}
 
 	public void updateLogic() {

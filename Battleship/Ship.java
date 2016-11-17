@@ -4,11 +4,19 @@ public class Ship {
 	private int[] y; // the y coordinates of the ship parts
 	private int size;
 	private boolean horizontal;
+	private static Ship[] ships = new Ship[0];
 
 	public int[] getX() { return x; }
 	public int[] getY() { return y; }
 
 	public Ship(int size, int[][] map, GamePanel panel) {
+
+		Ship[] shipsNew = new Ship[ships.length + 1];
+		for (int i = 0; i < ships.length; i++) {
+			shipsNew[i] = ships[i];
+		}
+		shipsNew[shipsNew.length - 1] = this;
+		ships = shipsNew;
 
 		this.size = size;
 		horizontal = (int) (Math.random() * 2 + 1) % 2 == 0;
@@ -18,13 +26,6 @@ public class Ship {
 		int[] xPositions = {};
 		int[] yPositions = {};
 		boolean[][] possiblePositions = possiblePos(map);
-		System.out.println("Possible Positions:");
-		for (int i = 0; i < possiblePositions.length; i++) {
-			for (int j = 0; j < possiblePositions[i].length; j++) {
-				System.out.print((possiblePositions[i][j] ? 1 : 0) + " ");
-			}
-			System.out.println();
-		}
 		for (int i = 0; i < possiblePositions.length; i++) {
 			for (int j = 0; j < possiblePositions[i].length; j++) {
 
@@ -86,18 +87,10 @@ public class Ship {
 					}
 				} catch (Exception e) {
 					ans[r][c] = false;
-					System.out.println(r + " " + c);
 				}
 			}
 		}
 
-		System.out.println("horizontal? " + horizontal);
-		for (int i = 0; i < ans.length; i++) {
-			for (int j = 0; j < ans.length; j++) {
-				System.out.print(ans[i][j] + " ");
-			}
-			System.out.println();
-		}
 		// Set non out of bounds cells as false if they would overlap a ship
 		for (int r = 0; r < ans.length; r++) {
 			for (int c = 0; c < ans[r].length; c++) {
