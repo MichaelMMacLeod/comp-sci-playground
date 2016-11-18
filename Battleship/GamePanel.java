@@ -53,10 +53,13 @@ public class GamePanel extends JPanel {
 			}
 		}
 
-		ship1 = new Ship(1, map, this);
-		ship2 = new Ship(2, map, this);
-		ship3 = new Ship(3, map, this);
-		ship4 = new Ship(4, map, this);
+		// ship1 = new Ship(1, map, this);
+		// ship2 = new Ship(2, map, this);
+		// ship3 = new Ship(3, map, this);
+		Ship ship10 = new Ship(10, map, this);
+		Ship ship10_2 = new Ship(10, map, this);
+
+		map = Ship.anchor(map);
 	}
 
 	public void updateLogic() {

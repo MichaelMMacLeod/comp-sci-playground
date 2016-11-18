@@ -3,47 +3,89 @@ public class Ship {
 	private int[] x; // the x coordinates of the ship parts
 	private int[] y; // the y coordinates of the ship parts
 	private int size;
+	private int max; // length of map array - 1, to prevent out of bound errors
 	private boolean horizontal;
 	private static Ship[] ships = new Ship[0];
 
 	public int[] getX() { return x; }
 	public int[] getY() { return y; }
 
+	// Returns the map with ships on it
+	public static int[][] anchor(int[][] map) {
+		int[][] anchoredMap = new int[map.length][map[0].length];
+		for (Ship ship : ships) {
+			for (int i = 0; i < ship.getSize(); i++) {
+				if (anchoredMap[ship.getY()[i]][ship.getX()[i]] == 1) {
+					System.out.println("Conflict!");
+				}
+				anchoredMap[ship.getY()[i]][ship.getX()[i]] += 1;
+			}
+		}
+
+		for (int i = 0; i < anchoredMap.length; i++) {
+			for (int j = 0; j < anchoredMap[i].length; j++) {
+				System.out.print(anchoredMap[j][i] + " ");
+			}
+			System.out.println();
+		}
+		return anchoredMap;
+	}
+
+	/**
+	 * Returns true if the ship will not overlap any other ships or go off the
+	 * map in the location (x,y)
+	 */
+	private boolean legalPos(int x, int y) {
+		for (Ship otherShip : ships) {
+			for (int i = 0; i < otherShip.getSize(); i++) {
+				for (int j = 0; j < getSize(); j++) {
+					if ((horizontal 
+						&& otherShip.getX()[i] == x + j 
+						&& otherShip.getY()[i] == y)
+						|| (x + j > max || y > max)) {
+						return false;
+					} else if ((!horizontal 
+						&& otherShip.getX()[i] == x
+						&& otherShip.getY()[i] == y + j)
+						|| (x > max || y + j > max)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	public Ship(int size, int[][] map, GamePanel panel) {
 
-		Ship[] shipsNew = new Ship[ships.length + 1];
-		for (int i = 0; i < ships.length; i++) {
-			shipsNew[i] = ships[i];
-		}
-		shipsNew[shipsNew.length - 1] = this;
-		ships = shipsNew;
+		max = map.length - 1;
 
 		this.size = size;
 		horizontal = (int) (Math.random() * 2 + 1) % 2 == 0;
-		
-		// Choose a random position for the ship which does not overlap other
-		// ships or go out of bounds of the map
-		int[] xPositions = {};
-		int[] yPositions = {};
-		boolean[][] possiblePositions = possiblePos(map);
-		for (int i = 0; i < possiblePositions.length; i++) {
-			for (int j = 0; j < possiblePositions[i].length; j++) {
 
-				if (possiblePositions[i][j]) {
+		int[] possibleXPositions = new int[0];
+		int[] possibleYPositions = new int[0];
 
-					int[] xPositionsNew = new int[xPositions.length + 1];
-					for (int k = 0; k < xPositions.length; k++) {
-						xPositionsNew[k] = xPositions[k];
+		int xSub = horizontal ? getSize() : 0;
+		int ySub = horizontal ? 0 : getSize();
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[y].length; x++) {
+
+				if (legalPos(x, y)) {
+
+					int[] possXNew = new int[possibleXPositions.length + 1];
+					for (int i = 0; i < possibleXPositions.length; i++) {
+						possXNew[i] = possibleXPositions[i];
 					}
-					xPositionsNew[xPositionsNew.length - 1] = j;
-					xPositions = xPositionsNew;
+					possXNew[possXNew.length - 1] = x;
+					possibleXPositions = possXNew;
 
-					int[] yPositionsNew = new int[yPositions.length + 1];
-					for (int k = 0; k < yPositions.length; k++) {
-						yPositionsNew[k] = yPositions[k];
+					int[] possYNew = new int[possibleYPositions.length + 1];
+					for (int i = 0; i < possibleYPositions.length; i++) {
+						possYNew[i] = possibleYPositions[i];
 					}
-					yPositionsNew[yPositionsNew.length - 1] = i;
-					yPositions = yPositionsNew;
+					possYNew[possYNew.length - 1] = x;
+					possibleYPositions = possYNew;
 				}
 			}
 		}
@@ -51,64 +93,24 @@ public class Ship {
 		x = new int[getSize()];
 		y = new int[getSize()];
 
-		int xStart = xPositions[(int) (Math.random() * xPositions.length)];
-		int yStart = yPositions[(int) (Math.random() * yPositions.length)];
-
-		for (int i = 0; i < x.length; i++) {
-			x[i] = horizontal ? xStart + i : xStart;
-			y[i] = horizontal ? yStart : yStart + i;
+		int rand = (int) (Math.random() * possibleXPositions.length);
+		for (int i = 0; i < getSize(); i++) {
+			if (horizontal) {
+				x[i] = possibleXPositions[rand] + i;
+				y[i] = possibleYPositions[rand];
+			} else {
+				x[i] = possibleXPositions[rand];
+				y[i] = possibleYPositions[rand] + i;
+			}
 		}
 
-		for (int i = 0; i < x.length; i++) {
-			panel.setCell(x[i], y[i], 1);
+		Ship[] shipsNew = new Ship[ships.length + 1];
+		for (int i = 0; i < ships.length; i++) {
+			shipsNew[i] = ships[i];
 		}
+		shipsNew[shipsNew.length - 1] = this;
+		ships = shipsNew;
 	}
-
 
 	private int getSize() { return size; }
-
-	/**
-	 * Returns a list of possible ship positions
-	 * A cell in ans is false when the ship would overlap another ship, or go
-	 * out of bounds of the map
-	 */
-	public boolean[][] possiblePos(int[][] map) {
-
-		boolean[][] ans = new boolean[map.length][map.length];
-		
-		// Set cells which are out of bounds as false, everything else true
-		for (int r = 0; r < ans.length; r++) {
-			for (int c = 0; c < ans[r].length; c++) {
-				try {
-					if (horizontal) {
-						ans[r][c + getSize()] = true;
-					} else {
-						ans[r + getSize()][c] = true;
-					}
-				} catch (Exception e) {
-					ans[r][c] = false;
-				}
-			}
-		}
-
-		// Set non out of bounds cells as false if they would overlap a ship
-		for (int r = 0; r < ans.length; r++) {
-			for (int c = 0; c < ans[r].length; c++) {
-
-				for (int k = 0; k < getSize(); k++) {
-
-					if (ans[r][c] && horizontal && map[r][c + k] != -1) {
-						ans[r][c] = false;
-						break;
-					}
-					if (ans[r][c] && !horizontal && map[r + k][c] != -1) {
-						ans[r][c] = false;
-						break;
-					}
-				}
-			}
-		}
-
-		return ans;
-	}
 }
