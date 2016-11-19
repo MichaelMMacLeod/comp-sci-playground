@@ -15,15 +15,8 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 
 	private int width, height;
-
+	private Board board;
 	private KeyLis keyLis = new KeyLis(this);
-	private int mapWidth = 15;
-	private int mapHeight = 15;
-	private int[][] map;
-	private Ship ship1;
-	private Ship ship2;
-	private Ship ship3;
-	private Ship ship4;
 
 	public GamePanel(int width, int height) {
 
@@ -33,33 +26,14 @@ public class GamePanel extends JPanel {
 		this.setFocusable(true);
 		this.requestFocus();
 
-		map = new int[mapHeight][mapWidth];
-
 		restart();
-	}
-	
-	public void setCell(int x, int y, int value) {
-		map[y][x] = value;
 	}
 
 	public int width() { return width; }
 	public int height() { return height; }
 
 	public void restart() {
-
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				setCell(i, j, -1);
-			}
-		}
-
-		// ship1 = new Ship(1, map, this);
-		// ship2 = new Ship(2, map, this);
-		// ship3 = new Ship(3, map, this);
-		Ship ship10 = new Ship(10, map, this);
-		Ship ship10_2 = new Ship(10, map, this);
-
-		map = Ship.anchor(map);
+		board = new Board(30, 30);
 	}
 
 	public void updateLogic() {
@@ -70,16 +44,21 @@ public class GamePanel extends JPanel {
 
 		super.paintComponent(g);
 
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-
-				if (map[i][j] > 0)
+		Piece[][] pieces = board.pieces();
+		for (int row = 0; row < pieces.length; row++) {
+			for (int column = 0; column < pieces[row].length; column++) {
+				if (pieces[row][column] instanceof ShipPart) {
 					g.setColor(Color.RED);
-				else
+				}
+				if (pieces[row][column] instanceof EmptyCell) {
 					g.setColor(Color.BLACK);
-				
-				g.fillRect(i * 30, j * 30, 28, 28);
+				}
+				g.fillRect(row * 30, column * 30, 28, 28);
 			}
+		}
+
+		if (board.isClear()) {
+			System.out.println("Clear!");
 		}
 	}
 
