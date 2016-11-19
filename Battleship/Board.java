@@ -3,6 +3,7 @@ import java.awt.Color;
 public class Board {
 
 	private Piece[][] board;
+	private int[] ids = {2, 3, 4}; // Unique ids of each ship
 	private int rows;
 	private int columns;
 
@@ -18,13 +19,22 @@ public class Board {
 			}
 		}
 
-		createShip(0, 10);
-		createShip(1, 8);
-		createShip(2, 6);
-		createShip(3, 4);
-		createShip(4, 2);
+		for (int i = 0; i < ids.length; i++) {
+			createShip(ids[i], ids[i] * 2);
+		}
 	}
 
+	private boolean shipIsAlive(int id) {
+		for (int row = 0; row < rows; row++) {
+			for (int column = 0; column < columns; column++) {
+				if (board[column][row] instanceof ShipPart
+					&& ((ShipPart) board[column][row]).ID == id) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	/** Creates a certain size of ship in a random position and location */
 	public void createShip(int id, int size) {
 		// Find coordinates where the ship will not go out of bounds or overlap
@@ -75,7 +85,17 @@ public class Board {
 	}
 
 	public void remove(int column, int row) {
-		board[column][row] = new DeadCell();
+		if (board[column][row] instanceof ShipPart) {
+			board[column][row] = new DeadCell(((ShipPart) board[column][row]).ID);
+			System.out.println("You hit!");
+			if (!shipIsAlive(((DeadCell) board[column][row]).ID)) {
+				System.out.println("You sank #" + ((DeadCell) board[column][row]).ID);
+			}
+		}
+		if (board[column][row] instanceof EmptyCell) {
+			board[column][row] = new MissCell();
+			System.out.println("You missed!");
+		}
 	}
 
 	/** Returns true if there are no ships on the board */
@@ -103,6 +123,9 @@ public class Board {
 				}
 				if (board[column][row] instanceof DeadCell) {
 					colors[column][row] = DeadCell.color;
+				}
+				if (board[column][row] instanceof MissCell) {
+					colors[column][row] = MissCell.color;
 				}
 			}
 		}
