@@ -22,10 +22,7 @@ public class Board {
 	}
 
 	public void remove(int row, int column) {
-		if (board[column][row] instanceof ShipPart) {
-			board[column][row] = new EmptyCell();
-			System.out.println("Removed");
-		}
+		board[column][row] = new DeadCell();
 	}
 
 	/** Returns true if there are no ships on the board */
@@ -50,6 +47,9 @@ public class Board {
 				}
 				if (board[column][row] instanceof EmptyCell) {
 					colors[column][row] = EmptyCell.color;
+				}
+				if (board[column][row] instanceof DeadCell) {
+					colors[column][row] = DeadCell.color;
 				}
 			}
 		}
