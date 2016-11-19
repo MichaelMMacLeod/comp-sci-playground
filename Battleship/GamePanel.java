@@ -16,6 +16,7 @@ public class GamePanel extends JPanel {
 
 	private int width, height;
 	private Board board;
+	private Selection sel;
 	private KeyLis keyLis = new KeyLis(this);
 
 	public GamePanel(int width, int height) {
@@ -33,11 +34,29 @@ public class GamePanel extends JPanel {
 	public int height() { return height; }
 
 	public void restart() {
-		board = new Board(30, 30);
+		board = new Board(15, 15);
+		sel = new Selection(7, 7, 15, 15);
 	}
 
 	public void updateLogic() {
-
+		switch (keyLis.getCmd()) {
+			case "a":
+				sel.moveTo(sel.getRow(), sel.getColumn() - 1);
+				break;
+			case "w":
+				sel.moveTo(sel.getRow() - 1, sel.getColumn());
+				break;
+			case "d":
+				sel.moveTo(sel.getRow(), sel.getColumn() + 1);
+				break;
+			case "s":
+				sel.moveTo(sel.getRow() + 1, sel.getColumn());
+				break;
+			case "\n":
+				board.remove(sel.getRow(), sel.getColumn());
+				break;
+			default: break;
+		}
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -51,6 +70,11 @@ public class GamePanel extends JPanel {
 				g.fillRect(row * 30, column * 30, 28, 28);
 			}
 		}
+
+		Color transparentGreen = new Color(0, 255, 0, 100);
+		g.setColor(transparentGreen);
+		g.fillRect(sel.getColumn() * 30, 0, 28, width());
+		g.fillRect(0, sel.getRow() * 30, height(), 28);
 
 		if (board.isClear()) {
 			System.out.println("Clear!");
@@ -91,9 +115,13 @@ public class GamePanel extends JPanel {
 		}
 
 		/**
-		 * Returns log[0] and shifts the array left by 1
+		 * Returns the oldest command in the list and removes it
 		 */
 		public String getCmd() {
+
+			if (log.length == 0) {
+				return "";
+			}
 
 			String cmd = log[0];
 
