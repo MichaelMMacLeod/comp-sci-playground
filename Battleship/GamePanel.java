@@ -83,13 +83,12 @@ public class GamePanel extends JPanel {
 	}
 
 	public Dimension getPreferredSize() {
-
 		return new Dimension(width, height);
 	}
 
 	private static class KeyLis {
 
-		private String[] log = {""};
+		private String[] log = new String[0];
 		
 		public KeyLis(GamePanel panel) {
 

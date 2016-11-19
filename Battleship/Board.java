@@ -35,7 +35,7 @@ public class Board {
 		}
 		return false;
 	}
-	/** Creates a certain size of ship in a random position and location */
+	/** Creates a ship in a random position and location */
 	public void createShip(int id, int size) {
 		// Find coordinates where the ship will not go out of bounds or overlap
 		boolean horizontal = (int) (Math.random() * 2) % 2 == 0;
@@ -84,6 +84,10 @@ public class Board {
 		}
 	}
 
+	/** Replaces some tiles with other tiles
+	 * ShipPart -> DeadCell (upon hitting a ship)
+	 * EmptyCell -> MissCell (upon missing a ship)
+	 */
 	public void remove(int column, int row) {
 		if (board[column][row] instanceof ShipPart) {
 			board[column][row] = new DeadCell(((ShipPart) board[column][row]).ID);
