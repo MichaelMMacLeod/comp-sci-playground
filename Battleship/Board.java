@@ -3,7 +3,7 @@ import java.awt.Color;
 public class Board {
 
 	private Piece[][] board;
-	private int[] ids = {2, 3, 4}; // Unique ids of each ship
+	private int[] shipLengths = {4, 6, 8};
 	private int rows;
 	private int columns;
 
@@ -19,8 +19,8 @@ public class Board {
 			}
 		}
 
-		for (int i = 0; i < ids.length; i++) {
-			createShip(ids[i], ids[i] * 2);
+		for (int i = 0; i < shipLengths.length; i++) {
+			createShip(i + 1, shipLengths[i]);
 		}
 	}
 
