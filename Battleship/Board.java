@@ -6,7 +6,7 @@ public class Board {
 	private int rows;
 	private int columns;
 
-	public Board(int rows, int columns) {
+	public Board(int columns, int rows) {
 
 		board = new Piece[columns][rows];
 		this.rows = rows;
@@ -21,7 +21,7 @@ public class Board {
 		board[5][10] = new ShipPart(0);
 	}
 
-	public void remove(int row, int column) {
+	public void remove(int column, int row) {
 		board[column][row] = new DeadCell();
 	}
 

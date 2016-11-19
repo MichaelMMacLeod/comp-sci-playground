@@ -2,17 +2,17 @@ public class Selection {
 
 	private int row, column, rows, columns;
 
-	public Selection(int row, int column, int rows, int columns) {
-		this.row = row;
+	public Selection(int column, int row, int columns, int rows) {
 		this.column = column;
-		this.rows = rows - 1;
+		this.row = row;
 		this.columns = columns - 1;
+		this.rows = rows - 1;
 	}
 
 	public int getRow() { return row; }
 	public int getColumn() { return column; }
 
-	public void moveTo(int row, int column) {
+	public void moveTo(int column, int row) {
 		if (row < 0) {
 			row = 0;
 		}

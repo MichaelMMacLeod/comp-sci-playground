@@ -41,19 +41,19 @@ public class GamePanel extends JPanel {
 	public void updateLogic() {
 		switch (keyLis.getCmd()) {
 			case "a":
-				sel.moveTo(sel.getRow(), sel.getColumn() - 1);
+				sel.moveTo(sel.getColumn() - 1, sel.getRow());
 				break;
 			case "w":
-				sel.moveTo(sel.getRow() - 1, sel.getColumn());
+				sel.moveTo(sel.getColumn(), sel.getRow() - 1);
 				break;
 			case "d":
-				sel.moveTo(sel.getRow(), sel.getColumn() + 1);
+				sel.moveTo(sel.getColumn() + 1, sel.getRow());
 				break;
 			case "s":
-				sel.moveTo(sel.getRow() + 1, sel.getColumn());
+				sel.moveTo(sel.getColumn(), sel.getRow() + 1);
 				break;
 			case "\n":
-				board.remove(sel.getRow(), sel.getColumn());
+				board.remove(sel.getColumn(), sel.getRow());
 				break;
 			default: break;
 		}
