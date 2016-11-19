@@ -18,7 +18,60 @@ public class Board {
 			}
 		}
 
-		board[5][10] = new ShipPart(0);
+		createShip(0, 10);
+		createShip(1, 8);
+		createShip(2, 6);
+		createShip(3, 4);
+		createShip(4, 2);
+	}
+
+	/** Creates a certain size of ship in a random position and location */
+	public void createShip(int id, int size) {
+		// Find coordinates where the ship will not go out of bounds or overlap
+		boolean horizontal = (int) (Math.random() * 2) % 2 == 0;
+		int possibleLocations = 0;
+		int[] possibleColumns = new int[possibleLocations];
+		int[] possibleRows = new int[possibleLocations];
+		for (int row = 0; row < rows; row++) {
+			point: for (int column = 0; column < columns; column++) {
+				for (int i = 0; i < size; i++) {
+					if (horizontal 
+						&& (column + size >= columns
+						|| board[column + i][row] instanceof ShipPart)) {
+						continue point;
+					}
+					if (!horizontal
+						&& (row + size >= rows
+						|| board[column][row + i] instanceof ShipPart)) {
+						continue point;
+					}
+				}
+				int[] possibleColumnsNew = new int[possibleLocations + 1];
+				int[] possibleRowsNew = new int[possibleLocations + 1];
+				for (int j = 0; j < possibleLocations; j++) {
+					possibleColumnsNew[j] = possibleColumns[j];
+					possibleRowsNew[j] = possibleRows[j];
+				}
+				possibleColumnsNew[possibleLocations] = column;
+				possibleRowsNew[possibleLocations] = row;
+				possibleColumns = possibleColumnsNew;
+				possibleRows = possibleRowsNew;
+				possibleLocations++;
+			}
+		}
+
+		// select a random point from the acceptable list of points
+		int rand = (int) (Math.random() * possibleLocations);
+		int column = possibleColumns[rand];
+		int row = possibleRows[rand];
+		for (int i = 0; i < size; i++) {
+			if (horizontal) {
+				board[column + i][row] = new ShipPart(id);
+			}
+			if (!horizontal) {
+				board[column][row + i] = new ShipPart(id);
+			}
+		}
 	}
 
 	public void remove(int column, int row) {

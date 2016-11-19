@@ -77,7 +77,7 @@ public class GamePanel extends JPanel {
 		g.fillRect(0, sel.getRow() * 30, height(), 28);
 
 		if (board.isClear()) {
-			System.out.println("Clear!");
+			// System.out.println("Clear!");
 		}
 	}
 
