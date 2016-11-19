@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Board {
 
 	private Piece[][] board;
@@ -31,8 +33,19 @@ public class Board {
 		return true;
 	}
 
-	/** Returns the pieces on the board */
-	public Piece[][] pieces() {
-		return board;
+	/** Returns the color of each piece on the board */
+	public Color[][] pieces() {
+		Color[][] colors = new Color[rows][columns];
+		for (int row = 0; row < rows; row++) {
+			for (int column = 0; column < columns; column++) {
+				if (board[row][column] instanceof ShipPart) {
+					colors[row][column] = ShipPart.color;
+				}
+				if (board[row][column] instanceof EmptyCell) {
+					colors[row][column] = EmptyCell.color;
+				}
+			}
+		}
+		return colors;
 	}
 }

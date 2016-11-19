@@ -44,15 +44,10 @@ public class GamePanel extends JPanel {
 
 		super.paintComponent(g);
 
-		Piece[][] pieces = board.pieces();
+		Color[][] pieces = board.pieces();
 		for (int row = 0; row < pieces.length; row++) {
 			for (int column = 0; column < pieces[row].length; column++) {
-				if (pieces[row][column] instanceof ShipPart) {
-					g.setColor(Color.RED);
-				}
-				if (pieces[row][column] instanceof EmptyCell) {
-					g.setColor(Color.BLACK);
-				}
+				g.setColor(pieces[row][column]);
 				g.fillRect(row * 30, column * 30, 28, 28);
 			}
 		}
