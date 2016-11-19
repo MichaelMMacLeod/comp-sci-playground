@@ -10,6 +10,7 @@ public class Game {
 
 	public static GamePanel gamePanel = new GamePanel(448, 448);
 	private static final int MS_PER_UPDATE = 10;
+	private static boolean on = true;
 
 	public static void main(String[] args) {
 
@@ -27,7 +28,7 @@ public class Game {
 		double previous = System.currentTimeMillis();
 		double lag = 0;
 
-		while (true) {
+		while (on) {
 			
 			double current = System.currentTimeMillis();
 			double elapsed = current - previous;

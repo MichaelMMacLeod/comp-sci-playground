@@ -1,3 +1,4 @@
+import java.awt.event.KeyEvent;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.Action;
@@ -18,6 +19,7 @@ public class GamePanel extends JPanel {
 	private Board board;
 	private Selection sel;
 	private KeyLis keyLis = new KeyLis(this);
+	private Image winImage = new ImageIcon("win.png").getImage();
 
 	public GamePanel(int width, int height) {
 
@@ -55,6 +57,12 @@ public class GamePanel extends JPanel {
 			case "\n":
 				board.remove(sel.getColumn(), sel.getRow());
 				break;
+			case " ":
+				restart();
+				break;
+			case "escape":
+				System.exit(0);
+				break;
 			default: break;
 		}
 	}
@@ -77,8 +85,10 @@ public class GamePanel extends JPanel {
 		g.fillRect(0, sel.getRow() * 30, height(), 28);
 
 		if (board.isClear()) {
-			System.out.println("Clear!");
-			System.exit(0);
+			Color transparentWhite = new Color(100, 100, 100, 150);
+			g.setColor(transparentWhite);
+			g.fillRect(0, 0, height(), width());
+			g.drawImage(winImage, 0, 0, height(), width(), this);
 		}
 	}
 
@@ -93,7 +103,6 @@ public class GamePanel extends JPanel {
 		public KeyLis(GamePanel panel) {
 
 			Action press = new AbstractAction() {
-
 				public void actionPerformed(ActionEvent e) {
 
 					String[] logNew = new String[log.length + 1];
@@ -106,12 +115,28 @@ public class GamePanel extends JPanel {
 				}
 			};
 
+			Action exit = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+
+					String[] logNew = new String[log.length + 1];
+					for (int i = 0; i < log.length; i++) {
+						logNew[i] = log[i];
+					}
+					logNew[logNew.length - 1] = "escape";
+
+					log = logNew;
+				}
+			};
+
 			panel.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("W"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("S"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "pressed");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "exit");
 			panel.getActionMap().put("pressed", press);
+			panel.getActionMap().put("exit", exit);
 		}
 
 		/**
