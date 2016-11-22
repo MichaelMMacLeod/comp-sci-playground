@@ -15,16 +15,23 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 
-	private int width, height;
+	private int size, pixelsPerCell, pixels;
 	private Board board;
 	private Selection sel;
 	private KeyLis keyLis = new KeyLis(this);
 	private Image winImage = new ImageIcon("win.png").getImage();
-	private FadingImage[] fadingImages = FadingImage.getList();
 
-	public GamePanel(int width, int height) {
-		this.width = width;
-		this.height = height;
+	/**
+	 * Creates a GamePanel object.
+	 * The panel has size * size number of cells arranged in a square.
+	 * Each of the cells are squares with dimensions pixelsPerCell * 
+	 * pixelsPerCell.
+	 */
+	public GamePanel(int size, int pixelsPerCell, int windowBorderInPixels) {
+		this.size = size;
+		this.pixelsPerCell = pixelsPerCell;
+
+		this.pixels = size * pixelsPerCell - windowBorderInPixels * 2;
 		
 		this.setFocusable(true);
 		this.requestFocus();
@@ -32,13 +39,12 @@ public class GamePanel extends JPanel {
 		restart();
 	}
 
-	public int width() { return width; }
-	public int height() { return height; }
+	public int width() { return pixels; }
+	public int height() { return pixels; }
 
 	public void restart() {
-		board = new Board(15, 15);
-		sel = new Selection(7, 7, 15, 15);
-		FadingImage.reset();
+		board = new Board(size, size);
+		sel = new Selection(size / 2, size / 2, size, size);
 	}
 
 	public void updateLogic() {
@@ -66,8 +72,6 @@ public class GamePanel extends JPanel {
 				break;
 			default: break;
 		}
-
-		fadingImages = FadingImage.getList();
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -77,30 +81,14 @@ public class GamePanel extends JPanel {
 		for (int row = 0; row < pieces.length; row++) {
 			for (int column = 0; column < pieces[row].length; column++) {
 				g.setColor(pieces[row][column]);
-				g.fillRect(row * 30, column * 30, 28, 28);
+				g.fillRect(row * pixelsPerCell - 2, column * pixelsPerCell - 2, pixelsPerCell, pixelsPerCell);
 			}
-		}
-
-		for (FadingImage i : fadingImages) {
-			g.drawImage(
-				i.getImage(), 
-				i.getColumn() * 30, 
-				i.getRow() * 30, 
-				i.getHeight(), 
-				i.getWidth(), 
-				this);
-			g.setColor(i.getOverlay());
-			g.fillRect(
-				i.getColumn() * 30,
-				i.getRow() * 30,
-				i.getHeight(),
-				i.getWidth());
 		}
 
 		Color transparentGreen = new Color(0, 255, 0, 100);
 		g.setColor(transparentGreen);
-		g.fillRect(sel.getColumn() * 30, 0, 28, width());
-		g.fillRect(0, sel.getRow() * 30, height(), 28);
+		g.fillRect(sel.getColumn() * pixelsPerCell - 2, 0, pixelsPerCell, width());
+		g.fillRect(0, sel.getRow() * pixelsPerCell - 2, height(), pixelsPerCell);
 
 		if (board.isClear()) {
 			Color transparentWhite = new Color(100, 100, 100, 150);
@@ -111,7 +99,7 @@ public class GamePanel extends JPanel {
 	}
 
 	public Dimension getPreferredSize() {
-		return new Dimension(width, height);
+		return new Dimension(pixels, pixels);
 	}
 
 	private static class KeyLis {

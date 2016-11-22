@@ -8,7 +8,7 @@ import javax.swing.border.LineBorder;
 
 public class Game {
 
-	public static GamePanel gamePanel = new GamePanel(448, 448);
+	public static GamePanel gamePanel = new GamePanel(15, 50, 1);
 	private static final int MS_PER_UPDATE = 10;
 	private static boolean on = true;
 
