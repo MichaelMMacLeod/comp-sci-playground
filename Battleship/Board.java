@@ -91,14 +91,14 @@ public class Board {
 	public void remove(int column, int row) {
 		if (board[column][row] instanceof ShipPart) {
 			board[column][row] = new DeadCell(((ShipPart) board[column][row]).ID);
-			System.out.println("You hit!");
+			FadingImage hit = new FadingImage(true, column, row);
 			if (!shipIsAlive(((DeadCell) board[column][row]).ID)) {
 				System.out.println("You sank #" + ((DeadCell) board[column][row]).ID);
 			}
 		}
 		if (board[column][row] instanceof EmptyCell) {
 			board[column][row] = new MissCell();
-			System.out.println("You missed!");
+			FadingImage missed = new FadingImage(false, column, row);
 		}
 	}
 

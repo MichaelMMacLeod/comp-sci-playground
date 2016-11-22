@@ -20,9 +20,9 @@ public class GamePanel extends JPanel {
 	private Selection sel;
 	private KeyLis keyLis = new KeyLis(this);
 	private Image winImage = new ImageIcon("win.png").getImage();
+	private FadingImage[] fadingImages = FadingImage.getList();
 
 	public GamePanel(int width, int height) {
-
 		this.width = width;
 		this.height = height;
 		
@@ -38,6 +38,7 @@ public class GamePanel extends JPanel {
 	public void restart() {
 		board = new Board(15, 15);
 		sel = new Selection(7, 7, 15, 15);
+		FadingImage.reset();
 	}
 
 	public void updateLogic() {
@@ -65,10 +66,11 @@ public class GamePanel extends JPanel {
 				break;
 			default: break;
 		}
+
+		fadingImages = FadingImage.getList();
 	}
 
 	protected void paintComponent(Graphics g) {
-
 		super.paintComponent(g);
 
 		Color[][] pieces = board.pieces();
@@ -77,6 +79,22 @@ public class GamePanel extends JPanel {
 				g.setColor(pieces[row][column]);
 				g.fillRect(row * 30, column * 30, 28, 28);
 			}
+		}
+
+		for (FadingImage i : fadingImages) {
+			g.drawImage(
+				i.getImage(), 
+				i.getColumn() * 30, 
+				i.getRow() * 30, 
+				i.getHeight(), 
+				i.getWidth(), 
+				this);
+			g.setColor(i.getOverlay());
+			g.fillRect(
+				i.getColumn() * 30,
+				i.getRow() * 30,
+				i.getHeight(),
+				i.getWidth());
 		}
 
 		Color transparentGreen = new Color(0, 255, 0, 100);
