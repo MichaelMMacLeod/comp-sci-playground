@@ -20,6 +20,7 @@ public class Game {
 			}
 		});
 
+		System.out.println("Controls: w/a/s/d to move, enter to fire, space to restart, and escape to quit");
 		gameLoop();
 	}
 
