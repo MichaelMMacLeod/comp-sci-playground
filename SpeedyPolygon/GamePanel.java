@@ -1,3 +1,5 @@
+import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
@@ -10,6 +12,7 @@ public class GamePanel extends JPanel {
 
 	private int width, height;
 	private KeyLis keyLis = new KeyLis(this);
+	private Ship ship;
 
 	public GamePanel(double width, double height) {
 		
@@ -22,15 +25,21 @@ public class GamePanel extends JPanel {
 		restart();
 	}
 
-	public void restart() { }
+	public void restart() {
+		ship = new Ship(width / 2, height / 2, 75, 50);
+	}
 
 	public void updateLogic() {
+
 		switch (keyLis.getCmd()) {
 			case "a":
+				ship.rotate(false);
 				break;
 			case "w":
+				ship.thrust();
 				break;
 			case "d":
+				ship.rotate(true);
 				break;
 			case "s":
 				break;
@@ -39,10 +48,21 @@ public class GamePanel extends JPanel {
 				break;
 			default: break;
 		}
+
+		ship.update();
 	}
 
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		super.paintComponent(g2d);
+
+		g2d.setColor(Color.WHITE);
+		g2d.translate(ship.getTranslation()[0], ship.getTranslation()[1]);
+		g2d.rotate(ship.getRotation());
+
+		g2d.fillPolygon(ship.polygon());
 	}
 
 	public Dimension getPreferredSize() {
