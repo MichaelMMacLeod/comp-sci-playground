@@ -31,22 +31,25 @@ public class GamePanel extends JPanel {
 
 	public void updateLogic() {
 
-		switch (keyLis.getCmd()) {
-			case "a":
-				ship.rotate(false);
-				break;
-			case "w":
-				ship.thrust();
-				break;
-			case "d":
-				ship.rotate(true);
-				break;
-			case "s":
-				break;
-			case "escape":
-				System.exit(0);
-				break;
-			default: break;
+		while (keyLis.pressedCommands() > 0) {
+			KeyHandler.handle(keyLis.getPressed(), true);
+		}
+
+		while (keyLis.releasedCommands() > 0) {
+			KeyHandler.handle(keyLis.getReleased(), false);
+		}
+
+		if (KeyHandler.check("a")) {
+			ship.rotate(false);
+		}
+		if (KeyHandler.check("w")) {
+			ship.thrust();
+		}
+		if (KeyHandler.check("d")) {
+			ship.rotate(true);
+		}
+		if (KeyHandler.check("escape")) {
+			System.exit(0);
 		}
 
 		ship.update();
@@ -69,67 +72,108 @@ public class GamePanel extends JPanel {
 		return new Dimension(width, height);
 	}
 
+	private static class KeyHandler {
+
+		private static boolean[] keys = new boolean[127];
+
+		private static int valueOf(String key) {
+
+			int value = key.charAt(0); // won't work with enter yet
+
+			return value;
+		}
+
+		public static void handle(String key, boolean pressed) {
+			keys[valueOf(key)] = pressed;
+		}
+
+		public static boolean check(String key) {
+			return keys[valueOf(key)];
+		}
+	}
+
 	private static class KeyLis {
 
-		private String[] log = new String[0];
+		private String[] pressedLog = new String[0];
+		private String[] releasedLog = new String[0];
 		
 		public KeyLis(GamePanel panel) {
 
 			Action press = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 
-					String[] logNew = new String[log.length + 1];
-					for (int i = 0; i < log.length; i++) {
-						logNew[i] = log[i];
+					String[] pressedLogNew = new String[pressedLog.length + 1];
+					for (int i = 0; i < pressedLog.length; i++) {
+						pressedLogNew[i] = pressedLog[i];
 					}
-					logNew[logNew.length - 1] = e.getActionCommand();
+					pressedLogNew[pressedLogNew.length - 1] = e.getActionCommand();
 
-					log = logNew;
+					pressedLog = pressedLogNew;
 				}
 			};
 
-			Action exit = new AbstractAction() {
+			Action release = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 
-					String[] logNew = new String[log.length + 1];
-					for (int i = 0; i < log.length; i++) {
-						logNew[i] = log[i];
+					String[] releasedLogNew = new String[releasedLog.length + 1];
+					for (int i = 0; i < releasedLog.length; i++) {
+						releasedLogNew[i] = releasedLog[i];
 					}
-					logNew[logNew.length - 1] = "escape";
+					releasedLogNew[releasedLogNew.length - 1] = e.getActionCommand();
 
-					log = logNew;
+					releasedLog = releasedLogNew;
 				}
 			};
 
 			panel.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("W"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
-			panel.getInputMap().put(KeyStroke.getKeyStroke("S"), "pressed");
-			panel.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed");
-			panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "pressed");
-			panel.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "exit");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "pressed");
+
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released W"), "released");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released ESCAPE"), "released");
+
+			panel.getActionMap().put("released", release);
 			panel.getActionMap().put("pressed", press);
-			panel.getActionMap().put("exit", exit);
 		}
 
-		/**
-		 * Returns the oldest command in the list and removes it
-		 */
-		public String getCmd() {
+		public String getPressed() {
 
-			if (log.length == 0) {
+			if (pressedLog.length == 0) {
 				return "";
 			}
 
-			String cmd = log[0];
+			String cmd = pressedLog[0];
 
-			String[] logNew = new String[log.length - 1];
-			for (int i = 0; i < logNew.length; i++) {
-				logNew[i] = log[i + 1];
+			String[] pressedLogNew = new String[pressedLog.length - 1];
+			for (int i = 0; i < pressedLogNew.length; i++) {
+				pressedLogNew[i] = pressedLog[i + 1];
 			}
-			log = logNew;
+			pressedLog = pressedLogNew;
 
 			return cmd;
 		}
+
+		public String getReleased() {
+
+			if (releasedLog.length == 0) {
+				return "";
+			}
+
+			String cmd = releasedLog[0];
+
+			String[] releasedLogNew = new String[releasedLog.length - 1];
+			for (int i = 0; i < releasedLogNew.length; i++) {
+				releasedLogNew[i] = releasedLog[i + 1];
+			}
+			releasedLog = releasedLogNew;
+
+			return cmd;
+		}
+
+		public int pressedCommands() { return pressedLog.length; }
+		public int releasedCommands() { return releasedLog.length; }
 	}
 }

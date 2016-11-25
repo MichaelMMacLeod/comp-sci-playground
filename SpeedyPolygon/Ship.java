@@ -5,6 +5,7 @@ public class Ship  {
 	private int x, y, width, height;
 	private double[] vector;
 	private double rotation;
+	private double rotationSpeed;
 
 	public Ship(int x, int y, int width, int height) {
 
@@ -22,18 +23,20 @@ public class Ship  {
 	public void update() {
 		x += vector[0];
 		y += vector[1];
+		rotation += rotationSpeed;
+		rotationSpeed *= 0.9;
 	}
 
 	public void rotate(boolean clockwise) {
-		rotation += clockwise ? Math.PI / 128 : -Math.PI / 128;
+		rotationSpeed = clockwise ? Math.PI / 128 : -Math.PI / 128;
 	}
 
 	public void thrust() {
 
 		double[] vectorNew =
 		{
-			Math.cos(rotation),
-			Math.sin(rotation)
+			0.1 * Math.cos(rotation),
+			0.1 * Math.sin(rotation)
 		};
 
 		vector[0] += vectorNew[0];
@@ -68,21 +71,15 @@ public class Ship  {
 
 		int[] xVerts = 
 		{
-			x 
-			/*- width / 2*/, 
-			x + width 
-			/*- width / 2*/, 
-			x 
-			/*- width / 2*/
+			x, 
+			x + width, 
+			x
 		};
 		int[] yVerts = 
 		{
-			y 
-			/*- height / 2*/, 
-			y + height / 2 
-			/*- height / 2*/, 
-			y + height 
-			/*- height / 2*/
+			y, 
+			y + height / 2, 
+			y + height
 		};
 		int n = 3;
 
