@@ -48,7 +48,7 @@ public class GamePanel extends JPanel {
 		if (KeyHandler.check("d")) {
 			ship.rotate(true);
 		}
-		if (KeyHandler.check("escape")) {
+		if (KeyHandler.check("q")) {
 			System.exit(0);
 		}
 
@@ -128,12 +128,12 @@ public class GamePanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("W"), "pressed");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed");
-			panel.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "pressed");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("Q"), "pressed");
 
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released W"), "released");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
-			panel.getInputMap().put(KeyStroke.getKeyStroke("released ESCAPE"), "released");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released Q"), "released");
 
 			panel.getActionMap().put("released", release);
 			panel.getActionMap().put("pressed", press);
