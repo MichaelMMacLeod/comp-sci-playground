@@ -4,15 +4,15 @@ public class Ship  {
 
 	private int x, y, width, height;
 	private double[] vector;
-	private double rotation;
-	private double rotationSpeed;
+	private double rotation, rotationSpeed, weight;
 
-	public Ship(int x, int y, int width, int height) {
+	public Ship(int x, int y, int width, int height, double weight) {
 
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.weight = weight;
 
 		vector = new double[2];
 		rotation = 0;
@@ -21,10 +21,10 @@ public class Ship  {
 	public double getRotation() { return rotation; }
 
 	public void update() {
-		x += vector[0];
-		y += vector[1];
+		x += (1 - weight) * vector[0] / 2;
+		y += (1 - weight) * vector[1] / 2;
 		rotation += rotationSpeed;
-		rotationSpeed *= 0.9;
+		rotationSpeed *= 0.95;
 	}
 
 	public void rotate(boolean clockwise) {
@@ -35,8 +35,8 @@ public class Ship  {
 
 		double[] vectorNew =
 		{
-			0.1 * Math.cos(rotation),
-			0.1 * Math.sin(rotation)
+			Math.cos(rotation),
+			Math.sin(rotation)
 		};
 
 		vector[0] += vectorNew[0];

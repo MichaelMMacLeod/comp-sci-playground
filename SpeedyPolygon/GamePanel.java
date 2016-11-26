@@ -26,7 +26,7 @@ public class GamePanel extends JPanel {
 	}
 
 	public void restart() {
-		ship = new Ship(width / 2, height / 2, 75, 50);
+		ship = new Ship(width / 2, height / 2, 75, 50, 0.7);
 	}
 
 	public void updateLogic() {
