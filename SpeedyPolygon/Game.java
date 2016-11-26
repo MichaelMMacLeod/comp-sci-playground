@@ -58,7 +58,7 @@ public class Game {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 
-		gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		// gamePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		gamePanel.setBackground(Color.BLACK);
 
 		frame.add(gamePanel);
