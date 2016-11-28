@@ -28,6 +28,7 @@ public class GamePanel extends JPanel {
 	 * pixelsPerCell.
 	 */
 	public GamePanel(int size, int pixelsPerCell, int windowBorderInPixels) {
+
 		this.size = size;
 		this.pixelsPerCell = pixelsPerCell;
 
@@ -43,11 +44,13 @@ public class GamePanel extends JPanel {
 	public int height() { return pixels; }
 
 	public void restart() {
+
 		board = new Board(size, size);
 		sel = new Selection(size / 2, size / 2, size, size);
 	}
 
 	public void updateLogic() {
+
 		switch (keyLis.getCmd()) {
 			case "a":
 				sel.moveTo(sel.getColumn() - 1, sel.getRow());
@@ -75,11 +78,13 @@ public class GamePanel extends JPanel {
 	}
 
 	protected void paintComponent(Graphics g) {
+
 		super.paintComponent(g);
 
 		Color[][] pieces = board.pieces();
 		for (int row = 0; row < pieces.length; row++) {
 			for (int column = 0; column < pieces[row].length; column++) {
+
 				g.setColor(pieces[row][column]);
 				g.fillRect(row * pixelsPerCell - 2, column * pixelsPerCell - 2, pixelsPerCell, pixelsPerCell);
 			}
@@ -99,6 +104,7 @@ public class GamePanel extends JPanel {
 	}
 
 	public Dimension getPreferredSize() {
+
 		return new Dimension(pixels, pixels);
 	}
 
@@ -109,6 +115,7 @@ public class GamePanel extends JPanel {
 		public KeyLis(GamePanel panel) {
 
 			Action press = new AbstractAction() {
+				
 				public void actionPerformed(ActionEvent e) {
 
 					String[] logNew = new String[log.length + 1];
