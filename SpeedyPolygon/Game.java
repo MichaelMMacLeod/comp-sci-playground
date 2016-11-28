@@ -13,6 +13,8 @@ public class Game {
 
 	public static void main(String[] args) {
 
+		System.setProperty("sun.java2d.opengl", "true");
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();

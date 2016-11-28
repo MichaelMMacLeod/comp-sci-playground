@@ -78,7 +78,7 @@ public class GamePanel extends JPanel {
 
 		private static int valueOf(String key) {
 
-			int value = key.charAt(0); // won't work with enter yet
+			int value = key.charAt(0);
 
 			return value;
 		}
