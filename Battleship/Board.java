@@ -13,12 +13,15 @@ public class Board {
 		this.rows = rows;
 		this.columns = columns;
 
+		// Fill the board with empty cells
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				board[column][row] = new EmptyCell();
 			}
 		}
 
+		// Create ships
+		System.out.println("There are " + shipLengths.length + " ships");
 		for (int i = 0; i < shipLengths.length; i++) {
 			createShip(i + 1, shipLengths[i]);
 		}
@@ -39,6 +42,7 @@ public class Board {
 				}
 			}
 		}
+
 		return false;
 	}
 

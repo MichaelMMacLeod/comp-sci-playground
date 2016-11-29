@@ -1,16 +1,12 @@
-import java.awt.event.KeyEvent;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.Action;
-import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Font;
-
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
@@ -34,6 +30,7 @@ public class GamePanel extends JPanel {
 
 		this.pixels = size * pixelsPerCell - windowBorderInPixels * 2;
 		
+		// making sure the keylistener works
 		this.setFocusable(true);
 		this.requestFocus();
 
@@ -51,6 +48,10 @@ public class GamePanel extends JPanel {
 
 	public void updateLogic() {
 
+		// we move the crosshair selection when a/w/d/s are pressed
+		// we remove the selected tile when enter is pressed
+		// we restart the game when space is pressed
+		// we close the game when escape is pressed
 		switch (keyLis.getCmd()) {
 			case "a":
 				sel.moveTo(sel.getColumn() - 1, sel.getRow());
@@ -68,6 +69,7 @@ public class GamePanel extends JPanel {
 				board.remove(sel.getColumn(), sel.getRow());
 				break;
 			case " ":
+				System.out.println("New Game!");
 				restart();
 				break;
 			case "escape":
@@ -77,6 +79,7 @@ public class GamePanel extends JPanel {
 		}
 	}
 
+	@Override
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
@@ -90,19 +93,20 @@ public class GamePanel extends JPanel {
 			}
 		}
 
-		Color transparentGreen = new Color(0, 255, 0, 100);
-		g.setColor(transparentGreen);
+		Color transparentWhite = new Color(255, 255, 255, 150);
+		g.setColor(transparentWhite);
 		g.fillRect(sel.getColumn() * pixelsPerCell - 2, 0, pixelsPerCell, width());
 		g.fillRect(0, sel.getRow() * pixelsPerCell - 2, height(), pixelsPerCell);
 
 		if (board.isClear()) {
-			Color transparentWhite = new Color(100, 100, 100, 150);
-			g.setColor(transparentWhite);
+			Color transparentGray = new Color(100, 100, 100, 150);
+			g.setColor(transparentGray);
 			g.fillRect(0, 0, height(), width());
 			g.drawImage(winImage, 0, 0, height(), width(), this);
 		}
 	}
 
+	@Override
 	public Dimension getPreferredSize() {
 
 		return new Dimension(pixels, pixels);
@@ -163,6 +167,7 @@ public class GamePanel extends JPanel {
 
 			String cmd = log[0];
 
+			// arraylists make me angry
 			String[] logNew = new String[log.length - 1];
 			for (int i = 0; i < logNew.length; i++) {
 				logNew[i] = log[i + 1];
