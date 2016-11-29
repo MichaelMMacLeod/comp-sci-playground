@@ -69,7 +69,7 @@ public class GamePanel extends JPanel {
 				board.remove(sel.getColumn(), sel.getRow());
 				break;
 			case " ":
-				System.out.println("New Game!");
+				System.out.println("\nNew Game!\n");
 				restart();
 				break;
 			case "escape":
