@@ -152,19 +152,7 @@ public class Board {
 
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
-
-				if (board[column][row] instanceof ShipPart) {
-					colors[column][row] = ShipPart.color;
-				}
-				if (board[column][row] instanceof EmptyCell) {
-					colors[column][row] = EmptyCell.color;
-				}
-				if (board[column][row] instanceof DeadCell) {
-					colors[column][row] = DeadCell.color;
-				}
-				if (board[column][row] instanceof MissCell) {
-					colors[column][row] = MissCell.color;
-				}
+				colors[column][row] = board[column][row].cellColor();
 			}
 		}
 
