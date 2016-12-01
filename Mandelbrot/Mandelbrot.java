@@ -13,6 +13,12 @@ import javax.imageio.ImageIO;
 
 public class Mandelbrot {
 
+	private static MyPanel myPanel = new MyPanel
+	(
+		(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+		(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()
+	);
+
 	public static void main(String[] args) throws Exception {
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -20,15 +26,22 @@ public class Mandelbrot {
 				createAndShowGUI();
 			}
 		});
+
+		loop();
+	}
+
+	private static void loop() {
+		while (true) {
+
+			try {
+				Thread.sleep(5);
+			} catch (Exception e) {}
+			
+			myPanel.update();
+		}
 	}
 
 	private static void createAndShowGUI() {
-
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int width = (int) screenSize.getWidth();
-		int height = (int) screenSize.getHeight();
-
-		MyPanel myPanel = new MyPanel(width, height);
 
 		JFrame frame = new JFrame("Mandelbrot Set");
 

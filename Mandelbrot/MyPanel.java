@@ -18,6 +18,7 @@ public class MyPanel extends JPanel {
 	private int[] colors;
 	private double zoom, xShift, yShift;
 	private KeyLis keyLis = new KeyLis(this);
+	private boolean autoZoom;
 
 	public MyPanel(int width, int height) {
 
@@ -35,6 +36,8 @@ public class MyPanel extends JPanel {
 		xShift = 0;
 		yShift = 0;
 
+		autoZoom = false;
+
 		renderBrot();
 	}
 
@@ -45,6 +48,10 @@ public class MyPanel extends JPanel {
 		for (int i = 0; i < max; i++) {
 			colors[i] = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f));
 		}
+	}
+
+	public void update() {
+		if (autoZoom) enhance(0.95);
 	}
 
 	private void renderBrot() {
@@ -58,7 +65,7 @@ public class MyPanel extends JPanel {
 				double x = 0, y = 0;
 				int iterations = 0;
 
-				while (x * x + y * y < 10 && iterations < max) {
+				while (x * x + y * y < 4 && iterations < max) {
 
 					double x_new = x * x - y * y + c_re;
 
@@ -96,6 +103,12 @@ public class MyPanel extends JPanel {
 		} catch (Exception e) {}
 	}
 
+	private void enhance(double n) {
+		zoom *= n;
+		renderBrot();
+		repaint();
+	}
+
 	private class KeyLis {
 
 		public KeyLis(MyPanel panel) {
@@ -130,9 +143,13 @@ public class MyPanel extends JPanel {
 
 			Action zoomIn = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
-					zoom *= 0.5;
-					renderBrot();
-					repaint();
+					enhance(0.5);
+				}
+			};
+
+			Action autoZoomIn = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					autoZoom = !autoZoom;
 				}
 			};
 
@@ -173,7 +190,9 @@ public class MyPanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("S"), "move");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("R"), "increaseColors");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("F"), "decreaseColors");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released Z"), "autoZoomIn");
 
+			panel.getActionMap().put("autoZoomIn", autoZoomIn);
 			panel.getActionMap().put("toPNG", toPNG);
 			panel.getActionMap().put("increaseColors", increaseColors);
 			panel.getActionMap().put("decreaseColors", decreaseColors);
