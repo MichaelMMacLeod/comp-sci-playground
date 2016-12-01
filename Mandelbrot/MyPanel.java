@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.AbstractAction;
@@ -9,10 +10,10 @@ import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
 
+	private BufferedImage canvas;
 	private int width, height, max = 1000, black = 0x000000;
-	private Color[] colors;
+	private int[] colors;
 	private double zoom, xShift, yShift;
-	private Color[][] map;
 	private KeyLis keyLis = new KeyLis(this);
 
 	public MyPanel(int width, int height) {
@@ -23,23 +24,16 @@ public class MyPanel extends JPanel {
 		this.setFocusable(true);
 		this.requestFocus();
 
-		colors = new Color[max];
-		for (int i = 1; i <= max; i++) {
+		canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-			int rgb = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f));
-
-			int r = (rgb >> 16) & 0xFF;
-			int g = (rgb >> 8) & 0xFF;
-			int b = rgb & 0xFF;
-
-			colors[i - 1] = new Color(r, g, b);
+		colors = new int[max];
+		for (int i = 0; i < max; i++) {
+			colors[i] = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f));
 		}
 
 		zoom = 1;
 		xShift = 0;
 		yShift = 0;
-
-		map = new Color[width][height];
 
 		renderBrot();
 	}
@@ -66,9 +60,9 @@ public class MyPanel extends JPanel {
 				} 
 
 				if (iterations < max) {
-					map[col][row] = colors[iterations];
+					canvas.setRGB(col, row, colors[iterations]);
 				} else {
-					map[col][row] = Color.BLACK;
+					canvas.setRGB(col, row, black);
 				}
 			}
 		}
@@ -79,15 +73,7 @@ public class MyPanel extends JPanel {
 
 		super.paintComponent(g);
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				g.setColor(map[x][y]);
-				g.drawLine(x, y, x, y);
-			}
-		}
-
-		g.setColor(Color.RED);
-		g.drawLine(width / 2, height / 2, width / 2, height / 2);
+		g.drawImage(canvas, 0, 0, this);
 	}
 
 	@Override
