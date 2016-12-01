@@ -1,3 +1,6 @@
+import java.lang.Exception;
+import java.io.File;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
@@ -87,9 +90,21 @@ public class MyPanel extends JPanel {
 		return new Dimension(width, height);
 	}
 
+	private void convertToPNG() {
+		try {
+			ImageIO.write(canvas, "png", new File("mandelbrot" + System.currentTimeMillis() + ".png"));
+		} catch (Exception e) {}
+	}
+
 	private class KeyLis {
 
 		public KeyLis(MyPanel panel) {
+
+			Action toPNG = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					convertToPNG();
+				}
+			};
 
 			Action increaseColors = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
@@ -151,6 +166,7 @@ public class MyPanel extends JPanel {
 			};
 
 			panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "zoomIn");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("P"), "toPNG");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("A"), "move");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("W"), "move");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("D"), "move");
@@ -158,6 +174,7 @@ public class MyPanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("R"), "increaseColors");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("F"), "decreaseColors");
 
+			panel.getActionMap().put("toPNG", toPNG);
 			panel.getActionMap().put("increaseColors", increaseColors);
 			panel.getActionMap().put("decreaseColors", decreaseColors);
 			panel.getActionMap().put("zoomIn", zoomIn);

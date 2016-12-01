@@ -15,15 +15,11 @@ public class Mandelbrot {
 
 	public static void main(String[] args) throws Exception {
 
-		// BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
 			}
 		});
-
-		// ImageIO.write(image, "png", new File("mandelbrot.png"));
 	}
 
 	private static void createAndShowGUI() {
