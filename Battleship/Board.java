@@ -13,12 +13,15 @@ public class Board {
 		this.rows = rows;
 		this.columns = columns;
 
+		// Fill the board with empty cells
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				board[column][row] = new EmptyCell();
 			}
 		}
 
+		// Create ships
+		System.out.println("There are " + shipLengths.length + " ships");
 		for (int i = 0; i < shipLengths.length; i++) {
 			createShip(i + 1, shipLengths[i]);
 		}
@@ -39,6 +42,7 @@ public class Board {
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -152,19 +156,7 @@ public class Board {
 
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
-
-				if (board[column][row] instanceof ShipPart) {
-					colors[column][row] = ShipPart.color;
-				}
-				if (board[column][row] instanceof EmptyCell) {
-					colors[column][row] = EmptyCell.color;
-				}
-				if (board[column][row] instanceof DeadCell) {
-					colors[column][row] = DeadCell.color;
-				}
-				if (board[column][row] instanceof MissCell) {
-					colors[column][row] = MissCell.color;
-				}
+				colors[column][row] = board[column][row].cellColor();
 			}
 		}
 

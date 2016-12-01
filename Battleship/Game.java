@@ -1,10 +1,7 @@
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
+import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
+import javax.swing.BorderFactory;
+import java.awt.Color;
 
 public class Game {
 
