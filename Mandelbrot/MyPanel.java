@@ -19,6 +19,7 @@ public class MyPanel extends JPanel {
 	private double zoom, xShift, yShift;
 	private KeyLis keyLis = new KeyLis(this);
 	private boolean autoZoom;
+	private int colorMode = 0;
 
 	public MyPanel(int width, int height) {
 
@@ -30,6 +31,7 @@ public class MyPanel extends JPanel {
 
 		canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
+		colorMode = 0;
 		updateColors();
 
 		zoom = 1;
@@ -45,8 +47,20 @@ public class MyPanel extends JPanel {
 
 		colors = new int[max];
 
-		for (int i = 0; i < max; i++) {
-			colors[i] = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f));
+		switch (colorMode) {
+			case 0:
+				for (int i = 0; i < max; i++) {
+					colors[i] = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f));
+				}
+				break;
+			case 1:
+				for (int i = 0; i < max; i++) {
+					colors[i] = Color.HSBtoRGB(256f, 0, i / (i + 8f));
+				}
+				break;
+			default: 
+				System.out.println("Error: unknown color mode");
+				break;
 		}
 	}
 
@@ -109,9 +123,26 @@ public class MyPanel extends JPanel {
 		repaint();
 	}
 
+	private void changeColorMode() {
+		if (colorMode < 1) {
+			colorMode++;
+		} else if (colorMode == 1) {
+			colorMode = 0;
+		}
+	}
+
 	private class KeyLis {
 
 		public KeyLis(MyPanel panel) {
+
+			Action cycleColorMode = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					changeColorMode();
+					updateColors();
+					renderBrot();
+					repaint();
+				}
+			};
 
 			Action toPNG = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
@@ -183,6 +214,7 @@ public class MyPanel extends JPanel {
 			};
 
 			panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "zoomIn");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("C"), "cycleColorMode");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("P"), "toPNG");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("A"), "move");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("W"), "move");
@@ -192,6 +224,7 @@ public class MyPanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("F"), "decreaseColors");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released Z"), "autoZoomIn");
 
+			panel.getActionMap().put("cycleColorMode", cycleColorMode);
 			panel.getActionMap().put("autoZoomIn", autoZoomIn);
 			panel.getActionMap().put("toPNG", toPNG);
 			panel.getActionMap().put("increaseColors", increaseColors);
