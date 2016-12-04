@@ -55,11 +55,26 @@ public class MyPanel extends JPanel {
 				break;
 			case 1:
 				for (int i = 0; i < max; i++) {
-					colors[i] = Color.HSBtoRGB(256f, 0, i / (i + 8f));
+					colors[i] = Color.HSBtoRGB(0, 256f, i / (i + 8f));
+				}
+				break;
+			case 2:
+				for (int i = 0; i < max; i++) {
+					colors[i] = Color.HSBtoRGB(256f, 0, i / (i + 256f));
+				}
+				break;
+			case 3:
+				for (int i = 0; i < max; i++) {
+					colors[i] = Color.HSBtoRGB(i / (i + 8f), 256f, 256f);
+				}
+				break;
+			case 4:
+				for (int i = 0; i < max; i++) {
+					colors[i] = Color.HSBtoRGB(i / (i + 8f), i / (i + 8f), 256f);
 				}
 				break;
 			default: 
-				System.out.println("Error: unknown color mode");
+				System.out.println("Error: unknown color mode " + colorMode);
 				break;
 		}
 	}
@@ -124,9 +139,9 @@ public class MyPanel extends JPanel {
 	}
 
 	private void changeColorMode() {
-		if (colorMode < 1) {
+		if (colorMode < 4) {
 			colorMode++;
-		} else if (colorMode == 1) {
+		} else if (colorMode == 4) {
 			colorMode = 0;
 		}
 	}
