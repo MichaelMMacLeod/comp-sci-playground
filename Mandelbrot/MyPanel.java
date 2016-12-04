@@ -264,7 +264,7 @@ public class MyPanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released Z"), "autoZoomIn");
 
 			panel.getActionMap().put("vastlyIncreaseColors", vastlyIncreaseColors);
-			panel.getActionMap().put("vastlyDecreaseColors", vastlyIncreaseColors);
+			panel.getActionMap().put("vastlyDecreaseColors", vastlyDecreaseColors);
 			panel.getActionMap().put("cycleColorMode", cycleColorMode);
 			panel.getActionMap().put("autoZoomIn", autoZoomIn);
 			panel.getActionMap().put("toPNG", toPNG);
