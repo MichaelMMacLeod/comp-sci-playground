@@ -165,6 +165,28 @@ public class MyPanel extends JPanel {
 				}
 			};
 
+			Action vastlyIncreaseColors = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+
+					max += 1000;
+					updateColors();
+
+					renderBrot();
+					repaint();
+				}
+			};
+
+			Action vastlyDecreaseColors = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+
+					if (max > 1000) max -= 1000;
+					updateColors();
+
+					renderBrot();
+					repaint();
+				}
+			};
+
 			Action increaseColors = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 
@@ -235,10 +257,14 @@ public class MyPanel extends JPanel {
 			panel.getInputMap().put(KeyStroke.getKeyStroke("W"), "move");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("D"), "move");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("S"), "move");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("T"), "vastlyIncreaseColors");
+			panel.getInputMap().put(KeyStroke.getKeyStroke("G"), "vastlyDecreaseColors");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("R"), "increaseColors");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("F"), "decreaseColors");
 			panel.getInputMap().put(KeyStroke.getKeyStroke("released Z"), "autoZoomIn");
 
+			panel.getActionMap().put("vastlyIncreaseColors", vastlyIncreaseColors);
+			panel.getActionMap().put("vastlyDecreaseColors", vastlyIncreaseColors);
 			panel.getActionMap().put("cycleColorMode", cycleColorMode);
 			panel.getActionMap().put("autoZoomIn", autoZoomIn);
 			panel.getActionMap().put("toPNG", toPNG);
