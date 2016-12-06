@@ -1,7 +1,9 @@
 public class Tester {
+
 	public static void main(String[] args) {
-		for (int i = 0; i < 4; i++) {
-			FamousPerson 
-		}
+
+		Yoda yoda = new Yoda("The mind of the child is truely wonderful");
+
+		yoda.speak();
 	}
 }
