@@ -1,49 +1,57 @@
 public class Yoda extends FamousPerson {
 
 	public Yoda(String saying) {
-
-		super(saying);
-
+		this.saying = saying;
 		name = "Yoda";
 		lastName = "";
 	}
 
+	/** 
+	 * If the saying contains the word "is", swap it around into Yoda-speak.
+	 * "word1 word2 is word3 word4" --> "word3 word4, is word1 word2."
+	 */
 	@Override
 	public void speak() {
 		
-		String[] yodaSaying = saying.split(" ");
-		String[] beforeIs = new String[yodaSaying.length];
+		String[] original = saying.split(" ");
+		int is = 0;
 
-		int i;
-		for (i = 0; i < yodaSaying.length; i++) {
+		for (int i = 0; i < original.length; i++) {
+			original[i] = original[i].toLowerCase();
+		}
 
-			beforeIs[i] = yodaSaying[i];
-
-			if (yodaSaying[i].equals("is")) {
+		int l;
+		for (l = 0; l < original.length; l++) {
+			if (original[l].equals("is")) {
+				is = l + 1;
 				break;
 			}
 		}
-		i++;
 
-		String[] afterIs = new String[yodaSaying.length];
-
-		int j;
-		for (j = 0; j < afterIs.length; j++) {
-			afterIs[j] = yodaSaying[i + j];
+		if (l == original.length) {
+			System.out.println(saying + " -- Yoda");
+			return;
 		}
 
-		afterIs[j] = ",";
+		String[] beforeIs = new String[is];
+		String[] afterIs = new String[original.length - is];
 
-		for (String word : afterIs) {
-			System.out.print(word + " ");
+		for (int i = 0; i < beforeIs.length; i++) {
+			beforeIs[i] = original[i];
+		}
+		for (int i = 0; i < afterIs.length; i++) {
+			afterIs[i] = original[i + is];
 		}
 
-		for (String word : beforeIs) {
-			if (word != null) {
-				System.out.print(word + " ");
-			}
-		}
+		afterIs[0] = afterIs[0].substring(0, 1).toUpperCase() + afterIs[0].substring(1);
 
-		System.out.print("-- " + name);
+		for (int i = 0; i < afterIs.length - 1; i++) {
+			System.out.print(afterIs[i] + " ");
+		}
+		System.out.print(afterIs[afterIs.length - 1] + ", ");
+		for (int i = 0; i < beforeIs.length - 1; i++) {
+			System.out.print(beforeIs[i] + " ");
+		}
+		System.out.println(beforeIs[beforeIs.length - 1] + ". -- " + name + " " + lastName);
 	}
 }

@@ -8,9 +8,7 @@ public class FamousPerson {
 		this.lastName = lastName;
 	}
 
-	public FamousPerson(String saying) {
-		this.saying = saying;
-	}
+	public FamousPerson() {}
 
 	protected void speak() {
 		System.out.println(saying + " -- " + name + " " + lastName);
