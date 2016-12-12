@@ -1,9 +1,9 @@
 public class Robot {
 
-	private int[] hall;
-	private int pos;
-	private boolean facingRight;
-	private int moves = 0;
+	protected int[] hall;
+	protected int pos;
+	protected boolean facingRight;
+	protected int moves = 0;
 
 	public Robot(int[] hall, int pos, boolean facingRight) {
 		this.hall = hall;
@@ -19,11 +19,11 @@ public class Robot {
 		return strHall;
 	}
 
-	private boolean forwardMoveBlocked() {
+	protected boolean forwardMoveBlocked() {
 		return facingRight ? pos + 1 == hall.length : pos == 0;
 	}
 
-	private void move() {
+	protected void move() {
 		if (hall[pos] > 0)
 			hall[pos]--;
 		if (!forwardMoveBlocked() && hall[pos] == 0)
@@ -41,7 +41,7 @@ public class Robot {
 		return moves;
 	}
 
-	private boolean hallIsClear() {
+	protected boolean hallIsClear() {
 		int trash = 0;
 		for (int i = 0; i < hall.length; i++) {
 			trash += hall[i];
