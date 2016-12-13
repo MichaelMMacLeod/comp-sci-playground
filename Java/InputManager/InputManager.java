@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 public class InputManager {
 
 	JPanel panel;
-	String[] keysValues = new String[0];
+	String[] keyValues = new String[0];
 	boolean[] keys = new boolean[0];
 
 	public InputManager(JPanel panel) {
@@ -15,14 +15,22 @@ public class InputManager {
 
 		Action pressed = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				// e = e.getActionCommand();
-				System.out.println("pressed " + e.getActionCommand());
+				for (int i = 0; i < keyValues.length; i++) {
+					if (keyValues[i].equalsIgnoreCase(e.getActionCommand())) {
+						keys[i] = true;
+						break;
+					}
+				}
 			}
 		};
 		Action released = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				// e = e.getActionCommand().substring(9); // "released A" -> "A"
-				System.out.println("released " + e.getActionCommand());
+				for (int i = 0; i < keyValues.length; i++) {
+					if (keyValues[i].equalsIgnoreCase(e.getActionCommand())) {
+						keys[i] = false;
+						break;
+					}
+				}
 			}
 		};
 
@@ -30,9 +38,15 @@ public class InputManager {
 		panel.getActionMap().put("released", released);
 	}
 
-	// public boolean pressed(String key) {
+	public boolean pressed(String key) {
+		for (int i = 0; i < keyValues.length; i++) {
+			if (keyValues[i].equalsIgnoreCase(key)) {
+				return keys[i];
+			}
+		}
 
-	// }
+		return false;
+	}
 
 	public void addKeyPress(String key) {
 		addIdentifier(key);
@@ -52,17 +66,26 @@ public class InputManager {
 	}
 
 	private void addIdentifier(String key) {
-		for (String i : keysValues) {
+		for (String i : keyValues) {
 			if (i.equals(key)) {
 				return;
 			}
 		}
 
-		String[] keysNew = new String[keysValues.length + 1];
-		for (int i = 0; i < keysValues.length; i++) {
-			keysNew[i] = keysValues[i];
+		String[] keyValuesNew = new String[keyValues.length + 1];
+		for (int i = 0; i < keyValues.length; i++) {
+			keyValuesNew[i] = keyValues[i];
 		}
-		keysNew[keysValues.length] = key;
-		keysValues = keysNew;
+		keyValuesNew[keyValues.length] = key;
+		keyValues = keyValuesNew;
+
+		boolean[] keysNew = new boolean[keys.length + 1];
+		for (int i = 0; i < keys.length; i++) {
+			keysNew[i] = keys[i];
+		}
+		keysNew[keys.length] = false;
+		keys = keysNew;
+
+		System.out.println("keyValues: " + keyValues.length + " keys: " + keys.length);
 	}
 }
