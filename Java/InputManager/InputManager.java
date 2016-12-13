@@ -15,12 +15,14 @@ public class InputManager {
 
 		Action pressed = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				e = e.getActionCommand();
+				// e = e.getActionCommand();
+				System.out.println("pressed " + e.getActionCommand());
 			}
 		};
 		Action released = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				e = e.getActionCommand().substring(9); // "released A" -> "A"
+				// e = e.getActionCommand().substring(9); // "released A" -> "A"
+				System.out.println("released " + e.getActionCommand());
 			}
 		};
 
@@ -28,9 +30,9 @@ public class InputManager {
 		panel.getActionMap().put("released", released);
 	}
 
-	public boolean pressed(String key) {
+	// public boolean pressed(String key) {
 
-	}
+	// }
 
 	public void addKeyPress(String key) {
 		addIdentifier(key);
