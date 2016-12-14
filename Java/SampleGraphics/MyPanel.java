@@ -5,6 +5,7 @@ import java.awt.Dimension;
 public class MyPanel extends JPanel {
 
 	private int width, height;
+	private InputManager input;
 
 	public MyPanel(double width, double height) {
 		this.width = (int) width;
@@ -12,6 +13,9 @@ public class MyPanel extends JPanel {
 
 		this.setFocusable(true);
 		this.requestFocus();
+
+		input = new InputManager(this);
+		input.addKey("a");
 
 		restart();
 	}
