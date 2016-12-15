@@ -17,6 +17,9 @@ public class Pen {
 		double xNew = x + distance * Math.cos(rot * Math.PI / 180);
 		double yNew = y + distance * Math.sin(rot * Math.PI / 180);
 
+		xNew -= distance / 2;
+		yNew += Math.tan(30 * Math.PI / 180) * distance / 2;
+
 		g.drawLine((int) x, 
 			(int) y, 
 			(int) xNew, 

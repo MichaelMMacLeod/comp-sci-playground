@@ -70,21 +70,15 @@ public class MyPanel extends JPanel {
 		int size = (int) ((cx + cy) / 4 * (Math.sin(zoom) / 2 + 1));
 
 		// rotate around the center
-		g2D.rotate(rot * Math.PI / 180, cx, cy);
+		// g2D.rotate(rot * Math.PI / 180, cx, cy);
 
 		// draw each side of the snowflake
-		snowflake(new Pen(g, 
-			cx - size / 2, 
-			cy + Math.tan(Math.PI / 180 * 30) * size / 2, 
-			0), iterations, size);
-		snowflake(new Pen(g, 
-			cx, 
-			cy - Math.tan(Math.PI / 180 * 30) * size, 
-			120), iterations, size);
-		snowflake(new Pen(g, 
-			cx + size / 2, 
-			cy + Math.tan(Math.PI / 180 * 30) * size / 2, 
-			240), iterations, size);
+		for (int i = 0; i < 360; i += 8) {
+			snowflake(new Pen(g, 
+				cx, 
+				cy, 
+				rot + i), iterations, size);
+		}
 	}
 	
 	@Override
