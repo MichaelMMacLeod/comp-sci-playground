@@ -1,4 +1,3 @@
-import javax.swing.BorderFactory;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -36,7 +35,6 @@ public class Snowflake {
         double lag = 0;
 
         while (on) {
-
             double current = System.currentTimeMillis();
             double elapsed = current - previous;
             previous = current;

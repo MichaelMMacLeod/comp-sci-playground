@@ -1,9 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Dimension;
-import java.awt.Polygon;
+import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
 
