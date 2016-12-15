@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class SampleGraphics {
+public class Snowflake {
 
     private static MyPanel myPanel;
     private static final int MS_PER_UPDATE = 10;
@@ -56,7 +56,7 @@ public class SampleGraphics {
         JFrame frame = new JFrame("Snowflake");
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setUndecorated(true);
+        frame.setUndecorated(false);
 
         myPanel.setBackground(Color.BLACK);
 
