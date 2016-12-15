@@ -17,8 +17,8 @@ public class Pen {
 	}
 
 	public void setIncrease(double dx, double dy) {
-		this.dx = dx;
-		this.dy = dy;
+		this.dx = Math.sin(dx);
+		this.dy = Math.sin(dy);
 	}
 
 	// draws a straight line in the direction 'rot'
@@ -26,7 +26,6 @@ public class Pen {
 		double xNew = x + distance * Math.cos(rot * Math.PI / 180);
 		double yNew = y + distance * Math.sin(rot * Math.PI / 180);
 
-		// xNew -= distance / 2;
 		xNew += dx;
 		yNew += dy;
 

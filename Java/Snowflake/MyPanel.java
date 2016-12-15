@@ -92,7 +92,7 @@ public class MyPanel extends JPanel {
 		// g2D.rotate(rot * Math.PI / 180, cx, cy);
 
 		// draw each side of the snowflake
-		for (int i = 0; i < 360; i += 8) {
+		for (int i = 0; i < 360; i += 16) {
 			Pen p = new Pen(g, cx, cy, rot + i);
 			p.setIncrease(dx, dy);
 			snowflake(p, iterations, size);
