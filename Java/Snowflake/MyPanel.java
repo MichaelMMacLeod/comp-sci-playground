@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel {
 
 	private int width, height, iterations;
-	private double rot, zoom;
+	private double rot, zoom, dx, dy;
 	private InputManager input;
 
 	public MyPanel(double width, double height) {
@@ -19,6 +19,10 @@ public class MyPanel extends JPanel {
 
 		input = new InputManager(this);
 		input.addKey("z");
+		input.addKey("a");
+		input.addKey("w");
+		input.addKey("d");
+		input.addKey("s");
 
 		restart();
 	}
@@ -27,6 +31,8 @@ public class MyPanel extends JPanel {
 		iterations = 6;
 		zoom = 1;
 		rot = 0;
+		dx = 0;
+		dy = 0;
 	}
 	
 	public void updateLogic() {
@@ -38,6 +44,19 @@ public class MyPanel extends JPanel {
 		// range: [0, 6]
 		if (input.pressed("z")) {
 			iterations = (int) (Math.sin(zoom) * 3 + 3);
+		}
+
+		if (input.pressed("a")) {
+			dx -= 0.01;
+		}
+		if (input.pressed("w")) {
+			dy -= 0.01;
+		}
+		if (input.pressed("d")) {
+			dx += 0.01;
+		}
+		if (input.pressed("s")) {
+			dy += 0.01;
 		}
 	}
 	
@@ -74,10 +93,9 @@ public class MyPanel extends JPanel {
 
 		// draw each side of the snowflake
 		for (int i = 0; i < 360; i += 8) {
-			snowflake(new Pen(g, 
-				cx, 
-				cy, 
-				rot + i), iterations, size);
+			Pen p = new Pen(g, cx, cy, rot + i);
+			p.setIncrease(dx, dy);
+			snowflake(p, iterations, size);
 		}
 	}
 	

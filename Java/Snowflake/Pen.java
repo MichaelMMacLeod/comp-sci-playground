@@ -2,6 +2,7 @@ import java.awt.Graphics;
 
 public class Pen {
 
+	private double dx, dy;
 	private double x, y, rot;
 	private Graphics g;
 
@@ -10,6 +11,14 @@ public class Pen {
 		this.x = x;
 		this.y = y;
 		this.rot = rot;
+
+		dx = 0;
+		dy = 0;
+	}
+
+	public void setIncrease(double dx, double dy) {
+		this.dx = dx;
+		this.dy = dy;
 	}
 
 	// draws a straight line in the direction 'rot'
@@ -17,8 +26,9 @@ public class Pen {
 		double xNew = x + distance * Math.cos(rot * Math.PI / 180);
 		double yNew = y + distance * Math.sin(rot * Math.PI / 180);
 
-		xNew -= distance / 2;
-		yNew += Math.tan(30 * Math.PI / 180) * distance / 2;
+		// xNew -= distance / 2;
+		xNew += dx;
+		yNew += dy;
 
 		g.drawLine((int) x, 
 			(int) y, 
