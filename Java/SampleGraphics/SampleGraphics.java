@@ -12,8 +12,8 @@ public class SampleGraphics {
     private static boolean on = true;
 
     public static void main(String[] args) {
-
-        // System.setProperty("sun.java2d.opengl", "true");
+    	System.out.println("Control(s): hold 'z' to cycle through number of recursive iterations");
+       	System.out.println("If you are getting really bad performance, try running with: \n-Dsun.java2d.opengl=true");
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();

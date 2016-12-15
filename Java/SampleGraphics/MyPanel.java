@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Dimension;
@@ -6,7 +8,7 @@ import java.awt.Polygon;
 public class MyPanel extends JPanel {
 
 	private int width, height, iterations;
-	private double rot;
+	private double rot, zoom;
 	private InputManager input;
 
 	public MyPanel(double width, double height) {
@@ -23,14 +25,21 @@ public class MyPanel extends JPanel {
 	}
 
 	private void restart() {
-		iterations = 4;
+		iterations = 6;
+		zoom = 1;
 		rot = 0;
 	}
 	
 	public void updateLogic() {
 		rot += 0.1;
+		zoom += 0.01;
+
+		if (input.pressed("z")) {
+			iterations = (int) (Math.sin(zoom) * 3 + 3);
+		}
 	}
 	
+	// recursively draws a side of the snowflake
 	private void snowflake(Pen p, int order, double size) {
 		if (order == 0) {
 			p.draw(size);
@@ -47,16 +56,33 @@ public class MyPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		int cx = width / 2, cy = height / 2, size = 500;
+		g.setColor(Color.WHITE);
 
-		// int[] angles = {0, 60, 120, 180, 240};
+		// so we can do rotations easily
+		Graphics2D g2D = (Graphics2D) g;
 
-		for (int i = 0; i < 360; i += 4) {
-			snowflake(new Pen(g, 
-				cx, 
-				cy, 
-				rot + i), iterations, size);
-		}
+		int cx = width / 2, cy = height / 2;
+
+		// zoom in with the function f(x) = sin(x) / 2 + 1,
+		// range: [0.5, 2]
+		int size = (int) (500 * (Math.sin(zoom) / 2 + 1));
+
+		// rotate around the center
+		g2D.rotate(rot * Math.PI / 180, cx, cy);
+
+		// draw each side of the snowflake
+		snowflake(new Pen(g, 
+			cx - size / 2, 
+			cy + Math.tan(Math.PI / 180 * 30) * size / 2, 
+			0), iterations, size);
+		snowflake(new Pen(g, 
+			cx, 
+			cy - Math.tan(Math.PI / 180 * 30) * size, 
+			120), iterations, size);
+		snowflake(new Pen(g, 
+			cx + size / 2, 
+			cy + Math.tan(Math.PI / 180 * 30) * size / 2, 
+			240), iterations, size);
 	}
 	
 	@Override
