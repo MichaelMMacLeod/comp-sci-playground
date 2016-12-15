@@ -34,6 +34,9 @@ public class MyPanel extends JPanel {
 		rot += 0.1;
 		zoom += 0.01;
 
+		// calculate the number of iterations based on current rotation
+		// use f(x) = sin(x) * 3 + 3
+		// range: [0, 6]
 		if (input.pressed("z")) {
 			iterations = (int) (Math.sin(zoom) * 3 + 3);
 		}
@@ -61,11 +64,11 @@ public class MyPanel extends JPanel {
 		// so we can do rotations easily
 		Graphics2D g2D = (Graphics2D) g;
 
-		int cx = width / 2, cy = height / 2;
+		int cx = getWidth() / 2, cy = getHeight() / 2;
 
 		// zoom in with the function f(x) = sin(x) / 2 + 1,
 		// range: [0.5, 2]
-		int size = (int) (500 * (Math.sin(zoom) / 2 + 1));
+		int size = (int) ((cx + cy) / 4 * (Math.sin(zoom) / 2 + 1));
 
 		// rotate around the center
 		g2D.rotate(rot * Math.PI / 180, cx, cy);

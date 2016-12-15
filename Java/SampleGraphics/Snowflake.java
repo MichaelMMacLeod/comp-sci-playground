@@ -12,8 +12,9 @@ public class Snowflake {
     private static boolean on = true;
 
     public static void main(String[] args) {
+        System.setProperty("sun.java2d.opengl", "true");
+        System.out.println("Hardware acceleration enabled: " + System.getProperty("sun.java2d.opengl"));
     	System.out.println("Control(s): hold 'z' to cycle through number of recursive iterations");
-       	System.out.println("If you are getting really bad performance, try running with: \n-Dsun.java2d.opengl=true");
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -31,7 +32,6 @@ public class Snowflake {
     }
 
     private static void loop() {
-
         double previous = System.currentTimeMillis();
         double lag = 0;
 
@@ -52,7 +52,6 @@ public class Snowflake {
     }
 
     private static void createAndShowGUI() {
-
         JFrame frame = new JFrame("Snowflake");
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
