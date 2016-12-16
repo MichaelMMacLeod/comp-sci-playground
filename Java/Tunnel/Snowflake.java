@@ -14,6 +14,8 @@ public class Snowflake {
         System.setProperty("sun.java2d.opengl", "true");
         System.out.println("Hardware acceleration enabled: " + System.getProperty("sun.java2d.opengl"));
     	System.out.println("Control(s): hold 'z' to cycle through number of recursive iterations");
+    	System.out.println("            use 'w/a/s/d' to rotate the shape");
+    	System.out.println("            hole 'l' to change line width");
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
