@@ -107,7 +107,7 @@ public class MyPanel extends JPanel {
 		if (xs ^ ys) {
 			g2D.setColor(Color.GREEN);
 			for (int i = 0; i < 360; i += 16) {
-				Pen p = new Pen(g2D, cx, cy, rot + i, false);
+				Pen p = new Pen(g2D, cx, cy, -(rot + i), false);
 				p.setIncrease(dx, dy);
 				snowflake(p, iterations, size);
 			}
@@ -120,7 +120,7 @@ public class MyPanel extends JPanel {
 		} else {
 			g2D.setColor(Color.BLUE);
 			for (int i = 0; i < 360; i += 16) {
-				Pen p = new Pen(g2D, cx, cy, rot + i, true);
+				Pen p = new Pen(g2D, cx, cy, -(rot + i), true);
 				p.setIncrease(dx, dy);
 				snowflake(p, iterations, size);
 			}
