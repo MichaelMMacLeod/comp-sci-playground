@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
@@ -9,6 +10,7 @@ public class MyPanel extends JPanel {
 	private int width, height, iterations;
 	private double rot, zoom, dx, dy;
 	private InputManager input;
+	private boolean xs, ys;
 
 	public MyPanel(double width, double height) {
 		this.width = (int) width;
@@ -33,6 +35,8 @@ public class MyPanel extends JPanel {
 		rot = 0;
 		dx = 0;
 		dy = 0;
+		xs = false;
+		ys = false;
 	}
 	
 	public void updateLogic() {
@@ -47,16 +51,23 @@ public class MyPanel extends JPanel {
 		}
 
 		if (input.pressed("a")) {
-			dx -= 0.01;
+			dx -= (xs ? 1 : -1) * 0.01;
 		}
 		if (input.pressed("w")) {
-			dy -= 0.01;
+			dy -= (ys ? 1 : -1) * 0.01;
 		}
 		if (input.pressed("d")) {
-			dx += 0.01;
+			dx += (xs ? 1 : -1) * 0.01;
 		}
 		if (input.pressed("s")) {
-			dy += 0.01;
+			dy += (ys ? 1 : -1) * 0.01;
+		}
+
+		if (Math.abs(dx) > Math.PI / 2) {
+			xs = !xs;
+		}
+		if (Math.abs(dy) > Math.PI / 2) {
+			ys = !ys;
 		}
 	}
 	
@@ -86,46 +97,51 @@ public class MyPanel extends JPanel {
 
 		// zoom in with the function f(x) = sin(x) / 2 + 1,
 		// range: [0.5, 2]
-		int size = (int) ((cx + cy) / 2 * (Math.sin(zoom) / 2 + 1));
+		int size = (int) ((cx + cy) / 4 * (Math.sin(zoom) / 2 + 1));
 
 		// rotate around the center
 		// g2D.rotate(rot * Math.PI / 180, cx, cy);
 
-		// draw each side of the snowflake
-		g2D.setColor(Color.GREEN);
-		for (int i = 0; i < 360; i += 16) {
-			Pen p = new Pen(g2D, cx, cy, rot + i, false);
-			p.setIncrease(dx, dy);
-			snowflake(p, iterations, size);
+		g2D.setStroke(new BasicStroke(5));
+
+		if (xs ^ ys) {
+			g2D.setColor(Color.GREEN);
+			for (int i = 0; i < 360; i += 16) {
+				Pen p = new Pen(g2D, cx, cy, rot + i, false);
+				p.setIncrease(dx, dy);
+				snowflake(p, iterations, size);
+			}
+			g2D.setColor(Color.BLUE);
+			for (int i = 0; i < 360; i += 16) {
+				Pen p = new Pen(g2D, cx, cy, rot + i, true);
+				p.setIncrease(dx, dy);
+				snowflake(p, iterations, size);
+			}
+		} else {
+			g2D.setColor(Color.BLUE);
+			for (int i = 0; i < 360; i += 16) {
+				Pen p = new Pen(g2D, cx, cy, rot + i, true);
+				p.setIncrease(dx, dy);
+				snowflake(p, iterations, size);
+			}
+			g2D.setColor(Color.GREEN);
+			for (int i = 0; i < 360; i += 16) {
+				Pen p = new Pen(g2D, cx, cy, rot + i, false);
+				p.setIncrease(dx, dy);
+				snowflake(p, iterations, size);
+			}
 		}
-		g2D.setColor(Color.BLUE);
-		for (int i = 0; i < 360; i += 16) {
-			Pen p = new Pen(g2D, cx, cy, rot + i, true);
-			p.setIncrease(dx, dy);
-			snowflake(p, iterations, size);
-		}
-
-		
-		
-
-		// for (int i = 30; i < 360; i += 60) {
-		// 	Pen p = new Pen(g, cx, cy, rot + i);
-		// 	p.setIncrease(dx, dy);
-		// 	snowflake(p, iterations, size);
-		// }
-
-		int guideSize = 300;
 
 		g2D.setColor(Color.BLUE);
 		g2D.drawLine(cx, 
 			cy, 
-			cx + (int) (guideSize * Math.tan(dx)), 
-			cy + (int) (guideSize * Math.tan(dy)));
+			cx + (int) (size * Math.tan(dx)), 
+			cy + (int) (size * Math.tan(dy)));
 		g2D.setColor(Color.GREEN);
 		g2D.drawLine(cx, 
 			cy, 
-			cx + (int) (guideSize * Math.tan(-dx)), 
-			cy + (int) (guideSize * Math.tan(-dy)));
+			cx + (int) (size * Math.tan(-dx)), 
+			cy + (int) (size * Math.tan(-dy)));
 	}
 	
 	@Override
