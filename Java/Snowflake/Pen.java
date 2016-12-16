@@ -1,24 +1,26 @@
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Pen {
 
 	private double dx, dy;
 	private double x, y, rot;
-	private Graphics g;
+	private Graphics2D g;
+	private boolean reflect;
 
-	public Pen(Graphics g, double x, double y, double rot) {
+	public Pen(Graphics2D g, double x, double y, double rot, boolean reflect) {
 		this.g = g;
 		this.x = x;
 		this.y = y;
 		this.rot = rot;
+		this.reflect = reflect;
 
 		dx = 0;
 		dy = 0;
 	}
 
 	public void setIncrease(double dx, double dy) {
-		this.dx = Math.sin(dx);
-		this.dy = Math.sin(dy);
+		this.dx = (reflect ? -1 : 1) * Math.tan(dx);
+		this.dy = (reflect ? -1 : 1) * Math.tan(dy);
 	}
 
 	// draws a straight line in the direction 'rot'
