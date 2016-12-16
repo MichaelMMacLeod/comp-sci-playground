@@ -60,13 +60,13 @@ public class MyPanel extends JPanel {
 			dx -= (xs ? 1 : -1) * 0.01;
 		}
 		if (input.pressed("w")) {
-			dy -= (ys ? 1 : -1) * 0.01;
+			dy += (ys ? 1 : -1) * 0.01;
 		}
 		if (input.pressed("d")) {
 			dx += (xs ? 1 : -1) * 0.01;
 		}
 		if (input.pressed("s")) {
-			dy += (ys ? 1 : -1) * 0.01;
+			dy -= (ys ? 1 : -1) * 0.01;
 		}
 
 		if (Math.abs(dx) > Math.PI / 2) {
