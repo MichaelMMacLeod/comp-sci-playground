@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
 
-	private int width, height, iterations;
+	private int width, height, iterations, lineWidth;
 	private double rot, zoom, dx, dy;
 	private InputManager input;
 	private boolean xs, ys;
@@ -25,12 +25,14 @@ public class MyPanel extends JPanel {
 		input.addKey("w");
 		input.addKey("d");
 		input.addKey("s");
+		input.addKey("l");
 
 		restart();
 	}
 
 	private void restart() {
 		iterations = 5;
+		lineWidth = 3;
 		zoom = 1;
 		rot = 0;
 		dx = 0;
@@ -48,6 +50,10 @@ public class MyPanel extends JPanel {
 		// range: [0, 6]
 		if (input.pressed("z")) {
 			iterations = (int) (Math.sin(zoom) * 3 + 3);
+		}
+
+		if (input.pressed("l")) {
+			lineWidth = (int) (Math.sin(zoom) * 2 + 3);
 		}
 
 		if (input.pressed("a")) {
@@ -102,7 +108,7 @@ public class MyPanel extends JPanel {
 		// rotate around the center
 		// g2D.rotate(rot * Math.PI / 180, cx, cy);
 
-		g2D.setStroke(new BasicStroke(5));
+		g2D.setStroke(new BasicStroke(lineWidth));
 
 		if (xs ^ ys) {
 			g2D.setColor(Color.GREEN);
