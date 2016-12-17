@@ -6,9 +6,18 @@ import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
 
-	private int width, height, iterations;
+	// default dimensions of the window
+	private int width, height;
+
+	// number of times the recursive algorithm is called
+	private int iterations;
+
 	private double rot, zoom;
+
 	private InputManager input;
+
+	private int current;
+	private int[] fractals = {60, 85, 90};
 
 	public MyPanel(double width, double height) {
 		this.width = (int) width;
@@ -18,17 +27,23 @@ public class MyPanel extends JPanel {
 		this.requestFocus();
 
 		input = new InputManager(this);
-		input.addKey("z");
+		input.addKey("z", 0);
+		input.addKey("f", 1500000);
 
 		restart();
 	}
 
 	private void restart() {
+		current = 0;
 		iterations = 6;
 		zoom = 1;
 		rot = 0;
 	}
 	
+	public void updateInput() {
+		input.update();
+	}
+
 	public void updateLogic() {
 		rot += 0.1;
 		zoom += 0.01;
@@ -39,6 +54,14 @@ public class MyPanel extends JPanel {
 		if (input.pressed("z")) {
 			iterations = (int) (Math.sin(zoom) * 3 + 3);
 		}
+
+		if (input.pressed("f")) {
+			if (current < fractals.length - 1) {
+				current++;
+			} else {
+				current = 0;
+			}
+		}
 	}
 	
 	// recursively draws a side of the snowflake
@@ -46,7 +69,13 @@ public class MyPanel extends JPanel {
 		if (order == 0) {
 			p.draw(size);
 		} else {
-			int[] angles = {60, -120, 60, 0};
+			int[] angles = 
+			{
+				fractals[current], 
+				-2 * fractals[current], 
+				fractals[current], 
+				0
+			};
 			for (int i : angles) {
 				snowflake(p, order - 1, size / 3);
 				p.rotate(i);

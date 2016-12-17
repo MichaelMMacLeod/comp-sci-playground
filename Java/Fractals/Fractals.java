@@ -40,6 +40,8 @@ public class Fractals {
             previous = current;
             lag += elapsed;
 
+            myPanel.updateInput();
+            
             while (lag >= MS_PER_UPDATE) {
                 myPanel.updateLogic();
                 lag -= MS_PER_UPDATE;
