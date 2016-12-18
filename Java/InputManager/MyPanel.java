@@ -7,16 +7,12 @@ public class MyPanel extends JPanel {
 	public MyPanel() {
 		this.setFocusable(true);
 		this.requestFocus();
-		input.addKey("a");
-		input.addKey("w");
-		input.addKey("d");
-		input.addKey("s");
+		input.addKey("a", 100000000);
 	}
 
 	public void update() {
-		System.out.print("a " + input.pressed("a") + " ");
-		System.out.print("w " + input.pressed("w") + " ");
-		System.out.print("d " + input.pressed("d") + " ");
-		System.out.println("s " + input.pressed("s"));
+		if (input.pressed("a")) {
+			System.out.println(true);
+		}
 	}
 }
