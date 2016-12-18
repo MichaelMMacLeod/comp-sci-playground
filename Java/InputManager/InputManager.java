@@ -6,16 +6,23 @@ import javax.swing.JPanel;
 
 public class InputManager implements Runnable {
 
+	// Container.
 	private JPanel panel;
 
+	// List of keys the manager is tracking.
 	private String[] keyValues;
 	private boolean[] keys;
 
+	// List of key delays the manager is tracking.
+	// Key delay is the time the manager waits before logging a key press.
 	private int[] keyDelays;
 	private int[] delays;
 
-	private boolean on = true;
-
+	/**
+	 * Creates an InputManager.
+	 * 
+	 * @param panel is the container.
+	 */
 	public InputManager(JPanel panel) {
 		this.panel = panel;
 
@@ -53,11 +60,14 @@ public class InputManager implements Runnable {
 	}
 
 	public void run() {
-		while (on) {
+		while (true) {
 			update();
 		}
 	}
 
+	/**
+	 * Updates key press delays.
+	 */
 	public void update() {
 		for (int i = 0; i < delays.length; i++) {
 			if (delays[i] > 0) {
@@ -66,26 +76,43 @@ public class InputManager implements Runnable {
 		}
 	}
 
+	/**
+	 * Checks if a key is pressed.
+	 * 
+	 * @param  key is the key to check.
+	 * @return     true if the key is pressed, and its delay is 0. 
+	 *             Otherwise false.
+	 */
 	public boolean pressed(String key) {
 		for (int i = 0; i < keyValues.length; i++) {
 			if (keyValues[i].equalsIgnoreCase(key)) {
 				if (delays[i] == 0 && keys[i]) {
 					delays[i] = keyDelays[i];
+
 					return true;
 				}
+
 				return false;
 			}
 		}
-
+		
 		return false;
 	}
 
+	/**
+	 * Signals the manager to start tracking a key with a delay of 0.
+	 *
+	 * @param key is the key the manager will start tracking.
+	 */
 	public void addKey(String key) {
 		addKey(key, 0);
 	}
 	
 	/**
-	 * @param delay is the time in between key presses
+	 * Signals the manager to start tracking a key with a certain delay.
+	 *
+	 * @param key   is the key the manager will start tracking.
+	 * @param delay is the time in between key presses.
 	 */
 	public void addKey(String key, int delay) {
 		key = key.toUpperCase();
