@@ -45,8 +45,8 @@ public class MyPanel extends JPanel {
 	}
 
 	public void updateLogic() {
-		rot += 0.1;
-		zoom += 0.01;
+		// rot += 0.1;
+		// zoom += 0.01;
 
 		// calculate the number of iterations based on current rotation
 		// use f(x) = sin(x) * 3 + 3
@@ -104,16 +104,8 @@ public class MyPanel extends JPanel {
 		// draw each side of the snowflake
 		snowflake(new Pen(g, 
 			cx - size / 2, 
-			cy + Math.tan(Math.PI / 180 * 30) * size / 2, 
+			cy - size / 2, 
 			0), iterations, size);
-		snowflake(new Pen(g, 
-			cx, 
-			cy - Math.tan(Math.PI / 180 * 30) * size, 
-			120), iterations, size);
-		snowflake(new Pen(g, 
-			cx + size / 2, 
-			cy + Math.tan(Math.PI / 180 * 30) * size / 2, 
-			240), iterations, size);
 	}
 	
 	@Override
