@@ -59,23 +59,6 @@ public class InputManager implements Runnable {
 		keyUpdate.start();
 	}
 
-	public void run() {
-		while (true) {
-			update();
-		}
-	}
-
-	/**
-	 * Updates key press delays.
-	 */
-	public void update() {
-		for (int i = 0; i < delays.length; i++) {
-			if (delays[i] > 0) {
-				delays[i]--;
-			}
-		}
-	}
-
 	/**
 	 * Checks if a key is pressed.
 	 * 
@@ -147,5 +130,22 @@ public class InputManager implements Runnable {
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke(key), "pressed");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released " + key), "released");
+	}
+	
+	public void run() {
+		while (true) {
+			update();
+		}
+	}
+
+	/**
+	 * Updates key press delays.
+	 */
+	private void update() {
+		for (int i = 0; i < delays.length; i++) {
+			if (delays[i] > 0) {
+				delays[i]--;
+			}
+		}
 	}
 }
