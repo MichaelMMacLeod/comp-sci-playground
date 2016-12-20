@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+import java.awt.Color;
 import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
@@ -7,12 +9,19 @@ public class MyPanel extends JPanel {
 	public MyPanel() {
 		this.setFocusable(true);
 		this.requestFocus();
-		input.addKey("a", 100000000);
+		input.addKey("a");
 	}
 
 	public void update() {
 		if (input.pressed("a")) {
-			System.out.println(true);
+			setBackground(Color.GREEN);
+		} else {
+			setBackground(Color.WHITE);
 		}
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(500, 500);
 	}
 }

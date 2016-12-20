@@ -83,21 +83,27 @@ public class InputManager implements Runnable {
 	}
 
 	/**
-	 * Signals the manager to start tracking a key with a delay of 0.
+	 * Signals the manager to start tracking a key with a delay between presses
+	 * of 0.
 	 *
 	 * @param key is the key the manager will start tracking.
 	 */
 	public void addKey(String key) {
-		addKey(key, 0);
+		addKey(key, 0, "all");
 	}
 	
 	/**
-	 * Signals the manager to start tracking a key with a certain delay.
+	 * Signals the manager to start tracking a key with a certain delay 
+	 * between presses.
 	 *
-	 * @param key   is the key the manager will start tracking.
-	 * @param delay is the time in between key presses.
+	 * @param key     is the key the manager will start tracking.
+	 * @param delay   is the time in between key presses.
+	 * @param actions can be "pressed", "released", or "all". If "pressed",
+	 *                the manager will only register key presses. If
+	 *                "released", the manager will only register key releases. 
+	 *                If "all", the manager will log presses and releases.
 	 */
-	public void addKey(String key, int delay) {
+	public void addKey(String key, int delay, String actions) {
 		key = key.toUpperCase();
 
 		String[] kv = new String[keyValues.length + 1];
@@ -128,10 +134,14 @@ public class InputManager implements Runnable {
 		d[delays.length] = 0;
 		delays = d;
 
-		panel.getInputMap().put(KeyStroke.getKeyStroke(key), "pressed");
-		panel.getInputMap().put(KeyStroke.getKeyStroke("released " + key), "released");
+		if (actions.equals("pressed") || actions.equals("all")) {
+			panel.getInputMap().put(KeyStroke.getKeyStroke(key), "pressed");
+		}
+		if (actions.equals("released") || actions.equals("all")) {
+			panel.getInputMap().put(KeyStroke.getKeyStroke("released " + key), "released");
+		}
 	}
-	
+
 	public void run() {
 		while (true) {
 			update();
