@@ -51,29 +51,29 @@ public class MyPanel extends JPanel {
 
 	public void update() {
 		if (input.pressed("a")) {
-			t[2] += 0.001;
+			t[2] += 0.0001;
 		}
 		if (input.pressed("w")) {
-			t[0] += 0.001;
+			t[0] += 0.0001;
 		}
 		if (input.pressed("d")) {
-			t[2] -= 0.001;
+			t[2] -= 0.0001;
 		}
 		if (input.pressed("s")) {
-			t[0] -= 0.001;
+			t[0] -= 0.0001;
 		}
 
 		if (input.pressed("f")) {
-			c[0] += 0.001;
+			c[0] += 0.0001;
 		}
 		if (input.pressed("t")) {
-			c[1] += 0.001;
+			c[1] += 0.0001;
 		}
 		if (input.pressed("h")) {
-			c[0] -= 0.001;
+			c[0] -= 0.0001;
 		}
 		if (input.pressed("g")) {
-			c[1] -= 0.001;
+			c[1] -= 0.0001;
 		}
 
 		for (int i = 0; i < pointProjection.length; i++) {
