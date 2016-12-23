@@ -12,6 +12,9 @@ public class InputManager {
 	// List of keys the manager is tracking.
 	private String[] keyValues;
 	private boolean[] keys;
+	// Set to true once pressed() is called, set to false when the key is
+	// released. 
+	private boolean[] checked;
 
 	/**
 	 * Creates an InputManager.
@@ -23,6 +26,7 @@ public class InputManager {
 
 		keyValues = new String[0];
 		keys = new boolean[0];
+		checked = new boolean[0];
 
 		Action pressed = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -39,6 +43,7 @@ public class InputManager {
 				for (int i = 0; i < keyValues.length; i++) {
 					if (keyValues[i].equalsIgnoreCase(e.getActionCommand())) {
 						keys[i] = false;
+						checked[i] = false;
 						break;
 					}
 				}
@@ -50,13 +55,32 @@ public class InputManager {
 	}
 
 	/**
-	 * Checks if a key is pressed.
+	 * Checks if the key is pressed
 	 * 
-	 * @param  key is the key to check.
-	 * @return     true if the key is pressed, and its delay is 0. 
-	 *             Otherwise false.
+	 * @param  key is the key to check,
+	 * @return     true if the key is pressed, false if the key is not pressed.
+	 *             If this method returns true, subsequent calls on the same
+	 *             key will return false until it is released and pressed
+	 *             again.
 	 */
 	public boolean pressed(String key) {
+		for (int i = 0; i < keyValues.length; i++) {
+			if (keyValues[i].equalsIgnoreCase(key) && keys[i] && !checked[i]) {
+				checked[i] = true;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if a key is currently being held.
+	 * 
+	 * @param  key is the key to check.
+	 * @return     true if the key is pressed, otherwise false
+	 */
+	public boolean held(String key) {
 		for (int i = 0; i < keyValues.length; i++) {
 			if (keyValues[i].equalsIgnoreCase(key) && keys[i]) {
 				return true;
@@ -69,7 +93,7 @@ public class InputManager {
 	/**
 	 * Signals the manager to start tracking a key.
 	 *
-	 * @param key     is the key the manager will start tracking.
+	 * @param key is the key the manager will start tracking.
 	 */
 	public void addKey(String key) {
 		key = key.toUpperCase();
@@ -87,6 +111,13 @@ public class InputManager {
 		}
 		k[keys.length] = false;
 		keys = k;
+
+		boolean[] c = new boolean[checked.length + 1];
+		for (int i = 0; i < checked.length; i++) {
+			c[i] = checked[i];
+		}
+		c[checked.length] = false;
+		checked = c;
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke(key), 
 			"pressed");
