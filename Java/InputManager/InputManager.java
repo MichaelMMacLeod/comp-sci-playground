@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import javax.swing.Action;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
@@ -10,11 +11,11 @@ public class InputManager {
 	private JPanel panel;
 
 	// List of keys the manager is tracking.
-	private String[] keyValues;
-	private boolean[] keys;
+	private ArrayList<String> keyValues;
+	private ArrayList<Boolean> keys;
 	// Set to true once pressed() is called, set to false when the key is
 	// released. 
-	private boolean[] checked;
+	private ArrayList<Boolean> checked;
 
 	/**
 	 * Creates an InputManager.
@@ -24,15 +25,16 @@ public class InputManager {
 	public InputManager(JPanel panel) {
 		this.panel = panel;
 
-		keyValues = new String[0];
-		keys = new boolean[0];
-		checked = new boolean[0];
+		keyValues = new ArrayList<String>();
+		keys = new ArrayList<Boolean>();
+		checked = new ArrayList<Boolean>();
 
 		Action pressed = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < keyValues.length; i++) {
-					if (keyValues[i].equalsIgnoreCase(e.getActionCommand())) {
-						keys[i] = true;
+				for (int i = 0; i < keyValues.size(); i++) {
+					if (keyValues.get(i).equalsIgnoreCase(
+						e.getActionCommand())) {
+						keys.set(i, true);
 						break;
 					}
 				}
@@ -40,10 +42,11 @@ public class InputManager {
 		};
 		Action released = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < keyValues.length; i++) {
-					if (keyValues[i].equalsIgnoreCase(e.getActionCommand())) {
-						keys[i] = false;
-						checked[i] = false;
+				for (int i = 0; i < keyValues.size(); i++) {
+					if (keyValues.get(i).equalsIgnoreCase(
+						e.getActionCommand())) {
+						keys.set(i, false);
+						checked.set(i, false);
 						break;
 					}
 				}
@@ -64,9 +67,11 @@ public class InputManager {
 	 *             again.
 	 */
 	public boolean pressed(String key) {
-		for (int i = 0; i < keyValues.length; i++) {
-			if (keyValues[i].equalsIgnoreCase(key) && keys[i] && !checked[i]) {
-				checked[i] = true;
+		for (int i = 0; i < keyValues.size(); i++) {
+			if (keyValues.get(i).equalsIgnoreCase(key) 
+				&& keys.get(i) 
+				&& !checked.get(i)) {
+				checked.set(i, true);
 				return true;
 			}
 		}
@@ -81,8 +86,8 @@ public class InputManager {
 	 * @return     true if the key is pressed, otherwise false
 	 */
 	public boolean held(String key) {
-		for (int i = 0; i < keyValues.length; i++) {
-			if (keyValues[i].equalsIgnoreCase(key) && keys[i]) {
+		for (int i = 0; i < keyValues.size(); i++) {
+			if (keyValues.get(i).equalsIgnoreCase(key) && keys.get(i)) {
 				return true;
 			}
 		}
@@ -98,26 +103,9 @@ public class InputManager {
 	public void addKey(String key) {
 		key = key.toUpperCase();
 
-		String[] kv = new String[keyValues.length + 1];
-		for (int i = 0; i < keyValues.length; i++) {
-			kv[i] = keyValues[i];
-		}
-		kv[keyValues.length] = key;
-		keyValues = kv;
-
-		boolean[] k = new boolean[keys.length + 1];
-		for (int i = 0; i < keys.length; i++) {
-			k[i] = keys[i];
-		}
-		k[keys.length] = false;
-		keys = k;
-
-		boolean[] c = new boolean[checked.length + 1];
-		for (int i = 0; i < checked.length; i++) {
-			c[i] = checked[i];
-		}
-		c[checked.length] = false;
-		checked = c;
+		keyValues.add(key);
+		keys.add(false);
+		checked.add(false);
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke(key), 
 			"pressed");
