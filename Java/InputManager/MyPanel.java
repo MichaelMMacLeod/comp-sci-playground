@@ -8,7 +8,7 @@ public class MyPanel extends JPanel {
 
 	public MyPanel() {
 		input.addKey("a");
-		input.addKey("w");
+		input.addKey("m");
 	}
 
 	public void update() {
@@ -20,6 +20,10 @@ public class MyPanel extends JPanel {
 
 		if (input.pressed("a")) {
 			System.out.println("Pressed a");
+		}
+
+		if (input.pressed("m")) {
+			System.out.println(input.mousex() + " " + input.mousey());
 		}
 	}
 

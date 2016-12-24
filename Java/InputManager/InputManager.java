@@ -1,5 +1,10 @@
 import java.util.ArrayList;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
+
 import javax.swing.Action;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
@@ -17,6 +22,9 @@ public class InputManager {
 	// released. 
 	private ArrayList<Boolean> checked;
 
+	// X and y coordinate of the mouse inside the container
+	private Point mouse;
+
 	/**
 	 * Creates an InputManager.
 	 * 
@@ -25,9 +33,17 @@ public class InputManager {
 	public InputManager(JPanel panel) {
 		this.panel = panel;
 
+		mouse = new Point();
+
 		keyValues = new ArrayList<String>();
 		keys = new ArrayList<Boolean>();
 		checked = new ArrayList<Boolean>();
+
+		panel.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseMoved(MouseEvent e) {
+				mouse = e.getPoint();
+			}
+		});
 
 		Action pressed = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
@@ -60,6 +76,9 @@ public class InputManager {
 		panel.getActionMap().put("pressed", pressed);
 		panel.getActionMap().put("released", released);
 	}
+
+	public double mousex() { return mouse.getX(); }
+	public double mousey() { return mouse.getY(); }
 
 	/**
 	 * Checks if the key is pressed
