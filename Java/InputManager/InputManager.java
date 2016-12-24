@@ -1,6 +1,6 @@
 import java.util.ArrayList;
-import javax.swing.Action;
 import java.awt.event.ActionEvent;
+import javax.swing.Action;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import javax.swing.JPanel;
@@ -30,6 +30,8 @@ public class InputManager {
 		checked = new ArrayList<Boolean>();
 
 		Action pressed = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < keyValues.size(); i++) {
 					if (keyValues.get(i).equalsIgnoreCase(
@@ -41,6 +43,8 @@ public class InputManager {
 			}
 		};
 		Action released = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < keyValues.size(); i++) {
 					if (keyValues.get(i).equalsIgnoreCase(
