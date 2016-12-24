@@ -50,29 +50,29 @@ public class MyPanel extends JPanel {
 	}
 
 	public void update() {
-		if (input.pressed("a")) {
+		if (input.held("a")) {
 			t[2] += 0.0001;
 		}
-		if (input.pressed("w")) {
+		if (input.held("w")) {
 			t[0] += 0.0001;
 		}
-		if (input.pressed("d")) {
+		if (input.held("d")) {
 			t[2] -= 0.0001;
 		}
-		if (input.pressed("s")) {
+		if (input.held("s")) {
 			t[0] -= 0.0001;
 		}
 
-		if (input.pressed("f")) {
+		if (input.held("f")) {
 			c[0] += 0.0001;
 		}
-		if (input.pressed("t")) {
+		if (input.held("t")) {
 			c[1] += 0.0001;
 		}
-		if (input.pressed("h")) {
+		if (input.held("h")) {
 			c[0] -= 0.0001;
 		}
-		if (input.pressed("g")) {
+		if (input.held("g")) {
 			c[1] -= 0.0001;
 		}
 

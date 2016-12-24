@@ -1,22 +1,21 @@
-import javax.swing.Action;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.Action;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import javax.swing.JPanel;
 
-public class InputManager implements Runnable {
+public class InputManager {
 
 	// Container.
 	private JPanel panel;
 
 	// List of keys the manager is tracking.
-	private String[] keyValues;
-	private boolean[] keys;
-
-	// List of key delays the manager is tracking.
-	// Key delay is the time the manager waits before logging a key press.
-	private int[] keyDelays;
-	private int[] delays;
+	private ArrayList<String> keyValues;
+	private ArrayList<Boolean> keys;
+	// Set to true once pressed() is called, set to false when the key is
+	// released. 
+	private ArrayList<Boolean> checked;
 
 	/**
 	 * Creates an InputManager.
@@ -26,26 +25,32 @@ public class InputManager implements Runnable {
 	public InputManager(JPanel panel) {
 		this.panel = panel;
 
-		keyValues = new String[0];
-		keys = new boolean[0];
-		keyDelays = new int[0];
-		delays = new int[0];
+		keyValues = new ArrayList<String>();
+		keys = new ArrayList<Boolean>();
+		checked = new ArrayList<Boolean>();
 
 		Action pressed = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < keyValues.length; i++) {
-					if (keyValues[i].equalsIgnoreCase(e.getActionCommand())) {
-						keys[i] = true;
+				for (int i = 0; i < keyValues.size(); i++) {
+					if (keyValues.get(i).equalsIgnoreCase(
+						e.getActionCommand())) {
+						keys.set(i, true);
 						break;
 					}
 				}
 			}
 		};
 		Action released = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < keyValues.length; i++) {
-					if (keyValues[i].equalsIgnoreCase(e.getActionCommand())) {
-						keys[i] = false;
+				for (int i = 0; i < keyValues.size(); i++) {
+					if (keyValues.get(i).equalsIgnoreCase(
+						e.getActionCommand())) {
+						keys.set(i, false);
+						checked.set(i, false);
 						break;
 					}
 				}
@@ -54,108 +59,61 @@ public class InputManager implements Runnable {
 
 		panel.getActionMap().put("pressed", pressed);
 		panel.getActionMap().put("released", released);
-
-		Thread keyUpdate = new Thread(this);
-		keyUpdate.start();
 	}
 
 	/**
-	 * Checks if a key is pressed.
+	 * Checks if the key is pressed
 	 * 
-	 * @param  key is the key to check.
-	 * @return     true if the key is pressed, and its delay is 0. 
-	 *             Otherwise false.
+	 * @param  key is the key to check,
+	 * @return     true if the key is pressed, false if the key is not pressed.
+	 *             If this method returns true, subsequent calls on the same
+	 *             key will return false until it is released and pressed
+	 *             again.
 	 */
 	public boolean pressed(String key) {
-		for (int i = 0; i < keyValues.length; i++) {
-			if (keyValues[i].equalsIgnoreCase(key)) {
-				if (delays[i] == 0 && keys[i]) {
-					delays[i] = keyDelays[i];
+		for (int i = 0; i < keyValues.size(); i++) {
+			if (keyValues.get(i).equalsIgnoreCase(key) 
+				&& keys.get(i) 
+				&& !checked.get(i)) {
+				checked.set(i, true);
+				return true;
+			}
+		}
 
-					return true;
-				}
+		return false;
+	}
 
-				return false;
+	/**
+	 * Checks if a key is currently being held.
+	 * 
+	 * @param  key is the key to check.
+	 * @return     true if the key is pressed, otherwise false
+	 */
+	public boolean held(String key) {
+		for (int i = 0; i < keyValues.size(); i++) {
+			if (keyValues.get(i).equalsIgnoreCase(key) && keys.get(i)) {
+				return true;
 			}
 		}
 		
 		return false;
 	}
-
+	
 	/**
-	 * Signals the manager to start tracking a key with a delay between presses
-	 * of 0.
+	 * Signals the manager to start tracking a key.
 	 *
 	 * @param key is the key the manager will start tracking.
 	 */
 	public void addKey(String key) {
-		addKey(key, 0, "all");
-	}
-	
-	/**
-	 * Signals the manager to start tracking a key with a certain delay 
-	 * between presses.
-	 *
-	 * @param key     is the key the manager will start tracking.
-	 * @param delay   is the time in between key presses.
-	 * @param actions can be "pressed", "released", or "all". If "pressed",
-	 *                the manager will only register key presses. If
-	 *                "released", the manager will only register key releases. 
-	 *                If "all", the manager will log presses and releases.
-	 */
-	public void addKey(String key, int delay, String actions) {
 		key = key.toUpperCase();
 
-		String[] kv = new String[keyValues.length + 1];
-		for (int i = 0; i < keyValues.length; i++) {
-			kv[i] = keyValues[i];
-		}
-		kv[keyValues.length] = key;
-		keyValues = kv;
+		keyValues.add(key);
+		keys.add(false);
+		checked.add(false);
 
-		boolean[] k = new boolean[keys.length + 1];
-		for (int i = 0; i < keys.length; i++) {
-			k[i] = keys[i];
-		}
-		k[keys.length] = false;
-		keys = k;
-
-		int[] kd = new int[keyDelays.length + 1];
-		for (int i = 0; i < keyDelays.length; i++) {
-			kd[i] = keyDelays[i];
-		}
-		kd[keyDelays.length] = delay;
-		keyDelays = kd;
-
-		int[] d = new int[delays.length + 1];
-		for (int i = 0; i < delays.length; i++) {
-			d[i] = delays[i];
-		}
-		d[delays.length] = 0;
-		delays = d;
-
-		if (actions.equals("pressed") || actions.equals("all")) {
-			panel.getInputMap().put(KeyStroke.getKeyStroke(key), "pressed");
-		}
-		if (actions.equals("released") || actions.equals("all")) {
-			panel.getInputMap().put(KeyStroke.getKeyStroke("released " + key), "released");
-		}
-	}
-
-	public void run() {
-		while (true) {
-			update();
-		}
-	}
-
-	/**
-	 * Updates key press delays.
-	 */
-	private void update() {
-		for (int i = 0; i < delays.length; i++) {
-			if (delays[i] > 0) {
-				delays[i]--;
-			}
-		}
+		panel.getInputMap().put(KeyStroke.getKeyStroke(key), 
+			"pressed");
+		panel.getInputMap().put(KeyStroke.getKeyStroke("released " + key), 
+			"released");
 	}
 }
