@@ -12,6 +12,7 @@ public class Test {
 		frame.setVisible(true);
 		while (true) { 
 			myPanel.update(); 
+			myPanel.repaint();
 		}
 	}
 }

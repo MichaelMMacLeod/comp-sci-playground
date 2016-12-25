@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -9,6 +10,23 @@ public class MyPanel extends JPanel {
 	public MyPanel() {
 		input.addKey("a");
 		input.addKey("m");
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		if (input.mouseHeld()) {
+			g.drawString(Integer.toString((int) input.mousex())
+				+ " "
+				+ Integer.toString((int) input.mousey()), 
+				(int) input.mousex(), 
+				(int) input.mousey());
+		}
+
+		if (input.mousePressed()) {
+			System.out.println("Mouse click!");
+		}
 	}
 
 	public void update() {

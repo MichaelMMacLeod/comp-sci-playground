@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.Point;
@@ -18,12 +19,14 @@ public class InputManager {
 	// List of keys the manager is tracking.
 	private ArrayList<String> keyValues;
 	private ArrayList<Boolean> keys;
-	// Set to true once pressed() is called, set to false when the key is
-	// released. 
+	// Used to make sure pressed() only returns one true per key press
 	private ArrayList<Boolean> checked;
 
 	// X and y coordinate of the mouse inside the container
 	private Point mouse;
+	private boolean mouseDown;
+	// Used to make sure mouseDown() only returns one true per mouse press
+	private boolean mouseDownChecked;
 
 	/**
 	 * Creates an InputManager.
@@ -34,16 +37,36 @@ public class InputManager {
 		this.panel = panel;
 
 		mouse = new Point();
+		mouseDown = false;
+		mouseDownChecked = false;
 
 		keyValues = new ArrayList<String>();
 		keys = new ArrayList<Boolean>();
 		checked = new ArrayList<Boolean>();
 
-		panel.addMouseMotionListener(new MouseMotionAdapter() {
+		MouseAdapter adapter = new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 				mouse = e.getPoint();
 			}
-		});
+
+			public void mousePressed(MouseEvent e) {
+				mouse = e.getPoint();
+				mouseDown = true;
+			}
+
+			public void mouseDragged(MouseEvent e) {
+				mouse = e.getPoint();
+				mouseDown = true;
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				mouse = e.getPoint();
+				mouseDown = false;
+				mouseDownChecked = false;
+			}
+		};
+		panel.addMouseListener(adapter);
+		panel.addMouseMotionListener(adapter);
 
 		Action pressed = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
@@ -79,6 +102,19 @@ public class InputManager {
 
 	public double mousex() { return mouse.getX(); }
 	public double mousey() { return mouse.getY(); }
+
+	public boolean mousePressed() {
+		if (mouseDown && !mouseDownChecked) {
+			mouseDownChecked = true;
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean mouseHeld() {
+		return mouseDown;
+	}
 
 	/**
 	 * Checks if the key is pressed
