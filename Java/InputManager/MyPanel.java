@@ -16,15 +16,15 @@ public class MyPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if (input.mouseHeld()) {
-			g.drawString(Integer.toString((int) input.mousex())
+		if (input.held("mouse")) {
+			g.drawString(Integer.toString((int) input.mx())
 				+ " "
-				+ Integer.toString((int) input.mousey()), 
-				(int) input.mousex(), 
-				(int) input.mousey());
+				+ Integer.toString((int) input.my()), 
+				(int) input.mx(), 
+				(int) input.my());
 		}
 
-		if (input.mousePressed()) {
+		if (input.pressed("mouse")) {
 			System.out.println("Mouse click!");
 		}
 	}
@@ -41,7 +41,7 @@ public class MyPanel extends JPanel {
 		}
 
 		if (input.pressed("m")) {
-			System.out.println(input.mousex() + " " + input.mousey());
+			System.out.println(input.mx() + " " + input.my());
 		}
 	}
 
