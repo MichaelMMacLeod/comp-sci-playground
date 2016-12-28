@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -9,15 +10,23 @@ public class GamePanel extends JPanel {
 
     private InputManager input;
 
+    private Camera camera;
+
+    private Triangle ship;
+
     public GamePanel(int width, int height) {
         this.width = width;
         this.height = height;
 
-        input = new InputManager(this);
+        restart();
     }
 
     private void restart() {
+        input = new InputManager(this);
 
+        ship = new Triangle(30, 0, 0, 0, Color.BLACK);
+
+        camera = new Camera(width, height, ship);
     }
 
     public void update() {
@@ -27,6 +36,8 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        camera.draw(g, ship);
     }
 
     @Override
