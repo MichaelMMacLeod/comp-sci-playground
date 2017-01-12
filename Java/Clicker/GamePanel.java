@@ -12,9 +12,14 @@ public class GamePanel extends JPanel {
 
 	private Image joo = new ImageIcon("MrJooFace.png").getImage();
 
-	private int clicks;
+	private double clicks;
+	private double clicksPerUpdate;
 
 	private double jooScale;
+
+	private double carDoorPrice;
+	private double carDoorClicks;
+	private int carDoors;
 
 	public GamePanel(double width, double height) {
 		this.width = (int) width;
@@ -23,13 +28,20 @@ public class GamePanel extends JPanel {
 		this.setFocusable(true);
 		this.requestFocus();
 
+		input.addKey("c");
+
 		restart();
 	}
 
 	private void restart() {
 		clicks = 0;
+		clicksPerUpdate = 0;
 
 		jooScale = 1;
+
+		carDoorPrice = 50;
+		carDoorClicks = 0.01;
+		carDoors = 0;
 	}
 
 	public void updateLogic() {
@@ -42,7 +54,14 @@ public class GamePanel extends JPanel {
 		if (jooScale < 1)
 			jooScale *= 1.01;
 
-		System.out.println(clicks);
+		if (input.pressed("c") && clicks > (int) carDoorPrice) {
+			carDoors++;
+			clicks -= carDoorPrice;
+			carDoorPrice *= 1.15;
+			clicksPerUpdate += carDoorClicks;
+		}
+
+		clicks += clicksPerUpdate;
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -56,7 +75,9 @@ public class GamePanel extends JPanel {
 			(int) (joo.getHeight(this) * jooScale),
 			this);
 
-		g.drawString("Empty Stares: " + clicks, 10, 20);
+		g.drawString("Empty Stares: " + (int) clicks, 10, 20);
+		g.drawString("Per Second: " + (int) (clicksPerUpdate * 100), 10, 40);
+		g.drawString("Car Doors (press c to purchase for " + (int) carDoorPrice + "): " + carDoors, 10, 60);
 	}
 
 	public Dimension getPreferredSize() {
