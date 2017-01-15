@@ -12,7 +12,9 @@ public class GamePanel extends JPanel {
 
     private Camera camera;
 
-    private Triangle ship, block, block2;
+    private Triangle block, block2;
+
+    private Ship ship;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -28,28 +30,29 @@ public class GamePanel extends JPanel {
     }
 
     private void restart() {
-        ship = new Triangle(30, 0, 0, 0, Color.BLACK);
+        ship = new Ship(new Triangle(30, 0, 0, 0, Color.BLACK), 1);
+
         block = new Triangle(10, 0, 0, 0, Color.RED);
         block2 = new Triangle(50, 100, 100, Math.PI / 3, Color.BLUE);
 
         Drawn[] objects =
         {
-            ship,
+            ship.getShape(),
             block,
             block2
         };
-        camera = new Camera(width, height, ship, objects);
+        camera = new Camera(width, height, ship.getShape(), objects);
     }
 
     public void update() {
-        if (input.held("w")) {
-            ship.moveX(10 * Math.cos(ship.getRotation()));
-            ship.moveY(10 * Math.sin(ship.getRotation()));
-        }
+        if (input.held("w")) 
+            ship.thrust();
         if (input.held("a"))
-            ship.rotate(-Math.PI / 36);
+            ship.rotate(false);
         if (input.held("d"))
-            ship.rotate(Math.PI / 36);
+            ship.rotate(true);
+
+        ship.updatePos();
 
         block.moveX(3);
     }
