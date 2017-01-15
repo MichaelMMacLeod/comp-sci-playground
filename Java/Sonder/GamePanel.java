@@ -35,13 +35,19 @@ public class GamePanel extends JPanel {
         block = new Triangle(10, 0, 0, 0, Color.RED);
         block2 = new Triangle(50, 100, 100, Math.PI / 3, Color.BLUE);
 
+        Drawn[] focuses =
+        {
+            ship.getShape(),
+            block,
+            block2
+        };
         Drawn[] objects =
         {
             ship.getShape(),
             block,
             block2
         };
-        camera = new Camera(width, height, ship.getShape(), objects);
+        camera = new Camera(width, height, focuses, objects);
     }
 
     public void update() {
@@ -54,7 +60,7 @@ public class GamePanel extends JPanel {
 
         ship.updatePos();
 
-        block.moveX(0.3);
+        // block.moveX(0.3);
     }
 
     @Override
