@@ -32,7 +32,13 @@ public class GamePanel extends JPanel {
         block = new Triangle(10, 0, 0, 0, Color.RED);
         block2 = new Triangle(50, 100, 100, Math.PI / 3, Color.BLUE);
 
-        camera = new Camera(width, height, ship);
+        Drawn[] objects =
+        {
+            ship,
+            block,
+            block2
+        };
+        camera = new Camera(width, height, ship, objects);
     }
 
     public void update() {
@@ -52,9 +58,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        camera.draw(g, ship);
-        camera.draw(g, block);
-        camera.draw(g, block2);
+        camera.draw(g);
     }
 
     @Override
