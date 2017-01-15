@@ -19,15 +19,15 @@ public class GamePanel extends JPanel {
         this.height = height;
 
         restart();
-    }
 
-    private void restart() {
         input = new InputManager(this);
 
         input.addKey("w");
         input.addKey("a");
         input.addKey("d");
+    }
 
+    private void restart() {
         ship = new Triangle(30, 0, 0, 0, Color.BLACK);
         block = new Triangle(10, 0, 0, 0, Color.RED);
         block2 = new Triangle(50, 100, 100, Math.PI / 3, Color.BLUE);
