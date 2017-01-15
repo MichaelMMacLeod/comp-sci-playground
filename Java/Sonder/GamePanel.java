@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
     }
 
     private void restart() {
-        ship = new Ship(new Triangle(30, 0, 0, 0, Color.BLACK), 1);
+        ship = new Ship(new Triangle(30, 0, 0, 0, Color.BLACK), 0.05, 120);
 
         block = new Triangle(10, 0, 0, 0, Color.RED);
         block2 = new Triangle(50, 100, 100, Math.PI / 3, Color.BLUE);
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel {
 
         ship.updatePos();
 
-        block.moveX(3);
+        block.moveX(0.3);
     }
 
     @Override

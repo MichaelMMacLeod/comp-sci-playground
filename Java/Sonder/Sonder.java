@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 public class Sonder {
 
     private static GamePanel gamePanel;
-    private static final int MS_PER_UPDATE = 50;
+    private static final int MS_PER_UPDATE = 10;
     private static boolean on = true;
 
     public static void main(String[] args) {

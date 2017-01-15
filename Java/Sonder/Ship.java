@@ -4,10 +4,12 @@ public class Ship {
 
 	private double[] vectors;
 	private double acceleration;
+	private double rotationSpeed;
 
-	public Ship(Drawn shape, double acceleration) {
+	public Ship(Drawn shape, double acceleration, double rotationSpeed) {
 		this.shape = shape;
 		this.acceleration = acceleration;
+		this.rotationSpeed = rotationSpeed;
 
 		vectors = new double[2];
 	}
@@ -27,6 +29,6 @@ public class Ship {
 	}
 
 	public void rotate(boolean clockwise) {
-		shape.rotate((clockwise ? 1 : -1) * Math.PI / (36 - acceleration));
+		shape.rotate((clockwise ? 1 : -1) * Math.PI / rotationSpeed);
 	}
 }
