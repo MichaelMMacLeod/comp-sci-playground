@@ -7,6 +7,12 @@ public abstract class Drawn {
     protected double x, y;
     protected double getX() { return x; }
     protected double getY() { return y; }
+    protected void moveX(double distance) {
+        x += distance;
+    }
+    protected void moveY(double distance) {
+        y += distance;
+    }
 
     protected double[] xVerts;
     protected double[] yVerts;

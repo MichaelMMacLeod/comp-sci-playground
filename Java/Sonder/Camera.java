@@ -3,7 +3,8 @@ import java.awt.Graphics2D;
 
 public class Camera {
 
-    private int width, height, x, y;
+    private int width, height;
+    private double x, y;
     private Drawn focus;
 
     public Camera(int width, int height, Drawn focus) {
@@ -17,6 +18,9 @@ public class Camera {
     }
 
     public void draw(Graphics g, Drawn object) {
+        x = focus.getX();
+        y = focus.getY();
+
         Graphics2D g2d = (Graphics2D) g;
 
         double[] xv = object.getXVerts();
@@ -28,11 +32,11 @@ public class Camera {
         double cx = 0, cy = 0;
 
         for (int i = 0; i < xv.length; i++) {
-            xv[i] = xv[i] + width / 2;
-            yv[i] = yv[i] + height / 2;
+            xv[i] = xv[i] + width / 2 + xp - x;
+            yv[i] = yv[i] + height / 2 + yp - y;
 
-            cx += xv[i];
-            cy += yv[i];
+            cx += xv[i] + xp - x;
+            cy += yv[i] + yp - y;
         }
 
         cx /= xv.length;
@@ -49,5 +53,7 @@ public class Camera {
 
         g.setColor(object.getColor());
         g.drawPolygon(xvInt, yvInt, xv.length);
+
+        g2d.rotate(-r, cx, cy);
     }
 }
