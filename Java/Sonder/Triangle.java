@@ -7,6 +7,7 @@ public class Triangle extends Drawn {
         double y, 
         double rotation, 
         Color color) {
+        
         this.x = x;
         this.y = y;
         this.rotation = rotation;

@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
     }
 
     public void update() {
-
+    	ship.rotate(Math.PI / 180);
     }
 
     @Override

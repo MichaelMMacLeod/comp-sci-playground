@@ -19,6 +19,9 @@ public abstract class Drawn {
 
     protected double rotation;
     protected double getRotation() { return rotation; }
+    public void rotate(double radians) {
+    	rotation += radians;
+    }
     
     protected Color color;
     protected Color getColor() { return color; }
