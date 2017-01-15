@@ -35,8 +35,8 @@ public class Camera {
             xv[i] = xv[i] + width / 2 + xp - x;
             yv[i] = yv[i] + height / 2 + yp - y;
 
-            cx += xv[i] + xp - x;
-            cy += yv[i] + yp - y;
+            cx += xv[i];
+            cy += yv[i];
         }
 
         cx /= xv.length;
