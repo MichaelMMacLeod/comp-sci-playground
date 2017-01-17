@@ -21,7 +21,7 @@ public class Camera {
     }
 
     public void draw(Graphics g) {
-        double zoom;
+        Graphics2D g2d = (Graphics2D) g;
 
         for (Drawn d : objects) {
             for (Drawn f : focuses) {
@@ -31,11 +31,8 @@ public class Camera {
             x /= focuses.size();
             y /= focuses.size();
 
-            zoom = 500 / Math.sqrt(x * x + y * y);
-
+            double zoom = 500 / Math.sqrt(x * x + y * y);
             if (zoom > 1.5) zoom = 1.5;
-
-            Graphics2D g2d = (Graphics2D) g;
 
             double[] xv = d.getXVerts();
             double[] yv = d.getYVerts();
@@ -44,7 +41,6 @@ public class Camera {
             double r = d.getRotation();
 
             double cx = 0, cy = 0;
-
             for (int i = 0; i < xv.length; i++) {
                 xv[i] = (xv[i] + xp - x) * zoom + width / 2;
                 yv[i] = (yv[i] + yp - y) * zoom + height / 2;
@@ -52,7 +48,6 @@ public class Camera {
                 cx += xv[i];
                 cy += yv[i];
             }
-
             cx /= xv.length;
             cy /= yv.length;
 
