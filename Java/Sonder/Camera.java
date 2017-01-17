@@ -9,19 +9,15 @@ public class Camera {
     private int width, height;
     private double x, y;
 
-    private Drawn[] focuses;
+    private ArrayList<Drawn> focuses;
     private ArrayList<Drawn> objects;
 
     public Camera(int width, int height, Drawn[] focuses, Drawn[] objects) {
         this.width = width;
         this.height = height;
-        this.focuses = focuses;
 
+        this.focuses = new ArrayList<Drawn>(Arrays.asList(focuses));
         this.objects = new ArrayList<Drawn>(Arrays.asList(objects));
-    }
-
-    public void addObject(Drawn object) {
-        objects.add(object);
     }
 
     public void draw(Graphics g) {
@@ -32,8 +28,8 @@ public class Camera {
                 x += f.getX();
                 y += f.getY();
             }
-            x /= focuses.length;
-            y /= focuses.length;
+            x /= focuses.size();
+            y /= focuses.size();
 
             zoom = 500 / Math.sqrt(x * x + y * y);
 
