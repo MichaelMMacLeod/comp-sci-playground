@@ -18,9 +18,6 @@ public class Camera {
         this.focuses = focuses;
 
         this.objects = new ArrayList<Drawn>(Arrays.asList(objects));
-        for (Drawn d : objects) {
-            addObject(d);
-        }
     }
 
     public void addObject(Drawn object) {
