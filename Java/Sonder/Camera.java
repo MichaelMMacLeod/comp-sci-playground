@@ -32,7 +32,7 @@ public class Camera {
             y /= focuses.size();
 
             // Calculate furthest focus from centroid
-            double furthest = 1;
+            double furthest = 0;
             for (Drawn f : focuses) {
                 double a = f.getX() - x;
                 double b = f.getY() - y;
@@ -44,6 +44,9 @@ public class Camera {
 
             // Calculate zoom factor
             double zoom = radius / furthest;
+            if (zoom > 1) {
+                zoom = 1;
+            }
 
             // Get shape vertices
             double[] xv = d.getXVerts();

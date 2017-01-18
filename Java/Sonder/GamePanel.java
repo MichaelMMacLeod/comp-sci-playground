@@ -60,7 +60,7 @@ public class GamePanel extends JPanel {
 
         ship.updatePos();
 
-        // block.moveX(0.3);
+        block.moveX(0.3);
     }
 
     @Override
