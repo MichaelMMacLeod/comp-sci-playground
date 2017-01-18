@@ -1,26 +1,12 @@
-public class Projectile {
-
-	private Drawn shape;
-
-	private double[] vectors;
-	private double acceleration;
-	private double rotationSpeed;
+public class Projectile extends Moveable {
 
 	public Projectile(Drawn shape, double velocity) {
-		this.shape = shape;
-		vectors = new double[] 
+		super(shape);
+
+		vector = new double[] 
 		{
-			velocity * Math.cos(getShape().getRotation()), 
-			velocity * Math.sin(getShape().getRotation())
+			velocity * Math.cos(shape.getRotation()), 
+			velocity * Math.sin(shape.getRotation())
 		};
-	}
-
-	public Drawn getShape() {
-		return shape;
-	}
-
-	public void updatePos() {
-		shape.moveX(vectors[0]);
-		shape.moveY(vectors[1]);
 	}
 }

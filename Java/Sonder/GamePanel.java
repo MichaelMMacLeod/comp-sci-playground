@@ -51,12 +51,12 @@ public class GamePanel extends JPanel {
         objects = new ArrayList<Drawn>();
         updates = new ArrayList<Projectile>();
 
-        focuses.add(player1.getShape());
-        focuses.add(player2.getShape());
+        focuses.add(player1.shape());
+        focuses.add(player2.shape());
         focuses.add(block);
 
-        objects.add(player1.getShape());
-        objects.add(player2.getShape());
+        objects.add(player1.shape());
+        objects.add(player2.shape());
         objects.add(block);
 
         camera = new Camera();
@@ -71,12 +71,12 @@ public class GamePanel extends JPanel {
             player1.rotate(true);
         if (input.pressed("w")) {
             Triangle t = new Triangle(10,
-                player1.getShape().getX(),
-                player1.getShape().getY(),
-                player1.getShape().getRotation(),
+                player1.shape().getX(),
+                player1.shape().getY(),
+                player1.shape().getRotation(),
                 Color.BLUE);
             Projectile p = new Projectile(t, 20);
-            objects.add(p.getShape());
+            objects.add(p.shape());
             updates.add(p);
         }   
 
@@ -88,20 +88,20 @@ public class GamePanel extends JPanel {
             player2.rotate(true);
         if (input.pressed("i")) {
             Triangle t = new Triangle(10,
-                player2.getShape().getX(),
-                player2.getShape().getY(),
-                player2.getShape().getRotation(),
+                player2.shape().getX(),
+                player2.shape().getY(),
+                player2.shape().getRotation(),
                 Color.RED);
             Projectile p = new Projectile(t, 20);
-            objects.add(p.getShape());
+            objects.add(p.shape());
             updates.add(p);
         } 
 
-        player1.updatePos();
-        player2.updatePos();
+        player1.update();
+        player2.update();
 
         for (Projectile p : updates) {
-            p.updatePos();
+            p.update();
         }
     }
 
