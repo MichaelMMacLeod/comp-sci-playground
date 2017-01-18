@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
 
     private Ship player1, player2;
 
-    private Triangle block;
+    private Square block;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -39,7 +39,7 @@ public class GamePanel extends JPanel {
         player1 = new Ship(new Triangle(30, -60, 0, 0, Color.BLUE), 0.05, 120);
         player2 = new Ship(new Triangle(30, 60, 0, Math.PI, Color.RED), 0.05, 120);
 
-        block = new Triangle(120, 0, 0, 0, Color.GREEN);
+        block = new Square(120, 0, 0, 0, Color.GREEN);
 
         Drawn[] focuses =
         {
