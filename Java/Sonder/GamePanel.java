@@ -47,7 +47,7 @@ public class GamePanel extends JPanel {
             block,
             block2
         };
-        camera = new Camera(width, height, focuses, objects);
+        camera = new Camera(focuses, objects);
     }
 
     public void update() {
@@ -67,7 +67,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        camera.draw(g);
+        camera.draw(g, getWidth(), getHeight());
     }
 
     @Override
