@@ -28,11 +28,13 @@ public class GamePanel extends JPanel {
         input.addKey("w");
         input.addKey("a");
         input.addKey("d");
+        input.addKey("s");
 
         // Player 2
         input.addKey("i");
         input.addKey("j");
         input.addKey("l");
+        input.addKey("k");
     }
 
     private void restart() {
@@ -57,14 +59,14 @@ public class GamePanel extends JPanel {
     }
 
     public void update() {
-        if (input.held("w")) 
+        if (input.held("s")) 
             player1.thrust();
         if (input.held("a"))
             player1.rotate(false);
         if (input.held("d"))
             player1.rotate(true);
 
-        if (input.held("i"))
+        if (input.held("k"))
             player2.thrust();
         if (input.held("j"))
             player2.rotate(false);
