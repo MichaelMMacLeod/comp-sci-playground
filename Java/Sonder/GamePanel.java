@@ -12,9 +12,9 @@ public class GamePanel extends JPanel {
 
     private Camera camera;
 
-    private Triangle block, block2;
+    private Ship player1, player2;
 
-    private Ship ship;
+    private Triangle block;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -24,43 +24,55 @@ public class GamePanel extends JPanel {
 
         input = new InputManager(this);
 
+        // Player 1
         input.addKey("w");
         input.addKey("a");
         input.addKey("d");
+
+        // Player 2
+        input.addKey("i");
+        input.addKey("j");
+        input.addKey("l");
     }
 
     private void restart() {
-        ship = new Ship(new Triangle(30, 0, 0, 0, Color.BLACK), 0.05, 120);
+        player1 = new Ship(new Triangle(30, -60, 0, 0, Color.BLUE), 0.05, 120);
+        player2 = new Ship(new Triangle(30, 60, 0, Math.PI, Color.RED), 0.05, 120);
 
-        block = new Triangle(10, 0, 0, 0, Color.RED);
-        block2 = new Triangle(50, 100, 100, Math.PI / 3, Color.BLUE);
+        block = new Triangle(120, 0, 0, 0, Color.GREEN);
 
         Drawn[] focuses =
         {
-            ship.getShape(),
-            block,
-            block2
+            player1.getShape(),
+            player2.getShape(),
+            block
         };
         Drawn[] objects =
         {
-            ship.getShape(),
-            block,
-            block2
+            player1.getShape(),
+            player2.getShape(),
+            block
         };
         camera = new Camera(focuses, objects);
     }
 
     public void update() {
         if (input.held("w")) 
-            ship.thrust();
+            player1.thrust();
         if (input.held("a"))
-            ship.rotate(false);
+            player1.rotate(false);
         if (input.held("d"))
-            ship.rotate(true);
+            player1.rotate(true);
 
-        ship.updatePos();
+        if (input.held("i"))
+            player2.thrust();
+        if (input.held("j"))
+            player2.rotate(false);
+        if (input.held("l"))
+            player2.rotate(true);
 
-        block.moveX(0.3);
+        player1.updatePos();
+        player2.updatePos();
     }
 
     @Override
