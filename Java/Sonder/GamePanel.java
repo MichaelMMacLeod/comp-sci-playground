@@ -18,7 +18,7 @@ public class GamePanel extends JPanel {
     private Square block;
     private ArrayList<Drawn> focuses;
     private ArrayList<Drawn> objects;
-    private ArrayList<Projectile> updates;
+    private ArrayList<Moveable> updates;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -49,15 +49,17 @@ public class GamePanel extends JPanel {
 
         focuses = new ArrayList<Drawn>();
         objects = new ArrayList<Drawn>();
-        updates = new ArrayList<Projectile>();
+        updates = new ArrayList<Moveable>();
 
         focuses.add(player1.shape());
         focuses.add(player2.shape());
-        focuses.add(block);
 
         objects.add(player1.shape());
         objects.add(player2.shape());
         objects.add(block);
+
+        updates.add(player1);
+        updates.add(player2);
 
         camera = new Camera();
     }
@@ -95,13 +97,10 @@ public class GamePanel extends JPanel {
             Projectile p = new Projectile(t, 20);
             objects.add(p.shape());
             updates.add(p);
-        } 
-
-        player1.update();
-        player2.update();
-
-        for (Projectile p : updates) {
-            p.update();
+        }
+        
+        for (Moveable m : updates) {
+            m.update();
         }
     }
 

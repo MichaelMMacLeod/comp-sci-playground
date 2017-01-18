@@ -9,8 +9,11 @@ public class Camera {
     public void draw(Graphics g, 
         double width, 
         double height,
-        ArrayList<Drawn> focuses,
-        ArrayList<Drawn> objects) {
+        ArrayList<Drawn> focusesList,
+        ArrayList<Drawn> objectsList) {
+
+        Drawn[] focuses = focusesList.toArray(new Drawn[0]);
+        Drawn[] objects = objectsList.toArray(new Drawn[0]);
 
         Graphics2D g2d = (Graphics2D) g;
 
@@ -25,8 +28,8 @@ public class Camera {
                 x += f.getX();
                 y += f.getY();
             }
-            x /= focuses.size();
-            y /= focuses.size();
+            x /= focuses.length;
+            y /= focuses.length;
 
             // Calculate furthest focus from centroid
             double furthest = 0;
