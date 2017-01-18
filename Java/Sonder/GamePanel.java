@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
@@ -13,8 +15,9 @@ public class GamePanel extends JPanel {
     private Camera camera;
 
     private Ship player1, player2;
-
     private Square block;
+    private ArrayList<Drawn> focuses;
+    private ArrayList<Drawn> objects;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -43,19 +46,18 @@ public class GamePanel extends JPanel {
 
         block = new Square(120, 0, 0, 0, Color.GREEN);
 
-        Drawn[] focuses =
-        {
-            player1.getShape(),
-            player2.getShape(),
-            block
-        };
-        Drawn[] objects =
-        {
-            player1.getShape(),
-            player2.getShape(),
-            block
-        };
-        camera = new Camera(focuses, objects);
+        focuses = new ArrayList<Drawn>();
+        objects = new ArrayList<Drawn>();
+
+        focuses.add(player1.getShape());
+        focuses.add(player2.getShape());
+        focuses.add(block);
+
+        objects.add(player1.getShape());
+        objects.add(player2.getShape());
+        objects.add(block);
+
+        camera = new Camera();
     }
 
     public void update() {
@@ -81,7 +83,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        camera.draw(g, getWidth(), getHeight());
+        camera.draw(g, getWidth(), getHeight(), focuses, objects);
     }
 
     @Override

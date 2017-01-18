@@ -5,16 +5,13 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 public class Camera {
+    
+    public void draw(Graphics g, 
+        double width, 
+        double height,
+        ArrayList<Drawn> focuses,
+        ArrayList<Drawn> objects) {
 
-    private ArrayList<Drawn> focuses;
-    private ArrayList<Drawn> objects;
-
-    public Camera(Drawn[] focuses, Drawn[] objects) {
-        this.focuses = new ArrayList<Drawn>(Arrays.asList(focuses));
-        this.objects = new ArrayList<Drawn>(Arrays.asList(objects));
-    }
-
-    public void draw(Graphics g, double width, double height) {
         Graphics2D g2d = (Graphics2D) g;
 
         for (Drawn d : objects) {
