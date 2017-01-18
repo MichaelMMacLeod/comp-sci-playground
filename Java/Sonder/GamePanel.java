@@ -18,6 +18,7 @@ public class GamePanel extends JPanel {
     private Square block;
     private ArrayList<Drawn> focuses;
     private ArrayList<Drawn> objects;
+    private ArrayList<Projectile> updates;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel {
 
         focuses = new ArrayList<Drawn>();
         objects = new ArrayList<Drawn>();
+        updates = new ArrayList<Projectile>();
 
         focuses.add(player1.getShape());
         focuses.add(player2.getShape());
@@ -67,6 +69,16 @@ public class GamePanel extends JPanel {
             player1.rotate(false);
         if (input.held("d"))
             player1.rotate(true);
+        if (input.pressed("w")) {
+            Triangle t = new Triangle(10,
+                player1.getShape().getX(),
+                player1.getShape().getY(),
+                player1.getShape().getRotation(),
+                Color.BLUE);
+            Projectile p = new Projectile(t, 20);
+            objects.add(p.getShape());
+            updates.add(p);
+        }   
 
         if (input.held("k"))
             player2.thrust();
@@ -74,9 +86,23 @@ public class GamePanel extends JPanel {
             player2.rotate(false);
         if (input.held("l"))
             player2.rotate(true);
+        if (input.pressed("i")) {
+            Triangle t = new Triangle(10,
+                player2.getShape().getX(),
+                player2.getShape().getY(),
+                player2.getShape().getRotation(),
+                Color.RED);
+            Projectile p = new Projectile(t, 20);
+            objects.add(p.getShape());
+            updates.add(p);
+        } 
 
         player1.updatePos();
         player2.updatePos();
+
+        for (Projectile p : updates) {
+            p.updatePos();
+        }
     }
 
     @Override

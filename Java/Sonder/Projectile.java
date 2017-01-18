@@ -8,7 +8,11 @@ public class Projectile {
 
 	public Projectile(Drawn shape, double velocity) {
 		this.shape = shape;
-		vectors = new double[] {Math.cos(velocity), Math.sin(velocity)};
+		vectors = new double[] 
+		{
+			velocity * Math.cos(getShape().getRotation()), 
+			velocity * Math.sin(getShape().getRotation())
+		};
 	}
 
 	public Drawn getShape() {
