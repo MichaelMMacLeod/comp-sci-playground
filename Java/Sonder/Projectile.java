@@ -1,12 +1,15 @@
 public class Projectile extends Moveable {
 
-	public Projectile(Drawn shape, double velocity) {
+	public Projectile(Drawn shape, 
+		double[] velocityOfParent, 
+		double velocity) {
+
 		super(shape);
 
 		vector = new double[] 
 		{
-			velocity * Math.cos(shape.getRotation()), 
-			velocity * Math.sin(shape.getRotation())
+			velocityOfParent[0] + velocity * Math.cos(shape.getRotation()), 
+			velocityOfParent[1] + velocity * Math.sin(shape.getRotation())
 		};
 	}
 }
