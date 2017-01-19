@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 public class Camera {
-    
+
     public void draw(Graphics g, 
         double width, 
         double height,
@@ -17,37 +17,37 @@ public class Camera {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        // Calculate radius of zoom circle
+        double radius = width < height ? width / 2.5 : height / 2.5;
+
+        // Calculate centroid of focuses
+        double x = 0;
+        double y = 0;
+        for (Drawn f : focuses) {
+            x += f.getX();
+            y += f.getY();
+        }
+        x /= focuses.length;
+        y /= focuses.length;
+
+        // Calculate furthest focus from centroid
+        double furthest = 0;
+        for (Drawn f : focuses) {
+            double a = f.getX() - x;
+            double b = f.getY() - y;
+            double c = Math.sqrt(a * a + b * b);
+            if (c > furthest) {
+                furthest = c;
+            }
+        }
+
+        // Calculate zoom factor
+        double zoom = radius / furthest;
+        if (zoom > 1) {
+            zoom = 1;
+        }
+
         for (Drawn d : objects) {
-            // Calculate radius of zoom circle
-            double radius = width < height ? width / 2.5 : height / 2.5;
-
-            // Calculate centroid of focuses
-            double x = 0;
-            double y = 0;
-            for (Drawn f : focuses) {
-                x += f.getX();
-                y += f.getY();
-            }
-            x /= focuses.length;
-            y /= focuses.length;
-
-            // Calculate furthest focus from centroid
-            double furthest = 0;
-            for (Drawn f : focuses) {
-                double a = f.getX() - x;
-                double b = f.getY() - y;
-                double c = Math.sqrt(a * a + b * b);
-                if (c > furthest) {
-                    furthest = c;
-                }
-            }
-
-            // Calculate zoom factor
-            double zoom = radius / furthest;
-            if (zoom > 1) {
-                zoom = 1;
-            }
-
             // Get shape vertices
             double[] xv = d.getXVerts();
             double[] yv = d.getYVerts();
