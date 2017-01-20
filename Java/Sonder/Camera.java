@@ -11,7 +11,7 @@ public class Camera {
         int height,
         ArrayList<Drawn> focusesList,
         ArrayList<Drawn> objectsList,
-        double focusCircleSize) {
+        int focusCircleSize) {
 
         Drawn[] focuses = focusesList.toArray(new Drawn[0]);
         Drawn[] objects = objectsList.toArray(new Drawn[0]);
@@ -22,8 +22,8 @@ public class Camera {
         double radius = width < height ? width / 2.5 : height / 2.5;
 
         // Calculate centroid of focuses
-        double x = 0;
-        double y = 0;
+        int x = 0;
+        int y = 0;
         for (Drawn f : focuses) {
             x += f.getX();
             y += f.getY();
@@ -63,7 +63,7 @@ public class Camera {
             double r = d.getRotation();
 
             // Calculate zoomed in and translated points
-            double newX = 0, newY = 0;
+            int newX = 0, newY = 0;
             for (int i = 0; i < xv.length; i++) {
                 xv[i] = (int) ((xv[i] - x) * zoom) + width / 2;
                 yv[i] = (int) ((yv[i] - y) * zoom) + height / 2;
@@ -77,14 +77,14 @@ public class Camera {
             // Draw identification circle around shape if it is a focus
             for (Drawn f : focuses) {
                 if (d == f) {
-                    g2d.drawOval((int) (newX - focusCircleSize / 2), 
-                        (int) (newY - focusCircleSize / 2), 
-                        (int) focusCircleSize, 
-                        (int) focusCircleSize);
-                    g2d.drawLine((int) newX, 
-                        (int) newY,
-                        (int) (focusCircleSize / 2 * Math.cos(r) + newX),
-                        (int) (focusCircleSize / 2 * Math.sin(r) + newY));
+                    g2d.drawOval(newX - focusCircleSize / 2, 
+                        newY - focusCircleSize / 2, 
+                        focusCircleSize, 
+                        focusCircleSize);
+                    g2d.drawLine(newX, 
+                        newY,
+                        (int) (focusCircleSize / 2 * Math.cos(r)) + newX,
+                        (int) (focusCircleSize / 2 * Math.sin(r)) + newY);
                     break;
                 }
             }
