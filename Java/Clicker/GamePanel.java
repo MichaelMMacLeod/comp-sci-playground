@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 
 public class GamePanel extends JPanel {
+
 	private int width, height;
 
 	private InputManager input = new InputManager(this);
@@ -22,6 +23,8 @@ public class GamePanel extends JPanel {
 	private int carDoors;
 
 	public GamePanel(double width, double height) {
+		System.setProperty("sun.java2d.opengl", "true");
+		
 		this.width = (int) width;
 		this.height = (int) height;
 
