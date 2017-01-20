@@ -10,7 +10,8 @@ public class Camera {
         double width, 
         double height,
         ArrayList<Drawn> focusesList,
-        ArrayList<Drawn> objectsList) {
+        ArrayList<Drawn> objectsList,
+        double focusCircleSize) {
 
         Drawn[] focuses = focusesList.toArray(new Drawn[0]);
         Drawn[] objects = objectsList.toArray(new Drawn[0]);
@@ -48,6 +49,8 @@ public class Camera {
         }
 
         for (Drawn d : objects) {
+            g.setColor(d.getColor());
+
             // Get shape vertices
             double[] xv = d.getXVerts();
             double[] yv = d.getYVerts();
@@ -71,8 +74,23 @@ public class Camera {
             newX /= xv.length;
             newY /= yv.length;
 
+            // Draw identification circle around shape if it is a focus
+            for (Drawn f : focuses) {
+                if (d == f) {
+                    g2d.drawOval((int) (newX - focusCircleSize / 2), 
+                        (int) (newY - focusCircleSize / 2), 
+                        (int) focusCircleSize, 
+                        (int) focusCircleSize);
+                    g2d.drawLine((int) newX, 
+                        (int) newY,
+                        (int) (focusCircleSize / 2 * Math.cos(r) + newX),
+                        (int) (focusCircleSize / 2 * Math.sin(r) + newY));
+                    break;
+                }
+            }
+
             // Rotate shape around its centroid
-            g2d.rotate(r, newX, newY);
+            g2d.rotate(r, newX, newY); 
 
             int[] xvInt = new int[xv.length];
             int[] yvInt = new int[yv.length];
@@ -82,7 +100,6 @@ public class Camera {
             } 
 
             // Drawn shape
-            g.setColor(d.getColor());
             g.drawPolygon(xvInt, yvInt, xv.length);
 
             // Reset rotation

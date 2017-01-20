@@ -108,7 +108,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        camera.draw(g, getWidth(), getHeight(), focuses, objects);
+        camera.draw(g, getWidth(), getHeight(), focuses, objects, 32);
     }
 
     @Override
