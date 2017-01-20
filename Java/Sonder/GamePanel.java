@@ -42,10 +42,10 @@ public class GamePanel extends JPanel {
     }
 
     private void restart() {
-        player1 = new Ship(new Triangle(30, -60, 0, 0, Color.BLUE), 0.05, 120);
-        player2 = new Ship(new Triangle(30, 60, 0, Math.PI, Color.RED), 0.05, 120);
+        player1 = new Ship(new Triangle(-60, 0, 30, 0, Color.BLUE), 0.05, 120);
+        player2 = new Ship(new Triangle(60, 0, 30, Math.PI, Color.RED), 0.05, 120);
 
-        block = new Square(120, 0, 0, 0, Color.GREEN);
+        block = new Square(0, 0, 120, 0, Color.GREEN);
 
         focuses = new ArrayList<Drawn>();
         objects = new ArrayList<Drawn>();
@@ -72,9 +72,9 @@ public class GamePanel extends JPanel {
         if (input.held("d"))
             player1.rotate(true);
         if (input.pressed("w")) {
-            Triangle t = new Triangle(10,
-                player1.shape().getX(),
+            Triangle t = new Triangle(player1.shape().getX(),
                 player1.shape().getY(),
+                10,
                 player1.shape().getRotation(),
                 Color.BLUE);
             Projectile p = new Projectile(t, player1.vector(), 10);
@@ -89,9 +89,9 @@ public class GamePanel extends JPanel {
         if (input.held("l"))
             player2.rotate(true);
         if (input.pressed("i")) {
-            Triangle t = new Triangle(10,
-                player2.shape().getX(),
+            Triangle t = new Triangle(player2.shape().getX(),
                 player2.shape().getY(),
+                10,
                 player2.shape().getRotation(),
                 Color.RED);
             Projectile p = new Projectile(t, player2.vector(), 10);

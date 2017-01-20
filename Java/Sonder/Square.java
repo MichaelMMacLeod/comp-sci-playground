@@ -2,22 +2,18 @@ import java.awt.Color;
 
 public class Square extends Drawn {
 
-    public Square(double size, 
-        double x, 
-        double y, 
+    public Square(int x, 
+        int y,
+        int size,
         double rotation, 
         Color color) {
 
-        this.x = x;
-        this.y = y;
-        this.rotation = rotation;
-        this.color = color;
-
-        xVerts = new double[] {-1, 1, 1, -1};
-        yVerts = new double[] {-1, -1, 1, 1};
-        for (int i = 0; i < xVerts.length; i++) {
-            xVerts[i] *= size;
-            yVerts[i] *= size;
-        }
+        super(x, 
+            y, 
+            new int[] {-1, 1, 1, -1}, 
+            new int[] {-1, -1, 1, 1}, 
+            size, 
+            rotation, 
+            color);
     }
 }

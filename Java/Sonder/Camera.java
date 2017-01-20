@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class Camera {
 
     public void draw(Graphics g, 
-        double width, 
-        double height,
+        int width, 
+        int height,
         ArrayList<Drawn> focusesList,
         ArrayList<Drawn> objectsList,
         double focusCircleSize) {
@@ -52,12 +52,12 @@ public class Camera {
             g.setColor(d.getColor());
 
             // Get shape vertices
-            double[] xv = d.getXVerts();
-            double[] yv = d.getYVerts();
+            int[] xv = d.getXVerts();
+            int[] yv = d.getYVerts();
 
             // Get shape coordinates
-            double xp = d.getX();
-            double yp = d.getY();
+            int xp = d.getX();
+            int yp = d.getY();
 
             // Get shape rotation
             double r = d.getRotation();
@@ -65,8 +65,8 @@ public class Camera {
             // Calculate zoomed in and translated points
             double newX = 0, newY = 0;
             for (int i = 0; i < xv.length; i++) {
-                xv[i] = (xv[i] + xp - x) * zoom + width / 2;
-                yv[i] = (yv[i] + yp - y) * zoom + height / 2;
+                xv[i] = (int) ((xv[i] - x) * zoom) + width / 2;
+                yv[i] = (int) ((yv[i] - y) * zoom) + height / 2;
 
                 newX += xv[i];
                 newY += yv[i];
@@ -92,15 +92,8 @@ public class Camera {
             // Rotate shape around its centroid
             g2d.rotate(r, newX, newY); 
 
-            int[] xvInt = new int[xv.length];
-            int[] yvInt = new int[yv.length];
-            for (int i = 0; i < xv.length; i++) {
-                xvInt[i] = (int) xv[i];
-                yvInt[i] = (int) yv[i];
-            } 
-
             // Drawn shape
-            g.drawPolygon(xvInt, yvInt, xv.length);
+            g.drawPolygon(xv, yv, xv.length);
 
             // Reset rotation
             g2d.rotate(-r, newX, newY);
