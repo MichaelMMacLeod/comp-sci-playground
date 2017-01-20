@@ -55,10 +55,6 @@ public class Camera {
             int[] xv = d.getXVerts();
             int[] yv = d.getYVerts();
 
-            // Get shape coordinates
-            int xp = d.getX();
-            int yp = d.getY();
-
             // Get shape rotation
             double r = d.getRotation();
 
