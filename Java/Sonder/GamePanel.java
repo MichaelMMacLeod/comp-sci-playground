@@ -53,7 +53,7 @@ public class GamePanel extends JPanel {
 
         focuses.add(player1.shape());
         focuses.add(player2.shape());
-
+        
         objects.add(player1.shape());
         objects.add(player2.shape());
         objects.add(block);

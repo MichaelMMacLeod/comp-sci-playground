@@ -45,7 +45,7 @@ public class Camera {
         // Calculate zoom factor
         double zoom = radius / furthest;
         if (zoom > 1) {
-            zoom = 1;
+            zoom = -1 / zoom + 2;
         }
 
         for (Drawn d : objects) {
