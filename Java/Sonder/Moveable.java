@@ -16,8 +16,7 @@ public abstract class Moveable {
 	}
 
 	public void update() {
-		shape.moveX(vector[0]);
-		shape.moveY(vector[1]);
+		shape.translate(vector[0], vector[1]);
 	}
 
 	public double[] vector() {

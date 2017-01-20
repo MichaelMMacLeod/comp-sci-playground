@@ -72,8 +72,8 @@ public class GamePanel extends JPanel {
         if (input.held("d"))
             player1.rotate(true);
         if (input.pressed("w")) {
-            Triangle t = new Triangle(player1.shape().getX(),
-                player1.shape().getY(),
+            Triangle t = new Triangle((int) player1.shape().getX(),
+                (int) player1.shape().getY(),
                 10,
                 player1.shape().getRotation(),
                 Color.BLUE);
@@ -89,8 +89,8 @@ public class GamePanel extends JPanel {
         if (input.held("l"))
             player2.rotate(true);
         if (input.pressed("i")) {
-            Triangle t = new Triangle(player2.shape().getX(),
-                player2.shape().getY(),
+            Triangle t = new Triangle((int) player2.shape().getX(),
+                (int) player2.shape().getY(),
                 10,
                 player2.shape().getRotation(),
                 Color.RED);
