@@ -8,111 +8,140 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 
-    private int width, height;
+	private int width, height;
 
-    private InputManager input;
+	private InputManager input;
 
-    private Camera camera;
+	private Camera camera;
 
-    private Ship player1, player2;
-    private Square block;
-    private ArrayList<Drawn> focuses;
-    private ArrayList<Drawn> objects;
-    private ArrayList<Moveable> updates;
+	private Ship player1, player2;
 
-    public GamePanel(int width, int height) {
-        this.width = width;
-        this.height = height;
+	private ArrayList<Drawn> focuses;
+	private ArrayList<Drawn> objects;
+	private ArrayList<Moveable> updates;
 
-        restart();
+	public GamePanel(int width, int height) {
+		this.width = width;
+		this.height = height;
 
-        input = new InputManager(this);
+		restart();
+
+		input = new InputManager(this);
 
         // Player 1
-        input.addKey("w");
-        input.addKey("a");
-        input.addKey("d");
-        input.addKey("s");
+		input.addKey("w");
+		input.addKey("a");
+		input.addKey("d");
+		input.addKey("s");
 
         // Player 2
-        input.addKey("i");
-        input.addKey("j");
-        input.addKey("l");
-        input.addKey("k");
-    }
+		input.addKey("i");
+		input.addKey("j");
+		input.addKey("l");
+		input.addKey("k");
+	}
 
-    private void restart() {
-        player1 = new Ship(new Triangle(-60, 0, 30, 0, Color.BLUE), 0.05, 120);
-        player2 = new Ship(new Triangle(60, 0, 30, Math.PI, Color.RED), 0.05, 120);
+	private void restart() {
+		player1 = new Ship(
+			new Drawn(
+				-60, 
+				0, 
+				Drawn.TRIANGLE[0],
+				Drawn.TRIANGLE[1], 
+				30, 
+				0, 
+				Color.BLUE), 
+			0.05, 
+			120);
+		player2 = new Ship(
+			new Drawn(
+				60, 
+				0, 
+				Drawn.TRIANGLE[0], 
+				Drawn.TRIANGLE[1], 
+				30, Math.PI, 
+				Color.RED), 
+			0.05, 120);
 
-        block = new Square(0, 0, 120, 0, Color.GREEN);
+		focuses = new ArrayList<Drawn>();
+		objects = new ArrayList<Drawn>();
+		updates = new ArrayList<Moveable>();
 
-        focuses = new ArrayList<Drawn>();
-        objects = new ArrayList<Drawn>();
-        updates = new ArrayList<Moveable>();
+		focuses.add(player1.shape());
+		focuses.add(player2.shape());
 
-        focuses.add(player1.shape());
-        focuses.add(player2.shape());
-        
-        objects.add(player1.shape());
-        objects.add(player2.shape());
-        objects.add(block);
+		objects.add(player1.shape());
+		objects.add(player2.shape());
+		objects.add(
+			new Drawn(0, 
+				0, 
+				Drawn.SQUARE[0], 
+				Drawn.SQUARE[1], 
+				120, 
+				0, 
+				Color.GREEN));
 
-        updates.add(player1);
-        updates.add(player2);
+		updates.add(player1);
+		updates.add(player2);
 
-        camera = new Camera();
-    }
+		camera = new Camera();
+	}
 
-    public void update() {
-        if (input.held("s")) 
-            player1.thrust();
-        if (input.held("a"))
-            player1.rotate(false);
-        if (input.held("d"))
-            player1.rotate(true);
-        if (input.pressed("w")) {
-            Triangle t = new Triangle((int) player1.shape().getX(),
-                (int) player1.shape().getY(),
-                10,
-                player1.shape().getRotation(),
-                Color.BLUE);
-            Projectile p = new Projectile(t, player1.vector(), 10);
-            objects.add(p.shape());
-            updates.add(p);
-        }   
+	public void update() {
+		if (input.held("s")) 
+			player1.thrust();
+		if (input.held("a"))
+			player1.rotate(false);
+		if (input.held("d"))
+			player1.rotate(true);
+		if (input.pressed("w")) {
+			Drawn d = new Drawn(
+				(int) player1.shape().getX(),
+				(int) player1.shape().getY(),
+				Drawn.SQUARE[0],
+				Drawn.SQUARE[1],
+				10,
+				player1.shape().getRotation(),
+				Color.BLUE);
+			Projectile p = new Projectile(d, player1.vector(), 10);
+			objects.add(p.shape());
+			updates.add(p);
+		}   
 
-        if (input.held("k"))
-            player2.thrust();
-        if (input.held("j"))
-            player2.rotate(false);
-        if (input.held("l"))
-            player2.rotate(true);
-        if (input.pressed("i")) {
-            Triangle t = new Triangle((int) player2.shape().getX(),
-                (int) player2.shape().getY(),
-                10,
-                player2.shape().getRotation(),
-                Color.RED);
-            Projectile p = new Projectile(t, player2.vector(), 10);
-            objects.add(p.shape());
-            updates.add(p);
-        }
-        
-        for (Moveable m : updates) {
-            m.update();
-        }
-    }
+		if (input.held("k"))
+			player2.thrust();
+		if (input.held("j"))
+			player2.rotate(false);
+		if (input.held("l"))
+			player2.rotate(true);
+		if (input.pressed("i")) {
+			Drawn d = new Drawn(
+				(int) player2.shape().getX(),
+				(int) player2.shape().getY(),
+				Drawn.SQUARE[0],
+				Drawn.SQUARE[1],
+				10,
+				player2.shape().getRotation(),
+				Color.RED);
+			Projectile p = new Projectile(d, player2.vector(), 10);
+			objects.add(p.shape());
+			updates.add(p);
+		}
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+		for (Moveable m : updates) {
+			m.update();
+		}
+	}
 
-        camera.draw(g, getWidth(), getHeight(), focuses, objects, 32);
-    }
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(width, height);
-    }
+		camera.draw(g, getWidth(), getHeight(), focuses, objects, 32);
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(width, height);
+	}
 }

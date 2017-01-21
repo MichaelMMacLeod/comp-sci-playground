@@ -3,7 +3,7 @@ import java.awt.Color;
 
 import java.util.Arrays;
 
-public abstract class Drawn {
+public class Drawn {
 	// Centroid of vertices
 	private double x, y;
 
@@ -15,8 +15,8 @@ public abstract class Drawn {
 	private Color color;
 
 	// Vertices of certain shapes
-	public static final double[][] TRIANGLE = {{-1, 1, -1}, {-1, 0, 1}};
-	public static final double[][] SQUARE = {{-1, 1, 1, -1}, {-1, -1, 1, 1}};
+	public static final int[][] TRIANGLE = {{-1, 1, -1}, {-1, 0, 1}};
+	public static final int[][] SQUARE = {{-1, 1, 1, -1}, {-1, -1, 1, 1}};
 
 	public Drawn(int x,
 		int y,
