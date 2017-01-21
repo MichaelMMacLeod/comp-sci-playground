@@ -46,8 +46,7 @@ public class GamePanel extends JPanel {
 			new Drawn(
 				-60, 
 				0, 
-				Drawn.TRIANGLE[0],
-				Drawn.TRIANGLE[1], 
+				Drawn.TRIANGLE, 
 				30, 
 				0, 
 				Color.BLUE), 
@@ -57,8 +56,7 @@ public class GamePanel extends JPanel {
 			new Drawn(
 				60, 
 				0, 
-				Drawn.TRIANGLE[0], 
-				Drawn.TRIANGLE[1], 
+				Drawn.TRIANGLE, 
 				30, Math.PI, 
 				Color.RED), 
 			0.05, 120);
@@ -75,8 +73,7 @@ public class GamePanel extends JPanel {
 		objects.add(
 			new Drawn(0, 
 				0, 
-				Drawn.SQUARE[0], 
-				Drawn.SQUARE[1], 
+				Drawn.SQUARE, 
 				120, 
 				0, 
 				Color.GREEN));
@@ -98,8 +95,7 @@ public class GamePanel extends JPanel {
 			Drawn d = new Drawn(
 				(int) player1.shape().getX(),
 				(int) player1.shape().getY(),
-				Drawn.SQUARE[0],
-				Drawn.SQUARE[1],
+				Drawn.SQUARE,
 				10,
 				player1.shape().getRotation(),
 				Color.BLUE);
@@ -118,8 +114,7 @@ public class GamePanel extends JPanel {
 			Drawn d = new Drawn(
 				(int) player2.shape().getX(),
 				(int) player2.shape().getY(),
-				Drawn.SQUARE[0],
-				Drawn.SQUARE[1],
+				Drawn.SQUARE,
 				10,
 				player2.shape().getRotation(),
 				Color.RED);

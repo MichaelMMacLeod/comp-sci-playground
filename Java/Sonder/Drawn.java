@@ -7,8 +7,7 @@ public class Drawn {
 	// Centroid of vertices
 	private double x, y;
 
-	// Vertices of shape
-	private double[] xVerts, yVerts;
+	private double[][] vertices;
 
 	private double rotation;
 
@@ -20,23 +19,21 @@ public class Drawn {
 
 	public Drawn(int x,
 		int y,
-		int[] xVerts, 
-		int[] yVerts,
+		int[][] vertices,
 		int size, 
 		double rotation,
 		Color color) {
 
-		this.xVerts = new double[xVerts.length];
-		this.yVerts = new double[yVerts.length];
-		for (int i = 0; i < this.xVerts.length; i++) {
-			this.xVerts[i] = xVerts[i] * size + x;
-			this.yVerts[i] = yVerts[i] * size + y;
+		this.vertices = new double[vertices[0].length][vertices[1].length];
+		for (int i = 0; i < this.vertices[0].length; i++) {
+			this.vertices[0][i] = vertices[0][i] * size + x;
+			this.vertices[1][i] = vertices[1][i] * size + y;
 
-			this.x += this.xVerts[i];
-			this.y += this.yVerts[i];
+			this.x += this.vertices[0][i];
+			this.y += this.vertices[1][i];
 		}
-		this.x /= xVerts.length;
-		this.y /= yVerts.length;
+		this.x /= this.vertices[0].length;
+		this.y /= this.vertices[1].length;
 
 		this.rotation = rotation;
 		this.color = color;
@@ -53,16 +50,16 @@ public class Drawn {
 		x = 0;
 		y = 0;
 
-		for (int i = 0; i < xVerts.length; i++) {
-			xVerts[i] += dx;
-			yVerts[i] += dy;
+		for (int i = 0; i < vertices[0].length; i++) {
+			vertices[0][i] += dx;
+			vertices[1][i] += dy;
 
-			x += xVerts[i];
-			y += yVerts[i];
+			x += vertices[0][i];
+			y += vertices[1][i];
 		}
 
-		x /= xVerts.length;
-		y /= yVerts.length;
+		x /= vertices[0].length;
+		y /= vertices[1].length;
 	}
 
 	protected Color getColor() {
@@ -70,10 +67,10 @@ public class Drawn {
 	}
 
 	protected double[] getXVerts() {
-		return Arrays.copyOf(xVerts, xVerts.length);
+		return Arrays.copyOf(vertices[0], vertices[0].length);
 	}
 	protected double[] getYVerts() {
-		return Arrays.copyOf(yVerts, yVerts.length);
+		return Arrays.copyOf(vertices[1], vertices[1].length);
 	}
 
 	protected double getRotation() {
