@@ -4,56 +4,62 @@ import java.awt.Color;
 import java.util.Arrays;
 
 public class Drawn {
-	private double[] centroid;
+	// Centroid of vertices
+	private double cx, cy;
 
-	private double[][] vertices;
+	// Number of vertices
+	private int vertices;
+	private double[] xVertices, yVertices;
 
 	private double rotation;
 
 	private Color color;
 
 	// Vertices of certain shapes
-	public static final int[][] TRIANGLE = {{-1, 1, -1}, {-1, 0, 1}};
-	public static final int[][] SQUARE = {{-1, 1, 1, -1}, {-1, -1, 1, 1}};
+	public static final double[][] TRIANGLE = {{-1, 1, -1}, {-1, 0, 1}};
+	public static final double[][] SQUARE = {{-1, 1, 1, -1}, {-1, -1, 1, 1}};
 
-	public Drawn(int x,
+	public Drawn(
+		int x,
 		int y,
-		int[][] vertices,
+		double[][] shapeVertices,
 		int size, 
 		double rotation,
 		Color color) {
 
-		centroid = new double[2];
+		this.vertices = shapeVertices[0].length;
 
-		this.vertices = new double[vertices[0].length][vertices[1].length];
-		for (int i = 0; i < this.vertices[0].length; i++) {
-			this.vertices[0][i] = vertices[0][i] * size + x;
-			this.vertices[1][i] = vertices[1][i] * size + y;
+		xVertices = Arrays.copyOf(shapeVertices[0], this.vertices);
+		yVertices = Arrays.copyOf(shapeVertices[1], this.vertices);
 
-			centroid[0] += this.vertices[0][i];
-			centroid[1] += this.vertices[1][i];
+		for (int i = 0; i < this.vertices; i++) {
+			xVertices[i] = xVertices[i] * size + x;
+			yVertices[i] = yVertices[i] * size + y;
+			cx += xVertices[i];
+			cy += yVertices[i];
 		}
-		centroid[0] /= this.vertices[0].length;
-		centroid[1] /= this.vertices[1].length;
+
+		cx /= this.vertices;
+		cy /= this.vertices;
 
 		this.rotation = rotation;
 		this.color = color;
 	}
 
 	protected double getX() {
-		return centroid[0];
+		return cx;
 	}
 	protected double getY() {
-		return centroid[1];
+		return cy;
 	}
 
 	protected void translate(double dx, double dy) {
-		centroid[0] += dx;
-		centroid[1] += dy;
+		cx += dx;
+		cy += dy;
 
-		for (int i = 0; i < vertices[0].length; i++) {
-			vertices[0][i] += dx;
-			vertices[1][i] += dy;
+		for (int i = 0; i < vertices; i++) {
+			xVertices[i] += dx;
+			yVertices[i] += dy;
 		}
 	}
 
@@ -62,10 +68,10 @@ public class Drawn {
 	}
 
 	protected double[] getXVerts() {
-		return Arrays.copyOf(vertices[0], vertices[0].length);
+		return Arrays.copyOf(xVertices, vertices);
 	}
 	protected double[] getYVerts() {
-		return Arrays.copyOf(vertices[1], vertices[1].length);
+		return Arrays.copyOf(yVertices, vertices);
 	}
 
 	protected double getRotation() {
@@ -75,5 +81,4 @@ public class Drawn {
 	protected void rotate(double r) {
 		rotation += r;
 	}
-
 }
