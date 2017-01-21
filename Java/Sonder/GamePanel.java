@@ -16,8 +16,6 @@ public class GamePanel extends JPanel {
 
 	private Ship player1, player2;
 
-	private ArrayList<Drawn> focuses;
-	private ArrayList<Drawn> objects;
 	private ArrayList<Moveable> updates;
 
 	public GamePanel(int width, int height) {
@@ -61,27 +59,24 @@ public class GamePanel extends JPanel {
 				Color.RED), 
 			0.05, 120);
 
-		focuses = new ArrayList<Drawn>();
-		objects = new ArrayList<Drawn>();
 		updates = new ArrayList<Moveable>();
 
-		focuses.add(player1.shape());
-		focuses.add(player2.shape());
+		camera = new Camera();
 
-		objects.add(player1.shape());
-		objects.add(player2.shape());
-		objects.add(
+		camera.add(player1.shape(), true);
+		camera.add(player2.shape(), true);
+
+		camera.add(
 			new Drawn(0, 
 				0, 
 				Drawn.SQUARE, 
 				120, 
 				0, 
-				Color.GREEN));
+				Color.GREEN),
+			false);
 
 		updates.add(player1);
 		updates.add(player2);
-
-		camera = new Camera();
 	}
 
 	public void update() {
@@ -100,7 +95,7 @@ public class GamePanel extends JPanel {
 				player1.shape().getRotation(),
 				Color.BLUE);
 			Projectile p = new Projectile(d, player1.vector(), 10);
-			objects.add(p.shape());
+			camera.add(p.shape(), false);
 			updates.add(p);
 		}   
 
@@ -119,7 +114,7 @@ public class GamePanel extends JPanel {
 				player2.shape().getRotation(),
 				Color.RED);
 			Projectile p = new Projectile(d, player2.vector(), 10);
-			objects.add(p.shape());
+			camera.add(p.shape(), false);
 			updates.add(p);
 		}
 
@@ -132,7 +127,7 @@ public class GamePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		camera.draw(g, getWidth(), getHeight(), focuses, objects, 32);
+		camera.draw(g, getWidth(), getHeight(), 32);
 	}
 
 	@Override

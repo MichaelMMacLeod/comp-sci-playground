@@ -6,21 +6,40 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 public class Camera {
+	private ArrayList<Drawn> objectsList;
+	private ArrayList<Drawn> focusesList;
 
-	public void draw(Graphics g, 
+	public Camera() {
+		objectsList = new ArrayList<Drawn>();
+		focusesList = new ArrayList<Drawn>();
+	}
+
+	public void add(Drawn object, boolean isFocus) {
+		objectsList.add(object);
+		if (isFocus)
+			focusesList.add(object);
+	} 
+
+	public Drawn[] getObjects() {
+		return objectsList.toArray(new Drawn[0]);
+	}
+	public Drawn[] getFocuses() {
+		return focusesList.toArray(new Drawn[0]);
+	}
+
+	public void draw(
+		Graphics g, 
 		double width, 
 		double height,
-		ArrayList<Drawn> focusesList,
-		ArrayList<Drawn> objectsList,
 		double focusCircleSize) {
-
-		Drawn[] focuses = focusesList.toArray(new Drawn[0]);
-		Drawn[] objects = objectsList.toArray(new Drawn[0]);
 
 		Graphics2D g2d = (Graphics2D) g;
 
 		// Calculate radius of zoom circle
 		double radius = width < height ? width / 2.5 : height / 2.5;
+
+		Drawn[] objects = getObjects();
+		Drawn[] focuses = getFocuses();
 
 		// Calculate centroid of focuses
 		Point centroid = new Point();
