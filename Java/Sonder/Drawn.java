@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.util.Arrays;
 
 public class Drawn {
-	// Centroid of vertices
-	private double x, y;
+	private double[] centroid;
 
 	private double[][] vertices;
 
@@ -24,42 +23,38 @@ public class Drawn {
 		double rotation,
 		Color color) {
 
+		centroid = new double[2];
+
 		this.vertices = new double[vertices[0].length][vertices[1].length];
 		for (int i = 0; i < this.vertices[0].length; i++) {
 			this.vertices[0][i] = vertices[0][i] * size + x;
 			this.vertices[1][i] = vertices[1][i] * size + y;
 
-			this.x += this.vertices[0][i];
-			this.y += this.vertices[1][i];
+			centroid[0] += this.vertices[0][i];
+			centroid[1] += this.vertices[1][i];
 		}
-		this.x /= this.vertices[0].length;
-		this.y /= this.vertices[1].length;
+		centroid[0] /= this.vertices[0].length;
+		centroid[1] /= this.vertices[1].length;
 
 		this.rotation = rotation;
 		this.color = color;
 	}
 
 	protected double getX() {
-		return x;
+		return centroid[0];
 	}
 	protected double getY() {
-		return y;
+		return centroid[1];
 	}
 
 	protected void translate(double dx, double dy) {
-		x = 0;
-		y = 0;
+		centroid[0] += dx;
+		centroid[1] += dy;
 
 		for (int i = 0; i < vertices[0].length; i++) {
 			vertices[0][i] += dx;
 			vertices[1][i] += dy;
-
-			x += vertices[0][i];
-			y += vertices[1][i];
 		}
-
-		x /= vertices[0].length;
-		y /= vertices[1].length;
 	}
 
 	protected Color getColor() {
