@@ -27,29 +27,27 @@ public class Camera {
 		return focusesList.toArray(new Drawn[0]);
 	}
 
-	public void draw(
-		Graphics g, 
+	public Point calculateCentroid(Drawn[] objects) {
+		Point centroid = new Point();
+
+		for (Drawn d : objects) {
+			centroid.setLocation(
+				centroid.x + d.getX(),
+				centroid.y + d.getY());
+		}
+
+		centroid.x /= objects.length;
+		centroid.y /= objects.length;
+
+		return centroid;
+	}
+
+	private double calculateZoom(
 		double width, 
 		double height,
-		double focusCircleSize) {
+		Point centroid, 
+		Drawn[] focuses) {
 
-		Graphics2D g2d = (Graphics2D) g;
-
-		// Calculate radius of zoom circle
-		double radius = width < height ? width / 2.5 : height / 2.5;
-
-		Drawn[] objects = getObjects();
-		Drawn[] focuses = getFocuses();
-
-		// Calculate centroid of focuses
-		Point centroid = new Point();
-		for (Drawn f : focuses) 
-			centroid.setLocation(centroid.x + f.getX(), centroid.y + f.getY());
-		centroid.setLocation(
-			centroid.x / focuses.length, 
-			centroid.y / focuses.length);
-
-		// Calculate furthest distance from centroid
 		double furthest = 0;
 		for (Drawn f : focuses) {
 			double a = f.getX() - centroid.x;
@@ -60,11 +58,32 @@ public class Camera {
 			}
 		}
 
-		// Calculate zoom factor
+		double radius = width < height ? width / 2.5 : height / 2.5;
+
 		double zoom = radius / furthest;
 		if (zoom > 1) {
 			zoom = -1 / zoom + 2;
 		}
+
+		return zoom;
+	}
+
+	public void draw(
+		Graphics g, 
+		double width, 
+		double height,
+		double focusCircleSize) {
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		// Calculate radius of zoom circle
+
+		Drawn[] objects = getObjects();
+		Drawn[] focuses = getFocuses();
+
+		Point centroid = calculateCentroid(focuses);
+
+		double zoom = calculateZoom(width, height, centroid, focuses);
 
 		for (Drawn d : objects) {
 			g.setColor(d.getColor());
