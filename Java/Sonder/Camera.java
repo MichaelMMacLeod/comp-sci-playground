@@ -78,7 +78,7 @@ public class Camera {
 		return zoomedVertices;
 	}
 
-	public double[] translateVertices(double[] vertices, double amount) {
+	public double[] translate(double[] vertices, double amount) {
 		double[] translatedVertices = vertices;
 
 		for (int i = 0; i < translatedVertices.length; i++) {
@@ -116,16 +116,16 @@ public class Camera {
 			// Get shape rotation
 			double rotation = d.getRotation();
 
-			double[] xVerts = translateVertices(
+			double[] xVerts = translate(
 				zoomVertices(
-					translateVertices(
+					translate(
 						d.getXVerts(),
 						-centroid.x),
 					zoom),
 				width / 2);
-			double[] yVerts = translateVertices(
+			double[] yVerts = translate(
 				zoomVertices(
-					translateVertices(
+					translate(
 						d.getYVerts(),
 						-centroid.y),
 					zoom),
