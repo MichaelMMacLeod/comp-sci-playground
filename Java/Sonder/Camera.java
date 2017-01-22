@@ -18,7 +18,7 @@ public class Camera {
 		objectsList.add(object);
 		if (isFocus)
 			focusesList.add(object);
-	} 
+	}
 
 	public Drawn[] getObjects() {
 		return objectsList.toArray(new Drawn[0]);
@@ -38,21 +38,6 @@ public class Camera {
 
 		centroid.x /= xVertices.length;
 		centroid.y /= yVertices.length;
-
-		return centroid;
-	}
-
-	public Point calculateCentroid(Drawn[] objects) {
-		Point centroid = new Point();
-
-		for (Drawn d : objects) {
-			centroid.setLocation(
-				centroid.x + d.getX(),
-				centroid.y + d.getY());
-		}
-
-		centroid.x /= objects.length;
-		centroid.y /= objects.length;
 
 		return centroid;
 	}
@@ -90,7 +75,7 @@ public class Camera {
 			zoomedVertices[i] = vertices[i] * zoom;
 		}
 
-		return Arrays.copyOf(zoomedVertices, zoomedVertices.length);
+		return zoomedVertices;
 	}
 
 	public double[] translateVertices(double[] vertices, double amount) {
@@ -100,7 +85,7 @@ public class Camera {
 			translatedVertices[i] += amount;
 		}
 
-		return Arrays.copyOf(translatedVertices, translatedVertices.length);
+		return translatedVertices;
 	}
 
 	public void draw(
@@ -114,7 +99,14 @@ public class Camera {
 		Drawn[] objects = getObjects();
 		Drawn[] focuses = getFocuses();
 
-		Point centroid = calculateCentroid(focuses);
+		double[] focusXVertices = new double[focuses.length];
+		double[] focusYVertices = new double[focuses.length];
+		for (int i = 0; i < focuses.length; i++) {
+			focusXVertices[i] = focuses[i].getX();
+			focusYVertices[i] = focuses[i].getY();
+		}
+
+		Point centroid = calculateCentroid(focusXVertices, focusYVertices);
 
 		double zoom = calculateZoom(width, height, centroid, focuses);
 
