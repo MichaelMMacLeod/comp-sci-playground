@@ -27,6 +27,21 @@ public class Camera {
 		return focusesList.toArray(new Drawn[0]);
 	}
 
+	public Point calculateCentroid(double[] xVertices, double[] yVertices) {
+		Point centroid = new Point();
+
+		for (int i = 0; i < xVertices.length; i++) {
+			centroid.setLocation(
+				centroid.x + xVertices[i],
+				centroid.y + yVertices[i]);
+		}
+
+		centroid.x /= xVertices.length;
+		centroid.y /= yVertices.length;
+
+		return centroid;
+	}
+
 	public Point calculateCentroid(Drawn[] objects) {
 		Point centroid = new Point();
 
@@ -68,15 +83,33 @@ public class Camera {
 		return zoom;
 	}
 
+	public double[] zoomVertices(double[] vertices, double zoom) {
+		double[] zoomedVertices = new double[vertices.length];
+
+		for (int i = 0; i < zoomedVertices.length; i++) {
+			zoomedVertices[i] = vertices[i] * zoom;
+		}
+
+		return Arrays.copyOf(zoomedVertices, zoomedVertices.length);
+	}
+
+	public double[] translateVertices(double[] vertices, double amount) {
+		double[] translatedVertices = vertices;
+
+		for (int i = 0; i < translatedVertices.length; i++) {
+			translatedVertices[i] += amount;
+		}
+
+		return Arrays.copyOf(translatedVertices, translatedVertices.length);
+	}
+
 	public void draw(
-		Graphics g, 
-		double width, 
+		Graphics g,
+		double width,
 		double height,
 		double focusCircleSize) {
 
 		Graphics2D g2d = (Graphics2D) g;
-
-		// Calculate radius of zoom circle
 
 		Drawn[] objects = getObjects();
 		Drawn[] focuses = getFocuses();
@@ -88,46 +121,45 @@ public class Camera {
 		for (Drawn d : objects) {
 			g.setColor(d.getColor());
 
-			// Get shape vertices
-			double[] xVerts = d.getXVerts();
-			double[] yVerts = d.getYVerts();
-
 			// Get shape rotation
 			double rotation = d.getRotation();
 
-			// Calculate zoomed in and translated points
-			Point newCentroid = new Point();
-			for (int i = 0; i < xVerts.length; i++) {
-				xVerts[i] = (xVerts[i] - centroid.x) * zoom + width / 2;
-				yVerts[i] = (yVerts[i] - centroid.y) * zoom + height / 2;
+			double[] xVerts = translateVertices(
+				zoomVertices(
+					translateVertices(
+						d.getXVerts(),
+						-centroid.x),
+					zoom),
+				width / 2);
+			double[] yVerts = translateVertices(
+				zoomVertices(
+					translateVertices(
+						d.getYVerts(),
+						-centroid.y),
+					zoom),
+				height / 2);
 
-				newCentroid.setLocation(
-					newCentroid.x + xVerts[i], 
-					newCentroid.y + yVerts[i]);
-			}
-			newCentroid.setLocation(
-				newCentroid.x / xVerts.length, 
-				newCentroid.y / yVerts.length);
+			Point shapeCentroid = calculateCentroid(xVerts, yVerts);
 
 			// Draw identification circle around shape if it is a focus
 			for (Drawn f : focuses) {
 				if (d == f) {
 					g2d.drawOval(
-						(int) (newCentroid.x - focusCircleSize / 2), 
-						(int) (newCentroid.y - focusCircleSize / 2), 
+						(int) (shapeCentroid.x - focusCircleSize / 2), 
+						(int) (shapeCentroid.y - focusCircleSize / 2), 
 						(int) focusCircleSize, 
 						(int) focusCircleSize);
 					g2d.drawLine(
-						newCentroid.x, 
-						newCentroid.y,
-						(int) (focusCircleSize / 2 * Math.cos(rotation)) + newCentroid.x,
-						(int) (focusCircleSize / 2 * Math.sin(rotation)) + newCentroid.y);
+						shapeCentroid.x, 
+						shapeCentroid.y,
+						(int) (focusCircleSize / 2 * Math.cos(rotation)) + shapeCentroid.x,
+						(int) (focusCircleSize / 2 * Math.sin(rotation)) + shapeCentroid.y);
 					break;
 				}
 			}
 
 			// Rotate shape around its centroid
-			g2d.rotate(rotation, newCentroid.x, newCentroid.y); 
+			g2d.rotate(rotation, shapeCentroid.x, shapeCentroid.y); 
 
 			int[] xVertsInt = new int[xVerts.length];
 			int[] yVertsInt = new int[yVerts.length];
@@ -139,7 +171,7 @@ public class Camera {
 			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
 
 			// Reset rotation
-			g2d.rotate(-rotation, newCentroid.x, newCentroid.y);
+			g2d.rotate(-rotation, shapeCentroid.x, shapeCentroid.y);
 		}
 	}
 }
