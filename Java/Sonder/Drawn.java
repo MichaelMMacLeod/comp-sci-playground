@@ -46,6 +46,23 @@ public class Drawn {
 		this.color = color;
 	}
 
+	public boolean contains(double x, double y) {
+		int[] intXVertices = new int[xVertices.length];
+		int[] intYVertices = new int[yVertices.length];
+
+		for (int i = 0; i < xVertices.length; i++) {
+			intXVertices[i] = (int) xVertices[i];
+			intYVertices[i] = (int) yVertices[i];
+		}
+
+		Polygon p = new Polygon(
+			intXVertices, 
+			intYVertices, 
+			intXVertices.length);
+
+		return p.contains(x, y);
+	}
+
 	protected double getX() {
 		return cx;
 	}

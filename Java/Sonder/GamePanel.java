@@ -94,7 +94,7 @@ public class GamePanel extends JPanel {
 				10,
 				player1.shape().getRotation(),
 				Color.BLUE);
-			Projectile p = new Projectile(d, player1.vector(), 10);
+			Projectile p = new Projectile(d, player1.vector(), 10, player1);
 			camera.add(p.shape(), false);
 			updates.add(p);
 		}   
@@ -113,12 +113,52 @@ public class GamePanel extends JPanel {
 				10,
 				player2.shape().getRotation(),
 				Color.RED);
-			Projectile p = new Projectile(d, player2.vector(), 10);
+			Projectile p = new Projectile(d, player2.vector(), 10, player2);
 			camera.add(p.shape(), false);
 			updates.add(p);
 		}
 
-		for (Moveable m : updates) {
+		for (int i = 0; i < updates.size(); i++) {
+			Moveable m = updates.get(i);
+
+			if (m instanceof Projectile) {
+				Projectile p = (Projectile) m;
+
+				if (player1.hitBy(p) && p.getParent() != player1) {
+					camera.add(
+						new Drawn(
+							(int) player1.shape().getX(),
+							(int) player1.shape().getY(),
+							Drawn.TRIANGLE,
+							30,
+							player1.shape().getRotation(),
+							Color.BLACK),
+						false);
+
+					updates.remove(i);
+
+					i--;
+					continue;
+				}
+
+				if (player2.hitBy(p) && p.getParent() != player2) {
+					camera.add(
+						new Drawn(
+							(int) player2.shape().getX(),
+							(int) player2.shape().getY(),
+							Drawn.TRIANGLE,
+							30,
+							player2.shape().getRotation(),
+							Color.BLACK),
+						false);
+
+					updates.remove(i);
+
+					i--;
+					continue;
+				}
+			}
+
 			m.update();
 		}
 	}

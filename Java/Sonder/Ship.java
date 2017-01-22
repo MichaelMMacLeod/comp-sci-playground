@@ -18,4 +18,9 @@ public class Ship extends Moveable {
 	public void rotate(boolean clockwise) {
 		shape.rotate((clockwise ? 1 : -1) * Math.PI / rotationSpeed);
 	}
+
+	public boolean hitBy(Projectile p) {
+		Drawn pShape = p.shape();
+		return shape.contains(pShape.getX(), pShape.getY());
+	}
 }
