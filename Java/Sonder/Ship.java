@@ -3,8 +3,13 @@ public class Ship extends Moveable {
 	private double acceleration;
 	private double rotationSpeed;
 
-	public Ship(Drawn shape, double acceleration, double rotationSpeed) {
-		super(shape);
+	public Ship(
+		Drawn shape, 
+		double acceleration, 
+		double rotationSpeed, 
+		double deceleration) {
+
+		super(shape, deceleration);
 
 		this.acceleration = acceleration;
 		this.rotationSpeed = rotationSpeed;

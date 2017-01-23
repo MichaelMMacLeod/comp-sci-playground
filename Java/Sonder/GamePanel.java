@@ -49,7 +49,8 @@ public class GamePanel extends JPanel {
 				0, 
 				Color.BLUE), 
 			0.05, 
-			120);
+			120,
+			0.99);
 		player2 = new Ship(
 			new Drawn(
 				60, 
@@ -57,7 +58,9 @@ public class GamePanel extends JPanel {
 				Drawn.TRIANGLE, 
 				30, Math.PI, 
 				Color.RED), 
-			0.05, 120);
+			0.05, 
+			120,
+			0.99);
 
 		updates = new ArrayList<Moveable>();
 
@@ -94,7 +97,12 @@ public class GamePanel extends JPanel {
 				5,
 				player1.shape().getRotation(),
 				Color.BLUE);
-			Projectile p = new Projectile(d, player1.vector(), 10, player1);
+			Projectile p = new Projectile(
+				d, 
+				player1.vector(), 
+				10, 
+				player1, 
+				0.99);
 			camera.add(p.shape(), false);
 			updates.add(p);
 		}   
@@ -113,7 +121,12 @@ public class GamePanel extends JPanel {
 				5,
 				player2.shape().getRotation(),
 				Color.RED);
-			Projectile p = new Projectile(d, player2.vector(), 10, player2);
+			Projectile p = new Projectile(
+				d, 
+				player2.vector(), 
+				10, 
+				player2,
+				0.99);
 			camera.add(p.shape(), false);
 			updates.add(p);
 		}

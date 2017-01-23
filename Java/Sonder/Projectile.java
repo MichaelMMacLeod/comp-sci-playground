@@ -5,9 +5,10 @@ public class Projectile extends Moveable {
 	public Projectile(Drawn shape, 
 		double[] velocityOfParent, 
 		double velocity,
-		Ship parent) {
+		Ship parent,
+		double deceleration) {
 
-		super(shape);
+		super(shape, deceleration);
 
 		this.parent = parent;
 
