@@ -68,6 +68,38 @@ public class Drawn {
 
 	}
 
+	private void transform(
+		double[] xpoints,
+		double[] ypoints,
+		int npoints,
+		double xanchor,
+		double yanchor,
+		double angle,
+		double translationx,
+		double translationy, 
+		double scale) {
+
+		double sin = Math.sin(angle), cos = Math.cos(angle);
+
+		for (int i = 0; i < npoints; i++) {
+			xpoints[i] -= xanchor;
+			ypoints[i] -= yanchor;
+		}
+
+		double[] xpointsNew = new double[npoints];
+		double[] ypointsNew = new double[npoints];
+
+		for (int i = 0; i < npoints; i++) {
+			xpointsNew[i] = xpoints[i] * cos - ypoints[i] * sin;
+			ypointsNew[i] = xpoints[i] * sin + ypoints[i] * cos;
+		}
+
+		for (int i = 0; i < npoints; i++) {
+			xpoints[i] = (xpointsNew[i] + xanchor) * scale + translationx;
+			ypoints[i] = (ypointsNew[i] + yanchor) * scale + translationy;
+		}
+	}
+
 	public boolean contains(double px, double py) {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
