@@ -134,10 +134,34 @@ public class Drawn {
 	}
 
 	protected double getX() {
-		return cx + x;
+		double[] tx = Arrays.copyOf(xVertices, vertices);
+		double[] ty = Arrays.copyOf(yVertices, vertices);
+
+		transform(tx, ty, vertices, cx, cy, rotation, x, y, size);
+
+		double tcx = 0;
+
+		for (int i = 0; i < vertices; i++)
+			tcx += tx[i];
+
+		tcx /= vertices;
+
+		return tcx;
 	}
 	protected double getY() {
-		return cy + y;
+		double[] tx = Arrays.copyOf(xVertices, vertices);
+		double[] ty = Arrays.copyOf(yVertices, vertices);
+
+		transform(tx, ty, vertices, cx, cy, rotation, x, y, size);
+
+		double tcy = 0;
+
+		for (int i = 0; i < vertices; i++)
+			tcy += ty[i];
+
+		tcy /= vertices;
+
+		return tcy;
 	}
 
 	protected void translate(double dx, double dy) {
