@@ -1,3 +1,4 @@
+import java.awt.geom.AffineTransform;
 import java.awt.Polygon;
 import java.awt.Color;
 
@@ -67,9 +68,35 @@ public class Drawn {
 
 	}
 
-	public boolean contains(double x, double y) {
-		double[] tx = getXVerts();
-		double[] ty = getYVerts();
+	public boolean contains(double px, double py) {
+		double[] tx = Arrays.copyOf(xVertices, vertices);
+		double[] ty = Arrays.copyOf(yVertices, vertices);
+
+		double sin = Math.sin(rotation);
+		double cos = Math.cos(rotation);
+
+		for (int i = 0; i < vertices; i++) {
+			tx[i] -= cx;
+			ty[i] -= cy;
+		}
+
+		double[] txnew = new double[vertices];
+		double[] tynew = new double[vertices];
+
+		for (int i = 0; i < vertices; i++) {
+			txnew[i] = tx[i] * cos - ty[i] * sin;
+			tynew[i] = tx[i] * sin + ty[i] * cos;
+		}
+
+		for (int i = 0; i < vertices; i++) {
+			tx[i] = txnew[i] + cx;
+			ty[i] = tynew[i] + cy;
+		}
+
+		for (int i = 0; i < vertices; i++) {
+			tx[i] = tx[i] * size + x;
+			ty[i] = ty[i] * size + y;
+		}
 
 		int[] itx = new int[vertices];
 		int[] ity = new int[vertices];
@@ -81,7 +108,7 @@ public class Drawn {
 
 		Polygon p = new Polygon(itx, ity, vertices);
 		
-		return p.contains(x, y);
+		return p.contains(px, py);
 	}
 
 	protected double getX() {
@@ -104,7 +131,7 @@ public class Drawn {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 
 		for (int i = 0; i < vertices; i++) 
-			tx[i] = tx[i] * size +  x;
+			tx[i] = tx[i] * size + x;
 
 		return tx;
 	}
