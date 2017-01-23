@@ -80,22 +80,17 @@ public class Drawn {
 			ty[i] -= cy;
 		}
 
-		double[] txnew = new double[vertices];
-		double[] tynew = new double[vertices];
+		double[] xVerticesRotated = new double[vertices];
+		double[] yVerticesRotated = new double[vertices];
 
 		for (int i = 0; i < vertices; i++) {
-			txnew[i] = tx[i] * cos - ty[i] * sin;
-			tynew[i] = tx[i] * sin + ty[i] * cos;
+			xVerticesRotated[i] = tx[i] * cos - ty[i] * sin;
+			yVerticesRotated[i] = tx[i] * sin + ty[i] * cos;
 		}
 
 		for (int i = 0; i < vertices; i++) {
-			tx[i] = txnew[i] + cx;
-			ty[i] = tynew[i] + cy;
-		}
-
-		for (int i = 0; i < vertices; i++) {
-			tx[i] = tx[i] * size + x;
-			ty[i] = ty[i] * size + y;
+			tx[i] = (xVerticesRotated[i] + cx) * size + x;
+			ty[i] = (yVerticesRotated[i] + cy) * size + y;
 		}
 
 		int[] itx = new int[vertices];
