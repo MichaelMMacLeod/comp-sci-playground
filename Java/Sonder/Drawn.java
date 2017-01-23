@@ -33,6 +33,19 @@ public class Drawn {
 		{-1, -1, 1, 1}
 	};
 
+	/**
+	 * Creates a shape defined by a series of vertices
+	 * 
+	 * @param x        is the x coordinate of the shape.
+	 * @param y        is the y coordinate of the shape.
+	 * @param shape    is the set of vertices defining the shape. X vertices 
+	 *                 are stored in shape[0]. Y vertices are stored in 
+	 *                 shape[1]. There must be an equal number of x and y
+	 *                 vertices.
+	 * @param size     is the size of the shape.
+	 * @param rotation is the angle of rotation in radians.
+	 * @param color    is the color of the shape.
+	 */
 	public Drawn(
 		double x,
 		double y,
@@ -49,18 +62,28 @@ public class Drawn {
 		else
 			vertices = shape[1].length;
 
-		xVertices = Arrays.copyOf(shape[0], vertices);
-		yVertices = Arrays.copyOf(shape[1], vertices);
+		double[] srcXVerticies = Arrays.copyOf(shape[0], vertices);
+		double[] srcYVerticies = Arrays.copyOf(shape[1], vertices);
 
 		double centroidx = 0, centroidy = 0;
 		for (int i = 0; i < vertices; i++) {
-			centroidx += xVertices[i];
-			centroidy += yVertices[i];
+			centroidx += srcXVerticies[i];
+			centroidy += srcYVerticies[i];
 		}
 		centroidx /= vertices;
 		centroidy /= vertices;
-		cx = centroidx;
-		cy = centroidy;
+
+		// Move the vertices so that the centroid is on (0,0);
+		for (int i = 0; i < vertices; i++) {
+			srcXVerticies[i] -= centroidx;
+			srcYVerticies[i] -= centroidy;
+		}
+
+		cx = 0;
+		cy = 0;
+
+		xVertices = srcXVerticies;
+		yVertices = srcYVerticies;
 
 		this.size = size;
 		this.rotation = rotation;
@@ -70,17 +93,17 @@ public class Drawn {
 	/**
 	 * Applies a transformation to a series of points.
 	 * 
-	 * @param xpoints      are the x coordinates to be transformed
-	 * @param ypoints      are the y coordinates to be transformed
-	 * @param npoints      is the number of points
+	 * @param xpoints      are the x coordinates to be transformed.
+	 * @param ypoints      are the y coordinates to be transformed.
+	 * @param npoints      is the number of points.
 	 * @param xanchor      is the x coordinate that xpoints and ypoints are
-	 *                     rotated around
+	 *                     rotated around.
 	 * @param yanchor      is the y coordinate that xpoints and ypoints are
-	 *                     rotated around
-	 * @param angle        is the angle of rotation
-	 * @param xtranslation is the translation in the x dimension
-	 * @param ytranslation is the translation in the y dimension
-	 * @param scale        is the scalar value
+	 *                     rotated around.
+	 * @param angle        is the angle of rotation in radians.
+	 * @param xtranslation is the translation in the x dimension.
+	 * @param ytranslation is the translation in the y dimension.
+	 * @param scale        is the scalar value.
 	 */
 	private void transform(
 		double[] xpoints,
