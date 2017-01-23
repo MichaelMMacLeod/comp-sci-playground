@@ -91,7 +91,7 @@ public class GamePanel extends JPanel {
 				(int) player1.shape().getX(),
 				(int) player1.shape().getY(),
 				Drawn.SQUARE,
-				10,
+				5,
 				player1.shape().getRotation(),
 				Color.BLUE);
 			Projectile p = new Projectile(d, player1.vector(), 10, player1);
@@ -110,7 +110,7 @@ public class GamePanel extends JPanel {
 				(int) player2.shape().getX(),
 				(int) player2.shape().getY(),
 				Drawn.SQUARE,
-				10,
+				5,
 				player2.shape().getRotation(),
 				Color.RED);
 			Projectile p = new Projectile(d, player2.vector(), 10, player2);
