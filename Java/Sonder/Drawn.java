@@ -65,9 +65,23 @@ public class Drawn {
 		this.size = size;
 		this.rotation = rotation;
 		this.color = color;
-
 	}
 
+	/**
+	 * Applies a transformation to a series of points.
+	 * 
+	 * @param xpoints      are the x coordinates to be transformed
+	 * @param ypoints      are the y coordinates to be transformed
+	 * @param npoints      is the number of points
+	 * @param xanchor      is the x coordinate that xpoints and ypoints are
+	 *                     rotated around
+	 * @param yanchor      is the y coordinate that xpoints and ypoints are
+	 *                     rotated around
+	 * @param angle        is the angle of rotation
+	 * @param xtranslation is the translation in the x dimension
+	 * @param ytranslation is the translation in the y dimension
+	 * @param scale        is the scalar value
+	 */
 	private void transform(
 		double[] xpoints,
 		double[] ypoints,
@@ -75,8 +89,8 @@ public class Drawn {
 		double xanchor,
 		double yanchor,
 		double angle,
-		double translationx,
-		double translationy, 
+		double xtranslation,
+		double ytranslation, 
 		double scale) {
 
 		double sin = Math.sin(angle), cos = Math.cos(angle);
@@ -95,8 +109,8 @@ public class Drawn {
 		}
 
 		for (int i = 0; i < npoints; i++) {
-			xpoints[i] = (xpointsNew[i] + xanchor) * scale + translationx;
-			ypoints[i] = (ypointsNew[i] + yanchor) * scale + translationy;
+			xpoints[i] = (xpointsNew[i] + xanchor) * scale + xtranslation;
+			ypoints[i] = (ypointsNew[i] + yanchor) * scale + ytranslation;
 		}
 	}
 
@@ -104,26 +118,7 @@ public class Drawn {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		double sin = Math.sin(rotation);
-		double cos = Math.cos(rotation);
-
-		for (int i = 0; i < vertices; i++) {
-			tx[i] -= cx;
-			ty[i] -= cy;
-		}
-
-		double[] xVerticesRotated = new double[vertices];
-		double[] yVerticesRotated = new double[vertices];
-
-		for (int i = 0; i < vertices; i++) {
-			xVerticesRotated[i] = tx[i] * cos - ty[i] * sin;
-			yVerticesRotated[i] = tx[i] * sin + ty[i] * cos;
-		}
-
-		for (int i = 0; i < vertices; i++) {
-			tx[i] = (xVerticesRotated[i] + cx) * size + x;
-			ty[i] = (yVerticesRotated[i] + cy) * size + y;
-		}
+		transform(tx, ty, vertices, cx, cy, rotation, x, y, size);
 
 		int[] itx = new int[vertices];
 		int[] ity = new int[vertices];
