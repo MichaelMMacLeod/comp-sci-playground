@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.File;
 
@@ -10,39 +13,49 @@ import java.util.Scanner;
 // ex: 2.9 -> 4.18 instead of 2.9 -> 5.8
 
 public class DoubleAllNumbers {
-	public static void main(String[] args) {
-		File file = new File("in.txt");
+	public static void main(String[] args) throws IOException {
+		File file = new File(args[0]);
 		Scanner scan = null;
-
+		int size = 0;
 
 		try {
 			scan = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			System.out.println("Error: File 'in.txt' not found.");
+			System.out.println("Error: File " + args[0] + " not found.");
 
 			System.exit(0);
 		}
-
 		
+		ArrayList<String> list = new ArrayList<String>();
+
 		while (scan.hasNextLine()) {
 			String s = scan.nextLine();
-
-			ArrayList<String> list = new ArrayList<String>();
-
+			
 			Matcher m = Pattern.compile("\\D+|\\d+").matcher(s);
 			while (m.find()) {
 				list.add(m.group());
 			}
 
-			for (int i = 0; i < list.size(); i++) {
+			for (int i = size; i < list.size(); i++) {
 				try {
 					list.set(i, Integer.toString(2 * Integer.parseInt(list.get(i))));
 				} catch (Exception e) {}
 			}
 
-			for (String i : list)
-				System.out.print(i);
-			System.out.println();
+			list.add("\n");
+
+			size = list.size();
 		}
+
+		String fileName = args[0].substring(0, args[0].length() - 4);
+
+		FileWriter fw = new FileWriter(fileName + "x2.txt");
+		PrintWriter pw = new PrintWriter(fw);
+
+		for (String i : list)
+			pw.print(i);
+
+		pw.close();
+		fw.close();
 	}
 }
