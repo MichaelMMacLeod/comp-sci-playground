@@ -5,23 +5,23 @@ import java.awt.Color;
 import java.util.Arrays;
 
 public class Drawn {
-	// Coordinates
+	// Coordinates of the shape
 	private double x, y;
-
-	// Centroid of vertices
-	private final double cx, cy;
 
 	private double size;
 
 	// Number of vertices
-	private final int vertices;
-	private final double[] xVertices, yVertices;
+	private int vertices;
+
+	// Location of vertices before transformation with centroid at (0, 0)
+	private double[] xVertices, yVertices;
 
 	private double rotation;
 
 	private Color color;
 
 	// Vertices of certain shapes
+
 	public static final double[][] TRIANGLE = 
 	{
 		{-1, 1, -1}, 
@@ -47,15 +47,33 @@ public class Drawn {
 	 * @param color    is the color of the shape.
 	 */
 	public Drawn(
+		double[][] shape,
 		double x,
 		double y,
-		double[][] shape,
 		double size, 
 		double rotation,
 		Color color) {
 
+		setShape(shape);
+
 		this.x = x;
 		this.y = y;
+		this.size = size;
+		this.rotation = rotation;
+		this.color = color;
+	}
+
+	/**
+	 * Stores a shape in xVertices and yVertices
+	 * 
+	 * @param shape is the set of vertices defining the shape. X vertices 
+	 *              are stored in shape[0]. Y vertices are stored in 
+	 *              shape[1]. There must be an equal number of x and y
+	 *              vertices.
+	 */
+	public void setShape(double[][] shape) {
+
+		// Get vertices
 
 		if (shape[0].length < shape[1].length)
 			vertices = shape[0].length;
@@ -65,29 +83,26 @@ public class Drawn {
 		double[] srcXVerticies = Arrays.copyOf(shape[0], vertices);
 		double[] srcYVerticies = Arrays.copyOf(shape[1], vertices);
 
-		double centroidx = 0, centroidy = 0;
-		for (int i = 0; i < vertices; i++) {
-			centroidx += srcXVerticies[i];
-			centroidy += srcYVerticies[i];
-		}
-		centroidx /= vertices;
-		centroidy /= vertices;
+		// Move the center of the vertices to (0,0)
 
-		// Move the vertices so that the centroid is on (0,0);
+		double cx = 0, cy = 0;
+
 		for (int i = 0; i < vertices; i++) {
-			srcXVerticies[i] -= centroidx;
-			srcYVerticies[i] -= centroidy;
+			cx += srcXVerticies[i];
+			cy += srcYVerticies[i];
+		}
+		cx /= vertices;
+		cy /= vertices;
+
+		for (int i = 0; i < vertices; i++) {
+			srcXVerticies[i] -= cx;
+			srcYVerticies[i] -= cy;
 		}
 
-		cx = 0;
-		cy = 0;
+		// Store vertices
 
 		xVertices = srcXVerticies;
 		yVertices = srcYVerticies;
-
-		this.size = size;
-		this.rotation = rotation;
-		this.color = color;
 	}
 
 	/**
@@ -96,11 +111,8 @@ public class Drawn {
 	 * @param xpoints      are the x coordinates to be transformed.
 	 * @param ypoints      are the y coordinates to be transformed.
 	 * @param npoints      is the number of points.
-	 * @param xanchor      is the x coordinate that xpoints and ypoints are
-	 *                     rotated around.
-	 * @param yanchor      is the y coordinate that xpoints and ypoints are
-	 *                     rotated around.
-	 * @param angle        is the angle of rotation in radians.
+	 * @param angle        is the angle of rotation in radians. Assumes that 
+	 *                     the centroid of the vertices is located at (0, 0).
 	 * @param xtranslation is the translation in the x dimension.
 	 * @param ytranslation is the translation in the y dimension.
 	 * @param scale        is the scalar value.
@@ -109,19 +121,12 @@ public class Drawn {
 		double[] xpoints,
 		double[] ypoints,
 		int npoints,
-		double xanchor,
-		double yanchor,
 		double angle,
 		double xtranslation,
 		double ytranslation, 
 		double scale) {
 
 		double sin = Math.sin(angle), cos = Math.cos(angle);
-
-		for (int i = 0; i < npoints; i++) {
-			xpoints[i] -= xanchor;
-			ypoints[i] -= yanchor;
-		}
 
 		double[] xpointsNew = new double[npoints];
 		double[] ypointsNew = new double[npoints];
@@ -132,8 +137,8 @@ public class Drawn {
 		}
 
 		for (int i = 0; i < npoints; i++) {
-			xpoints[i] = (xpointsNew[i] + xanchor) * scale + xtranslation;
-			ypoints[i] = (ypointsNew[i] + yanchor) * scale + ytranslation;
+			xpoints[i] = xpointsNew[i] * scale + xtranslation;
+			ypoints[i] = ypointsNew[i] * scale + ytranslation;
 		}
 	}
 
@@ -141,7 +146,7 @@ public class Drawn {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		transform(tx, ty, vertices, cx, cy, rotation, x, y, size);
+		transform(tx, ty, vertices, rotation, x, y, size);
 
 		int[] itx = new int[vertices];
 		int[] ity = new int[vertices];
@@ -160,31 +165,31 @@ public class Drawn {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		transform(tx, ty, vertices, cx, cy, rotation, x, y, size);
+		transform(tx, ty, vertices, rotation, x, y, size);
 
-		double tcx = 0;
+		double cx = 0;
 
 		for (int i = 0; i < vertices; i++)
-			tcx += tx[i];
+			cx += tx[i];
 
-		tcx /= vertices;
+		cx /= vertices;
 
-		return tcx;
+		return cx;
 	}
 	protected double getY() {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		transform(tx, ty, vertices, cx, cy, rotation, x, y, size);
+		transform(tx, ty, vertices, rotation, x, y, size);
 
-		double tcy = 0;
+		double cy = 0;
 
 		for (int i = 0; i < vertices; i++)
-			tcy += ty[i];
+			cy += ty[i];
 
-		tcy /= vertices;
+		cy /= vertices;
 
-		return tcy;
+		return cy;
 	}
 
 	protected void translate(double dx, double dy) {

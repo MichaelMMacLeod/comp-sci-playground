@@ -42,9 +42,9 @@ public class GamePanel extends JPanel {
 	private void restart() {
 		player1 = new Ship(
 			new Drawn(
+				Drawn.TRIANGLE,
 				-60, 
 				0, 
-				Drawn.TRIANGLE, 
 				30, 
 				0, 
 				Color.BLUE), 
@@ -53,10 +53,11 @@ public class GamePanel extends JPanel {
 			0.99);
 		player2 = new Ship(
 			new Drawn(
+				Drawn.TRIANGLE,
 				60, 
-				0, 
-				Drawn.TRIANGLE, 
-				30, Math.PI, 
+				0,  
+				30, 
+				Math.PI, 
 				Color.RED), 
 			0.05, 
 			120,
@@ -70,9 +71,10 @@ public class GamePanel extends JPanel {
 		camera.add(player2.shape(), true);
 
 		camera.add(
-			new Drawn(0, 
+			new Drawn(
+				Drawn.SQUARE,
 				0, 
-				Drawn.SQUARE, 
+				0, 
 				120, 
 				0, 
 				Color.GREEN),
@@ -91,9 +93,9 @@ public class GamePanel extends JPanel {
 			player1.rotate(true);
 		if (input.pressed("w")) {
 			Drawn d = new Drawn(
-				(int) player1.shape().getX(),
-				(int) player1.shape().getY(),
 				Drawn.SQUARE,
+				player1.shape().getX(),
+				player1.shape().getY(),
 				5,
 				player1.shape().getRotation(),
 				Color.BLUE);
@@ -115,9 +117,9 @@ public class GamePanel extends JPanel {
 			player2.rotate(true);
 		if (input.pressed("i")) {
 			Drawn d = new Drawn(
-				(int) player2.shape().getX(),
-				(int) player2.shape().getY(),
 				Drawn.SQUARE,
+				player2.shape().getX(),
+				player2.shape().getY(),
 				5,
 				player2.shape().getRotation(),
 				Color.RED);
@@ -140,9 +142,9 @@ public class GamePanel extends JPanel {
 				if (player1.hitBy(p) && p.getParent() != player1) {
 					camera.add(
 						new Drawn(
-							(int) player1.shape().getX(),
-							(int) player1.shape().getY(),
 							Drawn.TRIANGLE,
+							player1.shape().getX(),
+							player1.shape().getY(),
 							30,
 							player1.shape().getRotation(),
 							Color.BLACK),
@@ -157,9 +159,9 @@ public class GamePanel extends JPanel {
 				if (player2.hitBy(p) && p.getParent() != player2) {
 					camera.add(
 						new Drawn(
-							(int) player2.shape().getX(),
-							(int) player2.shape().getY(),
 							Drawn.TRIANGLE,
+							player2.shape().getX(),
+							player2.shape().getY(),
 							30,
 							player2.shape().getRotation(),
 							Color.BLACK),
