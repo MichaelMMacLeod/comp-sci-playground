@@ -21,13 +21,14 @@ public class Drawn {
 	 * X and y coordinates of the shape in space.
 	 */
 
-	private double x, y;
+	// private double x, y;
+	private Point2D.Double location;
 
 	protected Point2D.Double getPoint() {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		transform(tx, ty, vertices, rotation, x, y, size);
+		transform(tx, ty, vertices, rotation, location.x, location.y, size);
 
 		Point2D.Double center = new Point2D.Double();
 
@@ -43,13 +44,13 @@ public class Drawn {
 	}
 
 	protected void setLocation(double x, double y) {
-		this.x = x;
-		this.y = y;
+		location.x = x;
+		location.y = y;
 	}
 
 	protected void translate(double dx, double dy) {
-		x += dx;
-		y += dy;
+		location.x += dx;
+		location.y += dy;
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class Drawn {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		transform(tx, ty, vertices, rotation, x, y, size);
+		transform(tx, ty, vertices, rotation, location.x, location.y, size);
 
 		double[][] verts = {tx, ty};
 
@@ -158,8 +159,7 @@ public class Drawn {
 
 		setShape(shape);
 
-		this.x = location.x;
-		this.y = location.y;
+		this.location = new Point2D.Double(location.x, location.y);
 		this.size = size;
 		this.rotation = rotation;
 		this.color = color;
@@ -253,7 +253,7 @@ public class Drawn {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		transform(tx, ty, vertices, rotation, x, y, size);
+		transform(tx, ty, vertices, rotation, location.x, location.y, size);
 
 		int[] itx = new int[vertices];
 		int[] ity = new int[vertices];
