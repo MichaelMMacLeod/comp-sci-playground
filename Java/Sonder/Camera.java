@@ -20,10 +20,11 @@ public class Camera {
 			focusesList.add(object);
 	}
 
-	public Drawn[] getObjects() {
+	private Drawn[] getObjects() {
 		return objectsList.toArray(new Drawn[0]);
 	}
-	public Drawn[] getFocuses() {
+	
+	private Drawn[] getFocuses() {
 		return focusesList.toArray(new Drawn[0]);
 	}
 
