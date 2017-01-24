@@ -22,12 +22,12 @@ public class Drawn {
 
 	// Vertices of certain shapes
 
-	public static final double[][] TRIANGLE = 
+	protected static final double[][] TRIANGLE = 
 	{
 		{-1, 1, -1}, 
 		{-1, 0, 1}
 	};
-	public static final double[][] SQUARE = 
+	protected static final double[][] SQUARE = 
 	{
 		{-1, 1, 1, -1}, 
 		{-1, -1, 1, 1}
@@ -71,7 +71,7 @@ public class Drawn {
 	 *              shape[1]. There must be an equal number of x and y
 	 *              vertices.
 	 */
-	public void setShape(double[][] shape) {
+	protected void setShape(double[][] shape) {
 
 		// Get vertices
 
@@ -142,7 +142,7 @@ public class Drawn {
 		}
 	}
 
-	public boolean contains(double px, double py) {
+	protected boolean contains(double px, double py) {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
@@ -191,6 +191,7 @@ public class Drawn {
 
 		return cy;
 	}
+
 
 	protected void translate(double dx, double dy) {
 		x += dx;
