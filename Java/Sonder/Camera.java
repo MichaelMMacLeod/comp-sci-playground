@@ -119,14 +119,14 @@ public class Camera {
 			double[] xVerts = translate(
 				zoomVertices(
 					translate(
-						d.getXVerts(),
+						d.getVertices()[0],
 						-centroid.x),
 					zoom),
 				width / 2);
 			double[] yVerts = translate(
 				zoomVertices(
 					translate(
-						d.getYVerts(),
+						d.getVertices()[1],
 						-centroid.y),
 					zoom),
 				height / 2);
@@ -150,9 +150,6 @@ public class Camera {
 				}
 			}
 
-			// Rotate shape around its centroid
-			g2d.rotate(rotation, shapeCentroid.x, shapeCentroid.y); 
-
 			int[] xVertsInt = new int[xVerts.length];
 			int[] yVertsInt = new int[yVerts.length];
 			for (int i = 0; i < xVerts.length; i++) {
@@ -161,9 +158,6 @@ public class Camera {
 			}
 			// Drawn shape
 			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
-
-			// Reset rotation
-			g2d.rotate(-rotation, shapeCentroid.x, shapeCentroid.y);
 		}
 	}
 }

@@ -75,24 +75,18 @@ public class Drawn {
 
 	private double[] xVertices, yVertices;
 
-	// TODO: try integrating these methods with transform(). Make it also 
-	// return the rotated vertices so we can reduce the load on the Camera.
-	protected double[] getXVerts() {
+	/**
+	 * Returns transformed vertices.
+	 */
+	protected double[][] getVertices() {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
-
-		for (int i = 0; i < vertices; i++) 
-			tx[i] = tx[i] * size + x;
-
-		return tx;
-	}
-	
-	protected double[] getYVerts() {
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
-		for (int i = 0; i < vertices; i++) 
-			ty[i] = ty[i] * size + y;
+		transform(tx, ty, vertices, rotation, x, y, size);
 
-		return ty;
+		double[][] verts = {tx, ty};
+
+		return verts;
 	}
 
 	/**
