@@ -5,28 +5,141 @@ import java.awt.Color;
 import java.util.Arrays;
 
 public class Drawn {
-	// Coordinates of the shape
+
+	/**
+	 * X and y coordinates of the shape in space.
+	 */
+
 	private double x, y;
+
+	// TODO: combine getX() and getY() into one method
+	protected double getX() {
+		double[] tx = Arrays.copyOf(xVertices, vertices);
+		double[] ty = Arrays.copyOf(yVertices, vertices);
+
+		transform(tx, ty, vertices, rotation, x, y, size);
+
+		double cx = 0;
+
+		for (int i = 0; i < vertices; i++)
+			cx += tx[i];
+
+		cx /= vertices;
+
+		return cx;
+	}
+
+	protected double getY() {
+		double[] tx = Arrays.copyOf(xVertices, vertices);
+		double[] ty = Arrays.copyOf(yVertices, vertices);
+
+		transform(tx, ty, vertices, rotation, x, y, size);
+
+		double cy = 0;
+
+		for (int i = 0; i < vertices; i++)
+			cy += ty[i];
+
+		cy /= vertices;
+
+		return cy;
+	}
+
+	protected void setLocation(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	protected void translate(double dx, double dy) {
+		x += dx;
+		y += dy;
+	}
+
+	/**
+	 * Value which scales the vertices to a new size.
+	 */
 
 	private double size;
 
-	// Number of vertices
+	protected void setSize(double size) {
+		this.size = size;
+	}
+
+	/**
+	 * X and y values defining the vertices of a polygon. There must be the
+	 * same number of x and y vertices. 
+	 *
+	 * These values represent the polygon with no rotation or translation and 
+	 * a scale of 1.
+	 */
+
+	private double[] xVertices, yVertices;
+
+	// TODO: try integrating these methods with transform(). Make it also 
+	// return the rotated vertices so we can reduce the load on the Camera.
+	protected double[] getXVerts() {
+		double[] tx = Arrays.copyOf(xVertices, vertices);
+
+		for (int i = 0; i < vertices; i++) 
+			tx[i] = tx[i] * size + x;
+
+		return tx;
+	}
+	
+	protected double[] getYVerts() {
+		double[] ty = Arrays.copyOf(yVertices, vertices);
+
+		for (int i = 0; i < vertices; i++) 
+			ty[i] = ty[i] * size + y;
+
+		return ty;
+	}
+
+	/**
+	 * Number of vertices.
+	 */
+
 	private int vertices;
 
-	// Location of vertices before transformation with centroid at (0, 0)
-	private double[] xVertices, yVertices;
+	/**
+	 * Rotation of the shape.
+	 */
 
 	private double rotation;
 
+	protected double getRotation() {
+		return rotation;
+	}
+
+	protected void rotate(double r) {
+		rotation += r;
+	}
+
+	/**
+	 * Color of the shape.
+	 */
+
 	private Color color;
 
-	// Vertices of certain shapes
+	protected Color getColor() {
+		return color;
+	}
 
+	protected void setColor(Color color) {
+		this.color = color;
+	}
+
+	/**
+	 * Vertices of certain shapes
+	 */
+
+	// TODO: find a better way to store shapes. Maybe try reading from a file.
 	protected static final double[][] TRIANGLE = 
 	{
 		{-1, 1, -1}, 
 		{-1, 0, 1}
 	};
+
 	protected static final double[][] SQUARE = 
 	{
 		{-1, 1, 1, -1}, 
@@ -142,6 +255,12 @@ public class Drawn {
 		}
 	}
 
+	/**
+	 * Checks if the shape contains a certain point.
+	 *
+	 * @param px is the x coordinate of the point to check.
+	 * @param py is the y coordinate of the point to check.
+	 */
 	protected boolean contains(double px, double py) {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
@@ -159,71 +278,5 @@ public class Drawn {
 		Polygon p = new Polygon(itx, ity, vertices);
 		
 		return p.contains(px, py);
-	}
-
-	protected double getX() {
-		double[] tx = Arrays.copyOf(xVertices, vertices);
-		double[] ty = Arrays.copyOf(yVertices, vertices);
-
-		transform(tx, ty, vertices, rotation, x, y, size);
-
-		double cx = 0;
-
-		for (int i = 0; i < vertices; i++)
-			cx += tx[i];
-
-		cx /= vertices;
-
-		return cx;
-	}
-	protected double getY() {
-		double[] tx = Arrays.copyOf(xVertices, vertices);
-		double[] ty = Arrays.copyOf(yVertices, vertices);
-
-		transform(tx, ty, vertices, rotation, x, y, size);
-
-		double cy = 0;
-
-		for (int i = 0; i < vertices; i++)
-			cy += ty[i];
-
-		cy /= vertices;
-
-		return cy;
-	}
-
-
-	protected void translate(double dx, double dy) {
-		x += dx;
-		y += dy;
-	}
-
-	protected Color getColor() {
-		return color;
-	}
-
-	protected double[] getXVerts() {
-		double[] tx = Arrays.copyOf(xVertices, vertices);
-
-		for (int i = 0; i < vertices; i++) 
-			tx[i] = tx[i] * size + x;
-
-		return tx;
-	}
-	protected double[] getYVerts() {
-		double[] ty = Arrays.copyOf(yVertices, vertices);
-
-		for (int i = 0; i < vertices; i++) 
-			ty[i] = ty[i] * size + y;
-
-		return ty;
-	}
-
-	protected double getRotation() {
-		return rotation;
-	}
-
-	protected void rotate(double r) {
-		rotation += r;
 	}
 }
