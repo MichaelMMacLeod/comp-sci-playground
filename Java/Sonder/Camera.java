@@ -23,7 +23,7 @@ public class Camera {
 	private Drawn[] getObjects() {
 		return objectsList.toArray(new Drawn[0]);
 	}
-	
+
 	private Drawn[] getFocuses() {
 		return focusesList.toArray(new Drawn[0]);
 	}
@@ -95,13 +95,20 @@ public class Camera {
 		double height,
 		double focusCircleSize) {
 
+		// Get a Graphics2D object
+
 		Graphics2D g2d = (Graphics2D) g;
+
+		// Create copies of the ArrayLists so we dont have weird concurrency errors
 
 		Drawn[] objects = getObjects();
 		Drawn[] focuses = getFocuses();
 
+		// Calculate the center of zoom
+
 		double[] focusXVertices = new double[focuses.length];
 		double[] focusYVertices = new double[focuses.length];
+
 		for (int i = 0; i < focuses.length; i++) {
 			focusXVertices[i] = focuses[i].getPoint().x;
 			focusYVertices[i] = focuses[i].getPoint().y;
@@ -109,13 +116,20 @@ public class Camera {
 
 		Point centroid = calculateCentroid(focusXVertices, focusYVertices);
 
+		// Calculate zoom scalar value
+
 		double zoom = calculateZoom(width, height, centroid, focuses);
 
+		// Drawn each object
+
 		for (Drawn d : objects) {
+
+			// Apply color
+
 			g.setColor(d.getColor());
 
-			// Get shape rotation
-			double rotation = d.getRotation();
+			// Transform vertices based on current zoom
+			// TODO: clean this up
 
 			double[] xVerts = translate(
 				zoomVertices(
@@ -132,24 +146,38 @@ public class Camera {
 					zoom),
 				height / 2);
 
+			// Calculate centroid of shape
+			// TODO: can't we just use getX() and getY() ?
+
 			Point shapeCentroid = calculateCentroid(xVerts, yVerts);
 
-			// Draw identification circle around shape if it is a focus
+			// Drawn identification circles around focuses
+			// TODO: is there a better way we can determine if it is a focus?
+
+			double rotation = d.getRotation();
+			
 			for (Drawn f : focuses) {
 				if (d == f) {
+
+					// Drawn circle
 					g2d.drawOval(
 						(int) (shapeCentroid.x - focusCircleSize / 2), 
 						(int) (shapeCentroid.y - focusCircleSize / 2), 
 						(int) focusCircleSize, 
 						(int) focusCircleSize);
+
+					// Drawn rotation line
 					g2d.drawLine(
 						shapeCentroid.x, 
 						shapeCentroid.y,
 						(int) (focusCircleSize / 2 * Math.cos(rotation)) + shapeCentroid.x,
 						(int) (focusCircleSize / 2 * Math.sin(rotation)) + shapeCentroid.y);
+
 					break;
 				}
 			}
+
+			// Convert double arrays into integer arrays
 
 			int[] xVertsInt = new int[xVerts.length];
 			int[] yVertsInt = new int[yVerts.length];
@@ -157,7 +185,9 @@ public class Camera {
 				xVertsInt[i] = (int) xVerts[i];
 				yVertsInt[i] = (int) yVerts[i];
 			}
-			// Drawn shape
+
+			// Drawn the polygon
+
 			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
 		}
 	}
