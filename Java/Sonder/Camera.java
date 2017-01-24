@@ -50,8 +50,8 @@ public class Camera {
 
 		double furthest = 0;
 		for (Drawn f : focuses) {
-			double a = f.getX() - centroid.x;
-			double b = f.getY() - centroid.y;
+			double a = f.getPoint().x - centroid.x;
+			double b = f.getPoint().y - centroid.y;
 			double c = Math.sqrt(a * a + b * b);
 			if (c > furthest) {
 				furthest = c;
@@ -102,8 +102,8 @@ public class Camera {
 		double[] focusXVertices = new double[focuses.length];
 		double[] focusYVertices = new double[focuses.length];
 		for (int i = 0; i < focuses.length; i++) {
-			focusXVertices[i] = focuses[i].getX();
-			focusYVertices[i] = focuses[i].getY();
+			focusXVertices[i] = focuses[i].getPoint().x;
+			focusYVertices[i] = focuses[i].getPoint().y;
 		}
 
 		Point centroid = calculateCentroid(focusXVertices, focusYVertices);

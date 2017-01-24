@@ -1,3 +1,4 @@
+import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -43,8 +44,7 @@ public class GamePanel extends JPanel {
 		player1 = new Ship(
 			new Drawn(
 				Drawn.TRIANGLE,
-				-60, 
-				0, 
+				new Point2D.Double(-60, 0), 
 				30, 
 				0, 
 				Color.BLUE), 
@@ -54,8 +54,7 @@ public class GamePanel extends JPanel {
 		player2 = new Ship(
 			new Drawn(
 				Drawn.TRIANGLE,
-				60, 
-				0,  
+				new Point2D.Double(60, 0),
 				30, 
 				Math.PI, 
 				Color.RED), 
@@ -73,8 +72,7 @@ public class GamePanel extends JPanel {
 		camera.add(
 			new Drawn(
 				Drawn.SQUARE,
-				0, 
-				0, 
+				new Point2D.Double(),
 				120, 
 				0, 
 				Color.GREEN),
@@ -94,8 +92,7 @@ public class GamePanel extends JPanel {
 		if (input.pressed("w")) {
 			Drawn d = new Drawn(
 				Drawn.SQUARE,
-				player1.shape().getX(),
-				player1.shape().getY(),
+				player1.shape().getPoint(),
 				5,
 				player1.shape().getRotation(),
 				Color.BLUE);
@@ -118,8 +115,7 @@ public class GamePanel extends JPanel {
 		if (input.pressed("i")) {
 			Drawn d = new Drawn(
 				Drawn.SQUARE,
-				player2.shape().getX(),
-				player2.shape().getY(),
+				player2.shape().getPoint(),
 				5,
 				player2.shape().getRotation(),
 				Color.RED);
@@ -143,8 +139,7 @@ public class GamePanel extends JPanel {
 					camera.add(
 						new Drawn(
 							Drawn.TRIANGLE,
-							player1.shape().getX(),
-							player1.shape().getY(),
+							player1.shape().getPoint(),
 							30,
 							player1.shape().getRotation(),
 							Color.BLACK),
@@ -160,8 +155,7 @@ public class GamePanel extends JPanel {
 					camera.add(
 						new Drawn(
 							Drawn.TRIANGLE,
-							player2.shape().getX(),
-							player2.shape().getY(),
+							player2.shape().getPoint(),
 							30,
 							player2.shape().getRotation(),
 							Color.BLACK),

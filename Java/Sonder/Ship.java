@@ -26,6 +26,6 @@ public class Ship extends Moveable {
 
 	public boolean hitBy(Projectile p) {
 		Drawn pShape = p.shape();
-		return shape.contains(pShape.getX(), pShape.getY());
+		return shape.contains(pShape.getPoint());
 	}
 }

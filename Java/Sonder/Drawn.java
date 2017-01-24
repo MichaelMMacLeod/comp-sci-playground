@@ -1,3 +1,4 @@
+import java.awt.geom.Point2D;
 import java.awt.Polygon;
 import java.awt.Color;
 
@@ -22,37 +23,23 @@ public class Drawn {
 
 	private double x, y;
 
-	// TODO: combine getX() and getY() into one method
-	protected double getX() {
+	protected Point2D.Double getPoint() {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
 		transform(tx, ty, vertices, rotation, x, y, size);
 
-		double cx = 0;
+		Point2D.Double center = new Point2D.Double();
 
-		for (int i = 0; i < vertices; i++)
-			cx += tx[i];
+		for (int i = 0; i < vertices; i++) {
+			center.x += tx[i];
+			center.y += ty[i];
+		}
 
-		cx /= vertices;
+		center.x /= vertices;
+		center.y /= vertices;
 
-		return cx;
-	}
-
-	protected double getY() {
-		double[] tx = Arrays.copyOf(xVertices, vertices);
-		double[] ty = Arrays.copyOf(yVertices, vertices);
-
-		transform(tx, ty, vertices, rotation, x, y, size);
-
-		double cy = 0;
-
-		for (int i = 0; i < vertices; i++)
-			cy += ty[i];
-
-		cy /= vertices;
-
-		return cy;
+		return center;
 	}
 
 	protected void setLocation(double x, double y) {
@@ -153,28 +140,26 @@ public class Drawn {
 	/**
 	 * Creates a shape defined by a series of vertices
 	 * 
-	 * @param x        is the x coordinate of the shape.
-	 * @param y        is the y coordinate of the shape.
 	 * @param shape    is the set of vertices defining the shape. X vertices 
 	 *                 are stored in shape[0]. Y vertices are stored in 
 	 *                 shape[1]. There must be an equal number of x and y
 	 *                 vertices.
+	 * @param location is the (x, y) coordinate of the shape.
 	 * @param size     is the size of the shape.
 	 * @param rotation is the angle of rotation in radians.
 	 * @param color    is the color of the shape.
 	 */
 	public Drawn(
 		double[][] shape,
-		double x,
-		double y,
+		Point2D.Double location,
 		double size, 
 		double rotation,
 		Color color) {
 
 		setShape(shape);
 
-		this.x = x;
-		this.y = y;
+		this.x = location.x;
+		this.y = location.y;
 		this.size = size;
 		this.rotation = rotation;
 		this.color = color;
@@ -262,10 +247,9 @@ public class Drawn {
 	/**
 	 * Checks if the shape contains a certain point.
 	 *
-	 * @param px is the x coordinate of the point to check.
-	 * @param py is the y coordinate of the point to check.
+	 * @param point is the (x, y) point to check.
 	 */
-	protected boolean contains(double px, double py) {
+	protected boolean contains(Point2D.Double point) {
 		double[] tx = Arrays.copyOf(xVertices, vertices);
 		double[] ty = Arrays.copyOf(yVertices, vertices);
 
@@ -281,6 +265,6 @@ public class Drawn {
 
 		Polygon p = new Polygon(itx, ity, vertices);
 		
-		return p.contains(px, py);
+		return p.contains(point.x, point.y);
 	}
 }
