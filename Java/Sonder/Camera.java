@@ -1,4 +1,5 @@
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.Graphics;
 
 import java.util.Arrays;
@@ -45,7 +46,7 @@ public class Camera {
 	private double calculateZoom(
 		double width, 
 		double height,
-		Point centroid, 
+		Point2D.Double centroid, 
 		Drawn[] focuses) {
 
 		double furthest = 0;
@@ -109,11 +110,20 @@ public class Camera {
 			focusYVertices[i] = focuses[i].getPoint().y;
 		}
 
-		Point centroid = calculateCentroid(focusXVertices, focusYVertices);
+		Point2D.Double centerOfZoom = new Point2D.Double();
+
+		for (int i = 0; i < focusXVertices.length; i++) {
+			centerOfZoom.x += focusXVertices[i];
+			centerOfZoom.y += focusYVertices[i];
+		}
+
+		// TODO: store number of vertices in a variable
+		centerOfZoom.x /= focusXVertices.length;
+		centerOfZoom.y /= focusYVertices.length;
 
 		// Calculate zoom scalar value
 
-		double zoom = calculateZoom(width, height, centroid, focuses);
+		double zoom = calculateZoom(width, height, centerOfZoom, focuses);
 
 		// Drawn each object
 
@@ -130,14 +140,14 @@ public class Camera {
 				zoomVertices(
 					translate(
 						d.getVertices()[0],
-						-centroid.x),
+						-centerOfZoom.x),
 					zoom),
 				width / 2);
 			double[] yVerts = translate(
 				zoomVertices(
 					translate(
 						d.getVertices()[1],
-						-centroid.y),
+						-centerOfZoom.y),
 					zoom),
 				height / 2);
 
