@@ -20,8 +20,7 @@ public class Drawn {
 	/**
 	 * X and y coordinates of the shape in space.
 	 */
-
-	// private double x, y;
+	
 	private Point2D.Double location;
 
 	protected Point2D.Double getPoint() {
