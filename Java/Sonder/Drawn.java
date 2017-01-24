@@ -1,9 +1,19 @@
-import java.awt.geom.AffineTransform;
 import java.awt.Polygon;
 import java.awt.Color;
 
 import java.util.Arrays;
 
+/**
+ * Holds a polygon defined by a series of x and y vertices.
+ *
+ * The polygon has its center at (0, 0), a scale of 1, no translation, 
+ * and no rotation.
+ *
+ * When asked for the polygon, Drawn returns it with the proper 
+ * transformations (scaling, translation, rotation).
+ *
+ * Also tracks the color of the polygon.
+ */
 public class Drawn {
 
 	/**
