@@ -1,6 +1,5 @@
 import java.awt.Point;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -95,10 +94,6 @@ public class Camera {
 		double height,
 		double focusCircleSize) {
 
-		// Get a Graphics2D object
-
-		Graphics2D g2d = (Graphics2D) g;
-
 		// Create copies of the ArrayLists so we dont have weird concurrency errors
 
 		Drawn[] objects = getObjects();
@@ -155,19 +150,19 @@ public class Camera {
 			// TODO: is there a better way we can determine if it is a focus?
 
 			double rotation = d.getRotation();
-			
+
 			for (Drawn f : focuses) {
 				if (d == f) {
 
 					// Drawn circle
-					g2d.drawOval(
+					g.drawOval(
 						(int) (shapeCentroid.x - focusCircleSize / 2), 
 						(int) (shapeCentroid.y - focusCircleSize / 2), 
 						(int) focusCircleSize, 
 						(int) focusCircleSize);
 
 					// Drawn rotation line
-					g2d.drawLine(
+					g.drawLine(
 						shapeCentroid.x, 
 						shapeCentroid.y,
 						(int) (focusCircleSize / 2 * Math.cos(rotation)) + shapeCentroid.x,
