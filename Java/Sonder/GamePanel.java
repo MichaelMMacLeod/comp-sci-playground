@@ -156,7 +156,7 @@ public class GamePanel extends JPanel {
 								player.shape().getPoint(),
 								30,
 								player.shape().getRotation(),
-								Color.BLACK),
+								player.shape().getColor()),
 							false);
 
 						updates.remove(i);
