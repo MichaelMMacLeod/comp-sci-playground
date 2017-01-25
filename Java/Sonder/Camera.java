@@ -112,14 +112,15 @@ public class Camera {
 
 		Point2D.Double centerOfZoom = new Point2D.Double();
 
-		for (int i = 0; i < focusXVertices.length; i++) {
+		int vertices = focusXVertices.length;
+
+		for (int i = 0; i < vertices; i++) {
 			centerOfZoom.x += focusXVertices[i];
 			centerOfZoom.y += focusYVertices[i];
 		}
 
-		// TODO: store number of vertices in a variable
-		centerOfZoom.x /= focusXVertices.length;
-		centerOfZoom.y /= focusYVertices.length;
+		centerOfZoom.x /= vertices;
+		centerOfZoom.y /= vertices;
 
 		// Calculate zoom scalar value
 
