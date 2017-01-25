@@ -15,7 +15,7 @@ public class GamePanel extends JPanel {
 
 	private Camera camera;
 
-	private Ship player1, player2;
+	private ArrayList<Ship> players;
 
 	private ArrayList<Moveable> updates;
 
@@ -27,92 +27,91 @@ public class GamePanel extends JPanel {
 
 		restart();
 
+		// Initialize command factory and controls
+
 		input = new InputManager(this);
-
-		input.addKey("w");
-		input.addKey("a");
-		input.addKey("d");
-		input.addKey("s");
-		input.addKey("i");
-		input.addKey("j");
-		input.addKey("l");
-		input.addKey("k");
-
-		// Initiate command factory and controls
 
 		cf = CommandFactory.init();
 
-		cf.addCommand("a", () -> player1.rotate(false));
-		cf.addCommand("d", () -> player1.rotate(true));
-		cf.addCommand("s", () -> player1.thrust());
-		cf.addCommand("w", () -> {
-			Drawn d = new Drawn(
-				Drawn.SQUARE,
-				player1.shape().getPoint(),
-				5,
-				player1.shape().getRotation(),
-				Color.BLUE);
-			Projectile p = new Projectile(
-				d, 
-				player1.vector(), 
-				10, 
-				player1, 
-				0.99);
-			camera.add(p.shape(), false);
-			updates.add(p);
-		});
+		for (Ship player : players) {
+			String[] keys = player.getKeys();
 
-		cf.addCommand("j", () -> player2.rotate(false));
-		cf.addCommand("l", () -> player2.rotate(true));
-		cf.addCommand("k", () -> player2.thrust());
-		cf.addCommand("i", () -> {
-			Drawn d = new Drawn(
-				Drawn.SQUARE,
-				player2.shape().getPoint(),
-				5,
-				player2.shape().getRotation(),
-				Color.RED);
-			Projectile p = new Projectile(
-				d, 
-				player2.vector(), 
-				10, 
-				player2, 
-				0.99);
-			camera.add(p.shape(), false);
-			updates.add(p);
-		});
+			for (String key : keys)
+				input.addKey(key);
 
-		cf.listCommands();
+			cf.addCommand(keys[0], () -> player.rotate(false));
+			cf.addCommand(keys[1], () -> player.rotate(true));
+			cf.addCommand(keys[2], () -> player.thrust());
+			cf.addCommand(keys[3], () -> {
+				Drawn d = new Drawn(
+					Drawn.SQUARE,
+					player.shape().getPoint(),
+					5,
+					player.shape().getRotation(),
+					player.shape().getColor());
+				Projectile p = new Projectile(
+					d, 
+					player.vector(), 
+					10, 
+					player, 
+					0.99);
+				camera.add(p.shape(), false);
+				updates.add(p);
+			});
+		}
 	}
 
 	private void restart() {
-		player1 = new Ship(
-			new Drawn(
-				Drawn.TRIANGLE,
-				new Point2D.Double(-60, 0), 
-				30, 
-				0, 
-				Color.BLUE), 
-			0.05, 
-			120,
-			0.99);
-		player2 = new Ship(
-			new Drawn(
-				Drawn.TRIANGLE,
-				new Point2D.Double(60, 0),
-				30, 
-				Math.PI, 
-				Color.RED), 
-			0.05, 
-			120,
-			0.99);
-
 		updates = new ArrayList<Moveable>();
 
 		camera = new Camera();
 
-		camera.add(player1.shape(), true);
-		camera.add(player2.shape(), true);
+		// Initialize players
+
+		players = new ArrayList<Ship>();
+
+		players.add(
+			new Ship(
+				new Drawn(
+					Drawn.TRIANGLE,
+					new Point2D.Double(-60, 0), 
+					30, 
+					0, 
+					Color.BLUE), 
+				0.05, 
+				120,
+				0.99,
+				new String[] 
+				{
+					"a",
+					"d",
+					"s",
+					"w"
+				}));
+
+		players.add(
+			new Ship(
+				new Drawn(
+					Drawn.TRIANGLE,
+					new Point2D.Double(60, 0),
+					30, 
+					Math.PI, 
+					Color.RED), 
+				0.05, 
+				120,
+				0.99,
+				new String[]
+				{
+					"j",
+					"l",
+					"k",
+					"i"
+				}));
+
+		for (Ship player : players) {
+			camera.add(player.shape(), true);
+			updates.add(player);
+		}
 
 		camera.add(
 			new Drawn(
@@ -122,9 +121,6 @@ public class GamePanel extends JPanel {
 				0, 
 				Color.GREEN),
 			false);
-
-		updates.add(player1);
-		updates.add(player2);
 	}
 
 	public void update() {
@@ -152,36 +148,21 @@ public class GamePanel extends JPanel {
 			if (m instanceof Projectile) {
 				Projectile p = (Projectile) m;
 
-				if (player1.hitBy(p) && p.getParent() != player1) {
-					camera.add(
-						new Drawn(
-							Drawn.TRIANGLE,
-							player1.shape().getPoint(),
-							30,
-							player1.shape().getRotation(),
-							Color.BLACK),
-						false);
+				for (Ship player : players) {
+					if (player.hitBy(p) && p.getParent() != player) {
+						camera.add(
+							new Drawn(
+								Drawn.TRIANGLE,
+								player.shape().getPoint(),
+								30,
+								player.shape().getRotation(),
+								Color.BLACK),
+							false);
 
-					updates.remove(i);
+						updates.remove(i);
 
-					i--;
-					continue;
-				}
-
-				if (player2.hitBy(p) && p.getParent() != player2) {
-					camera.add(
-						new Drawn(
-							Drawn.TRIANGLE,
-							player2.shape().getPoint(),
-							30,
-							player2.shape().getRotation(),
-							Color.BLACK),
-						false);
-
-					updates.remove(i);
-
-					i--;
-					continue;
+						i--;
+					}
 				}
 			}
 

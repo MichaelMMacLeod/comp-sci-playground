@@ -1,18 +1,34 @@
+import java.util.Arrays;
+
 public class Ship extends Moveable {
 
 	private double acceleration;
 	private double rotationSpeed;
 
+	private String[] keys = 
+	{
+		"rotate counter clockwise key",
+		"rotate clockwise key",
+		"thrust key",
+		"fire key"
+	};
+
+	public String[] getKeys() {
+		return Arrays.copyOf(keys, keys.length);
+	}
+
 	public Ship(
 		Drawn shape, 
 		double acceleration, 
 		double rotationSpeed, 
-		double deceleration) {
+		double deceleration,
+		String[] keys) {
 
 		super(shape, deceleration);
 
 		this.acceleration = acceleration;
 		this.rotationSpeed = rotationSpeed;
+		this.keys = keys;
 	}
 
 	public void thrust() {
