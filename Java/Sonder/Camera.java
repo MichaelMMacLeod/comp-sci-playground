@@ -124,33 +124,30 @@ public class Camera {
 
 			g.setColor(d.getColor());
 
-			// Transform vertices based on current zoom.
-			// TODO: clean this up
+			// Transform vertices based on current zoom and centroid position.
 
-			double[] xVerts = translate(
-				zoomVertices(
-					translate(
-						d.getVertices()[0],
-						-centerOfZoom.x),
-					zoom),
-				width / 2);
-			double[] yVerts = translate(
-				zoomVertices(
-					translate(
-						d.getVertices()[1],
-						-centerOfZoom.y),
-					zoom),
-				height / 2);
+			double[] xVerts = d.getVertices()[0];
+			double[] yVerts = d.getVertices()[1];
+
+			if (xVerts.length < yVerts.length)
+				vertices = xVerts.length;
+			else
+				vertices = yVerts.length;
+
+			for (int i = 0; i < vertices; i++) {
+				xVerts[i] = (xVerts[i] - centerOfZoom.x) * zoom + width / 2;
+				yVerts[i] = (yVerts[i] - centerOfZoom.y) * zoom + height / 2;
+			}
 
 			// Calculate centroid of shape.
 			// TODO: can't we just use getX() and getY() ?
 
+			double rotation = d.getRotation();
+			
 			Point shapeCentroid = calculateCentroid(xVerts, yVerts);
 
 			// Drawn identification circles around focuses.
 			// TODO: is there a better way we can determine if it is a focus?
-
-			double rotation = d.getRotation();
 
 			for (Drawn f : focuses) {
 				if (d == f) {
