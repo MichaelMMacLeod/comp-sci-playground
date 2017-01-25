@@ -110,24 +110,24 @@ public class GamePanel extends JPanel {
 					"i"
 				}));
 
-		players.add(
-			new Ship(
-				new Drawn(
-					Drawn.TRIANGLE,
-					new Point2D.Double(0, 60),
-					30, 
-					-Math.PI / 2, 
-					Color.BLACK), 
-				0.05, 
-				120,
-				0.99,
-				new String[]
-				{
-					"f",
-					"h",
-					"g",
-					"t"
-				}));
+		// players.add(
+		// 	new Ship(
+		// 		new Drawn(
+		// 			Drawn.TRIANGLE,
+		// 			new Point2D.Double(0, 60),
+		// 			30, 
+		// 			-Math.PI / 2, 
+		// 			Color.BLACK), 
+		// 		0.05, 
+		// 		120,
+		// 		0.99,
+		// 		new String[]
+		// 		{
+		// 			"f",
+		// 			"h",
+		// 			"g",
+		// 			"t"
+		// 		}));
 
 		for (Ship player : players) {
 			camera.add(player.getHealthBar(), false);
