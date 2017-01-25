@@ -218,7 +218,7 @@ public class Drawn {
 	 * @param ytranslation is the translation in the y dimension.
 	 * @param scale        is the scalar value.
 	 */
-	private void transform(
+	public static void transform(
 		double[] xpoints,
 		double[] ypoints,
 		int npoints,

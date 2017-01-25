@@ -111,7 +111,7 @@ public class Camera {
 
 		double zoom = radius / furthest;
 
-		// Make the zoom factor smoothly approaches maximum zoom.
+		// Make the zoom factor smoothly approach maximum zoom.
 		if (zoom > 1) {
 			zoom = -1 / zoom + 2;
 		}
