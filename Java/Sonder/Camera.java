@@ -15,9 +15,10 @@ public class Camera {
 	}
 
 	public void add(Drawn object, boolean isFocus) {
-		objectsList.add(object);
 		if (isFocus)
 			focusesList.add(object);
+		else
+			objectsList.add(object);
 	}
 
 	public void draw(
@@ -75,16 +76,16 @@ public class Camera {
 
 		// Drawn each object.
 
-		for (Drawn d : objects) {
+		for (Drawn focus : focuses) {
 
 			// Apply color.
 
-			g.setColor(d.getColor());
+			g.setColor(focus.getColor());
 
 			// Transform vertices based on current zoom center and scalar.
 
-			double[] xVerts = d.getVertices()[0];
-			double[] yVerts = d.getVertices()[1];
+			double[] xVerts = focus.getVertices()[0];
+			double[] yVerts = focus.getVertices()[1];
 
 			if (xVerts.length < yVerts.length)
 				vertices = xVerts.length;
@@ -98,7 +99,7 @@ public class Camera {
 
 			// Calculate center of shape.
 
-			double rotation = d.getRotation();
+			double rotation = focus.getRotation();
 
 			Point2D.Double shapeCenter = new Point2D.Double();
 
@@ -111,30 +112,24 @@ public class Camera {
 			shapeCenter.y /= vertices;
 
 			// Drawn identification circles around focuses.
-			// TODO: is there a better way we can determine if it is a focus?
 
-			for (Drawn f : focuses) {
-				if (d == f) {
+			// Draw the circle.
+			g.drawOval(
+				(int) (shapeCenter.x - focusCircleSize / 2), 
+				(int) (shapeCenter.y - focusCircleSize / 2), 
+				(int) focusCircleSize, 
+				(int) focusCircleSize);
 
-					// Drawn circle
-					g.drawOval(
-						(int) (shapeCenter.x - focusCircleSize / 2), 
-						(int) (shapeCenter.y - focusCircleSize / 2), 
-						(int) focusCircleSize, 
-						(int) focusCircleSize);
+			// Draw the line of rotation.
+			g.drawLine(
+				(int) shapeCenter.x, 
+				(int) shapeCenter.y,
+				(int) (focusCircleSize / 2 * Math.cos(rotation) 
+					+ shapeCenter.x),
+				(int) (focusCircleSize / 2 * Math.sin(rotation) 
+					+ shapeCenter.y));
 
-					// Drawn rotation line
-					g.drawLine(
-						(int) shapeCenter.x, 
-						(int) shapeCenter.y,
-						(int) (focusCircleSize / 2 * Math.cos(rotation) + shapeCenter.x),
-						(int) (focusCircleSize / 2 * Math.sin(rotation) + shapeCenter.y));
-
-					break;
-				}
-			}
-
-			// Convert double arrays into integer arrays
+			// Convert double arrays into integer arrays.
 
 			int[] xVertsInt = new int[xVerts.length];
 			int[] yVertsInt = new int[yVerts.length];
@@ -143,7 +138,56 @@ public class Camera {
 				yVertsInt[i] = (int) yVerts[i];
 			}
 
-			// Drawn the polygon
+			// Drawn the polygon.
+
+			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
+		}
+
+		for (Drawn object : objects) {
+
+			// Apply color.
+
+			g.setColor(object.getColor());
+
+			// Transform vertices based on current zoom center and scalar.
+
+			double[] xVerts = object.getVertices()[0];
+			double[] yVerts = object.getVertices()[1];
+
+			if (xVerts.length < yVerts.length)
+				vertices = xVerts.length;
+			else
+				vertices = yVerts.length;
+
+			for (int i = 0; i < vertices; i++) {
+				xVerts[i] = (xVerts[i] - centerOfZoom.x) * zoom + width / 2;
+				yVerts[i] = (yVerts[i] - centerOfZoom.y) * zoom + height / 2;
+			}
+
+			// Calculate center of shape.
+
+			double rotation = object.getRotation();
+
+			Point2D.Double shapeCenter = new Point2D.Double();
+
+			for (int i = 0; i < vertices; i++) {
+				shapeCenter.x += xVerts[i];
+				shapeCenter.y += yVerts[i];
+			}
+
+			shapeCenter.x /= vertices;
+			shapeCenter.y /= vertices;
+
+			// Convert double arrays into integer arrays.
+
+			int[] xVertsInt = new int[xVerts.length];
+			int[] yVertsInt = new int[yVerts.length];
+			for (int i = 0; i < xVerts.length; i++) {
+				xVertsInt[i] = (int) xVerts[i];
+				yVertsInt[i] = (int) yVerts[i];
+			}
+
+			// Drawn the polygon.
 
 			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
 		}
