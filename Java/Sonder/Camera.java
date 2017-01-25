@@ -124,7 +124,7 @@ public class Camera {
 
 			g.setColor(d.getColor());
 
-			// Transform vertices based on current zoom and centroid position.
+			// Transform vertices based on current zoom center and scalar.
 
 			double[] xVerts = d.getVertices()[0];
 			double[] yVerts = d.getVertices()[1];
@@ -139,12 +139,19 @@ public class Camera {
 				yVerts[i] = (yVerts[i] - centerOfZoom.y) * zoom + height / 2;
 			}
 
-			// Calculate centroid of shape.
-			// TODO: can't we just use getX() and getY() ?
+			// Calculate center of shape.
 
 			double rotation = d.getRotation();
-			
-			Point shapeCentroid = calculateCentroid(xVerts, yVerts);
+
+			Point2D.Double shapeCenter = new Point2D.Double();
+
+			for (int i = 0; i < vertices; i++) {
+				shapeCenter.x += xVerts[i];
+				shapeCenter.y += yVerts[i];
+			}
+
+			shapeCenter.x /= vertices;
+			shapeCenter.y /= vertices;
 
 			// Drawn identification circles around focuses.
 			// TODO: is there a better way we can determine if it is a focus?
@@ -154,17 +161,17 @@ public class Camera {
 
 					// Drawn circle
 					g.drawOval(
-						(int) (shapeCentroid.x - focusCircleSize / 2), 
-						(int) (shapeCentroid.y - focusCircleSize / 2), 
+						(int) (shapeCenter.x - focusCircleSize / 2), 
+						(int) (shapeCenter.y - focusCircleSize / 2), 
 						(int) focusCircleSize, 
 						(int) focusCircleSize);
 
 					// Drawn rotation line
 					g.drawLine(
-						shapeCentroid.x, 
-						shapeCentroid.y,
-						(int) (focusCircleSize / 2 * Math.cos(rotation)) + shapeCentroid.x,
-						(int) (focusCircleSize / 2 * Math.sin(rotation)) + shapeCentroid.y);
+						(int) shapeCenter.x, 
+						(int) shapeCenter.y,
+						(int) (focusCircleSize / 2 * Math.cos(rotation) + shapeCenter.x),
+						(int) (focusCircleSize / 2 * Math.sin(rotation) + shapeCenter.y));
 
 					break;
 				}
