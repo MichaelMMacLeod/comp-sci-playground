@@ -38,6 +38,10 @@ public class GamePanel extends JPanel {
 		input.addKey("j");
 		input.addKey("l");
 		input.addKey("k");
+
+		final CommandFactory cf = CommandFactory.init();
+		cf.executeCommand("Hello World");
+		cf.listCommands();
 	}
 
 	private void restart() {
