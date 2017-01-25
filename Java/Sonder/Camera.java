@@ -77,21 +77,13 @@ public class Camera {
 
 		// Calculate the center of zoom, store it in a Point2D.Double point.
 
-		double[] focusXVertices = new double[focuses.length];
-		double[] focusYVertices = new double[focuses.length];
-
-		for (int i = 0; i < focuses.length; i++) {
-			focusXVertices[i] = focuses[i].getPoint().x;
-			focusYVertices[i] = focuses[i].getPoint().y;
-		}
-
 		Point2D.Double centerOfZoom = new Point2D.Double();
 
-		int vertices = focusXVertices.length;
+		int vertices = focuses.length;
 
 		for (int i = 0; i < vertices; i++) {
-			centerOfZoom.x += focusXVertices[i];
-			centerOfZoom.y += focusYVertices[i];
+			centerOfZoom.x += focuses[i].getPoint().x;
+			centerOfZoom.y += focuses[i].getPoint().y;
 		}
 
 		centerOfZoom.x /= vertices;
