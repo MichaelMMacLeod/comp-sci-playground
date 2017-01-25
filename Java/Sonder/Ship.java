@@ -64,6 +64,10 @@ public class Ship extends Moveable {
 		healthBar.setSize(health / maxHealth);
 	}
 
+	public boolean isAlive() {
+		return health > 0;
+	}
+
 	public Drawn getHealthBar() {
 		return healthBar;
 	}

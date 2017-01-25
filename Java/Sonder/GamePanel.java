@@ -148,16 +148,18 @@ public class GamePanel extends JPanel {
 	public void update() {
 		for (Ship player : players) {
 
-			String[] keys = player.getKeys();
+			if (player.isAlive()) {
+				String[] keys = player.getKeys();
 
-			if (input.held(keys[0]))
-				cf.executeCommand(keys[0]);
-			if (input.held(keys[1]))
-				cf.executeCommand(keys[1]);
-			if (input.held(keys[2]))
-				cf.executeCommand(keys[2]);
-			if (input.pressed(keys[3]))
-				cf.executeCommand(keys[3]);
+				if (input.held(keys[0]))
+					cf.executeCommand(keys[0]);
+				if (input.held(keys[1]))
+					cf.executeCommand(keys[1]);
+				if (input.held(keys[2]))
+					cf.executeCommand(keys[2]);
+				if (input.pressed(keys[3]))
+					cf.executeCommand(keys[3]);
+			}
 		}
 
 		for (int i = 0; i < updates.size(); i++) {
