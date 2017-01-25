@@ -1,19 +1,34 @@
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.Graphics;
 
 import java.util.Arrays;
 import java.util.ArrayList;
 
+/**
+ * Displays Drawn objects using Graphics
+ *
+ * Contains two lists of Drawn shapes: focuses and objects. Focuses will always
+ * stay within the width and height of the screen, while objects may be off 
+ * screen.
+ */
 public class Camera {
-	private ArrayList<Drawn> objectsList;
+
+	/**
+	 * Lists of shapes which are displayed on screen by the Draw method.
+	 */
+
+	// These shapes will always be kept on screen.
 	private ArrayList<Drawn> focusesList;
 
-	public Camera() {
-		objectsList = new ArrayList<Drawn>();
-		focusesList = new ArrayList<Drawn>();
-	}
+	// These shapes can be off screen.
+	private ArrayList<Drawn> objectsList;
 
+	/**
+	 * Adds an object to one of the lists of shapes.
+	 *
+	 * @param object  is the item to add.
+	 * @param isFocus determines which list of shapes to add the object to.
+	 */
 	public void add(Drawn object, boolean isFocus) {
 		if (isFocus)
 			focusesList.add(object);
@@ -21,6 +36,28 @@ public class Camera {
 			objectsList.add(object);
 	}
 
+	/**
+	 * Creates a camera object.
+	 */
+	public Camera() {
+		objectsList = new ArrayList<Drawn>();
+		focusesList = new ArrayList<Drawn>();
+	}
+
+	/**
+	 * Draws shapes from focusesList and objectsList on a Graphics object.
+	 *
+	 * @param g               is the graphics object that the shapes are drawn 
+	 *                        on.
+	 * @param width           is the width of the screen in pixels.
+	 * @param height          is the height of the screen in pixels.
+	 * @param focusCircleSize is the size of the circles that are drawn 
+	 *                        surrounding shapes in the focusList. These 
+	 *                        circles let the user(s) know the location and 
+	 *                        rotation of focuses. This is important when the 
+	 *                        shapes move too far away from each other to be 
+	 *                        seen accurately.
+	 */
 	public void draw(
 		Graphics g,
 		double width,
@@ -74,7 +111,7 @@ public class Camera {
 			zoom = -1 / zoom + 2;
 		}
 
-		// Drawn each object.
+		// Drawn each focus.
 
 		for (Drawn focus : focuses) {
 
@@ -143,6 +180,8 @@ public class Camera {
 			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
 		}
 
+		// Drawn each object.
+		
 		for (Drawn object : objects) {
 
 			// Apply color.
