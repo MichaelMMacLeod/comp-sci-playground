@@ -130,6 +130,7 @@ public class GamePanel extends JPanel {
 				}));
 
 		for (Ship player : players) {
+			camera.add(player.getHealthBar(), false);
 			camera.add(player.shape(), true);
 			updates.add(player);
 		}
@@ -175,6 +176,8 @@ public class GamePanel extends JPanel {
 								player.shape().getRotation(),
 								player.shape().getColor()),
 							false);
+
+						player.hit(5);
 
 						updates.remove(i);
 
