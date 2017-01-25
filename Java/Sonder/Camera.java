@@ -43,32 +43,6 @@ public class Camera {
 		return centroid;
 	}
 
-	private double calculateZoom(
-		double width, 
-		double height,
-		Point2D.Double centroid, 
-		Drawn[] focuses) {
-
-		double furthest = 0;
-		for (Drawn f : focuses) {
-			double a = f.getPoint().x - centroid.x;
-			double b = f.getPoint().y - centroid.y;
-			double c = Math.sqrt(a * a + b * b);
-			if (c > furthest) {
-				furthest = c;
-			}
-		}
-
-		double radius = width < height ? width / 2.5 : height / 2.5;
-
-		double zoom = radius / furthest;
-		if (zoom > 1) {
-			zoom = -1 / zoom + 2;
-		}
-
-		return zoom;
-	}
-
 	public double[] zoomVertices(double[] vertices, double zoom) {
 		double[] zoomedVertices = new double[vertices.length];
 
@@ -95,12 +69,13 @@ public class Camera {
 		double height,
 		double focusCircleSize) {
 
-		// Create copies of the ArrayLists so we dont have weird concurrency errors
+		// Create copies of the ArrayLists so we don't have weird concurrency 
+		// errors.
 
 		Drawn[] objects = getObjects();
 		Drawn[] focuses = getFocuses();
 
-		// Calculate the center of zoom
+		// Calculate the center of zoom, store it in a Point2D.Double point.
 
 		double[] focusXVertices = new double[focuses.length];
 		double[] focusYVertices = new double[focuses.length];
@@ -122,19 +97,42 @@ public class Camera {
 		centerOfZoom.x /= vertices;
 		centerOfZoom.y /= vertices;
 
-		// Calculate zoom scalar value
+		// Calculate zoom scalar value.
 
-		double zoom = calculateZoom(width, height, centerOfZoom, focuses);
+		double furthest = 0;
 
-		// Drawn each object
+		// Find furthest focus from the center of zoom.
+		for (Drawn f : focuses) {
+
+			// Use the Pythagorean theorem.
+			double a = f.getPoint().x - centerOfZoom.x;
+			double b = f.getPoint().y - centerOfZoom.y;
+			double c = Math.sqrt(a * a + b * b);
+
+			if (c > furthest)
+				furthest = c;
+		}
+
+		// Use 2.5 instead of 2 so that objects aren't directly on the edge of 
+		// the screen.
+		double radius = width < height ? width / 2.5 : height / 2.5;
+
+		double zoom = radius / furthest;
+
+		// Make the zoom factor smoothly approaches maximum zoom.
+		if (zoom > 1) {
+			zoom = -1 / zoom + 2;
+		}
+
+		// Drawn each object.
 
 		for (Drawn d : objects) {
 
-			// Apply color
+			// Apply color.
 
 			g.setColor(d.getColor());
 
-			// Transform vertices based on current zoom
+			// Transform vertices based on current zoom.
 			// TODO: clean this up
 
 			double[] xVerts = translate(
@@ -152,12 +150,12 @@ public class Camera {
 					zoom),
 				height / 2);
 
-			// Calculate centroid of shape
+			// Calculate centroid of shape.
 			// TODO: can't we just use getX() and getY() ?
 
 			Point shapeCentroid = calculateCentroid(xVerts, yVerts);
 
-			// Drawn identification circles around focuses
+			// Drawn identification circles around focuses.
 			// TODO: is there a better way we can determine if it is a focus?
 
 			double rotation = d.getRotation();
