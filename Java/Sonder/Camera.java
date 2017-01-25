@@ -20,49 +20,6 @@ public class Camera {
 			focusesList.add(object);
 	}
 
-	private Drawn[] getObjects() {
-		return objectsList.toArray(new Drawn[0]);
-	}
-
-	private Drawn[] getFocuses() {
-		return focusesList.toArray(new Drawn[0]);
-	}
-
-	public Point calculateCentroid(double[] xVertices, double[] yVertices) {
-		Point centroid = new Point();
-
-		for (int i = 0; i < xVertices.length; i++) {
-			centroid.setLocation(
-				centroid.x + xVertices[i],
-				centroid.y + yVertices[i]);
-		}
-
-		centroid.x /= xVertices.length;
-		centroid.y /= yVertices.length;
-
-		return centroid;
-	}
-
-	public double[] zoomVertices(double[] vertices, double zoom) {
-		double[] zoomedVertices = new double[vertices.length];
-
-		for (int i = 0; i < zoomedVertices.length; i++) {
-			zoomedVertices[i] = vertices[i] * zoom;
-		}
-
-		return zoomedVertices;
-	}
-
-	public double[] translate(double[] vertices, double amount) {
-		double[] translatedVertices = vertices;
-
-		for (int i = 0; i < translatedVertices.length; i++) {
-			translatedVertices[i] += amount;
-		}
-
-		return translatedVertices;
-	}
-
 	public void draw(
 		Graphics g,
 		double width,
@@ -72,8 +29,8 @@ public class Camera {
 		// Create copies of the ArrayLists so we don't have weird concurrency 
 		// errors.
 
-		Drawn[] objects = getObjects();
-		Drawn[] focuses = getFocuses();
+		Drawn[] objects = objectsList.toArray(new Drawn[0]);
+		Drawn[] focuses = focusesList.toArray(new Drawn[0]);
 
 		// Calculate the center of zoom, store it in a Point2D.Double point.
 
