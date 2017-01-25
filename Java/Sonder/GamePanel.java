@@ -159,6 +159,8 @@ public class GamePanel extends JPanel {
 					cf.executeCommand(keys[2]);
 				if (input.pressed(keys[3]))
 					cf.executeCommand(keys[3]);
+			} else {
+				camera.removeFocus(player.shape());
 			}
 		}
 

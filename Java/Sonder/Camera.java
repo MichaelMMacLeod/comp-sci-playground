@@ -20,6 +20,10 @@ public class Camera {
 	// These shapes will always be kept on screen.
 	private ArrayList<Drawn> focusesList;
 
+	public void removeFocus(Drawn focus) {
+		focusesList.remove(focus);
+	}
+
 	// These shapes can be off screen.
 	private ArrayList<Drawn> nonFocusList;
 
