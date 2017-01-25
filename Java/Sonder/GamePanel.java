@@ -19,6 +19,8 @@ public class GamePanel extends JPanel {
 
 	private ArrayList<Moveable> updates;
 
+	final CommandFactory cf;
+
 	public GamePanel(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -27,20 +29,59 @@ public class GamePanel extends JPanel {
 
 		input = new InputManager(this);
 
-        // Player 1
 		input.addKey("w");
 		input.addKey("a");
 		input.addKey("d");
 		input.addKey("s");
-
-        // Player 2
 		input.addKey("i");
 		input.addKey("j");
 		input.addKey("l");
 		input.addKey("k");
 
-		final CommandFactory cf = CommandFactory.init();
-		cf.executeCommand("Hello World");
+		// Initiate command factory and controls
+
+		cf = CommandFactory.init();
+
+		cf.addCommand("a", () -> player1.rotate(false));
+		cf.addCommand("d", () -> player1.rotate(true));
+		cf.addCommand("s", () -> player1.thrust());
+		cf.addCommand("w", () -> {
+			Drawn d = new Drawn(
+				Drawn.SQUARE,
+				player1.shape().getPoint(),
+				5,
+				player1.shape().getRotation(),
+				Color.BLUE);
+			Projectile p = new Projectile(
+				d, 
+				player1.vector(), 
+				10, 
+				player1, 
+				0.99);
+			camera.add(p.shape(), false);
+			updates.add(p);
+		});
+
+		cf.addCommand("j", () -> player2.rotate(false));
+		cf.addCommand("l", () -> player2.rotate(true));
+		cf.addCommand("k", () -> player2.thrust());
+		cf.addCommand("i", () -> {
+			Drawn d = new Drawn(
+				Drawn.SQUARE,
+				player2.shape().getPoint(),
+				5,
+				player2.shape().getRotation(),
+				Color.RED);
+			Projectile p = new Projectile(
+				d, 
+				player2.vector(), 
+				10, 
+				player2, 
+				0.99);
+			camera.add(p.shape(), false);
+			updates.add(p);
+		});
+
 		cf.listCommands();
 	}
 
@@ -87,51 +128,23 @@ public class GamePanel extends JPanel {
 	}
 
 	public void update() {
-		if (input.held("s")) 
-			player1.thrust();
+		if (input.held("s"))
+			cf.executeCommand("s");
 		if (input.held("a"))
-			player1.rotate(false);
+			cf.executeCommand("a");
 		if (input.held("d"))
-			player1.rotate(true);
-		if (input.pressed("w")) {
-			Drawn d = new Drawn(
-				Drawn.SQUARE,
-				player1.shape().getPoint(),
-				5,
-				player1.shape().getRotation(),
-				Color.BLUE);
-			Projectile p = new Projectile(
-				d, 
-				player1.vector(), 
-				10, 
-				player1, 
-				0.99);
-			camera.add(p.shape(), false);
-			updates.add(p);
-		}   
+			cf.executeCommand("d");
+		if (input.pressed("w"))
+			cf.executeCommand("w");
 
 		if (input.held("k"))
-			player2.thrust();
+			cf.executeCommand("k");
 		if (input.held("j"))
-			player2.rotate(false);
+			cf.executeCommand("j");
 		if (input.held("l"))
-			player2.rotate(true);
-		if (input.pressed("i")) {
-			Drawn d = new Drawn(
-				Drawn.SQUARE,
-				player2.shape().getPoint(),
-				5,
-				player2.shape().getRotation(),
-				Color.RED);
-			Projectile p = new Projectile(
-				d, 
-				player2.vector(), 
-				10, 
-				player2,
-				0.99);
-			camera.add(p.shape(), false);
-			updates.add(p);
-		}
+			cf.executeCommand("l");
+		if (input.pressed("i"))
+			cf.executeCommand("i");
 
 		for (int i = 0; i < updates.size(); i++) {
 			Moveable m = updates.get(i);
