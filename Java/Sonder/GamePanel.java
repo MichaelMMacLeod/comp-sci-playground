@@ -59,6 +59,8 @@ public class GamePanel extends JPanel {
 				updates.add(p);
 			});
 		}
+
+		cf.listCommands();
 	}
 
 	private void restart() {
@@ -108,6 +110,25 @@ public class GamePanel extends JPanel {
 					"i"
 				}));
 
+		players.add(
+			new Ship(
+				new Drawn(
+					Drawn.TRIANGLE,
+					new Point2D.Double(0, 60),
+					30, 
+					-Math.PI / 2, 
+					Color.BLACK), 
+				0.05, 
+				120,
+				0.99,
+				new String[]
+				{
+					"f",
+					"h",
+					"g",
+					"t"
+				}));
+
 		for (Ship player : players) {
 			camera.add(player.shape(), true);
 			updates.add(player);
@@ -124,23 +145,19 @@ public class GamePanel extends JPanel {
 	}
 
 	public void update() {
-		if (input.held("s"))
-			cf.executeCommand("s");
-		if (input.held("a"))
-			cf.executeCommand("a");
-		if (input.held("d"))
-			cf.executeCommand("d");
-		if (input.pressed("w"))
-			cf.executeCommand("w");
+		for (Ship player : players) {
 
-		if (input.held("k"))
-			cf.executeCommand("k");
-		if (input.held("j"))
-			cf.executeCommand("j");
-		if (input.held("l"))
-			cf.executeCommand("l");
-		if (input.pressed("i"))
-			cf.executeCommand("i");
+			String[] keys = player.getKeys();
+
+			if (input.held(keys[0]))
+				cf.executeCommand(keys[0]);
+			if (input.held(keys[1]))
+				cf.executeCommand(keys[1]);
+			if (input.held(keys[2]))
+				cf.executeCommand(keys[2]);
+			if (input.pressed(keys[3]))
+				cf.executeCommand(keys[3]);
+		}
 
 		for (int i = 0; i < updates.size(); i++) {
 			Moveable m = updates.get(i);
