@@ -7,9 +7,9 @@ import java.util.ArrayList;
 /**
  * Displays Drawn objects using Graphics
  *
- * Contains two lists of Drawn shapes: focuses and objects. Focuses will always
- * stay within the width and height of the screen, while objects may be off 
- * screen.
+ * Contains two lists of Drawn shapes: focuses and nonFocuses. Focuses will 
+ * always stay within the width and height of the screen, while non-focuses 
+ * may be off screen.
  */
 public class Camera {
 
@@ -21,10 +21,10 @@ public class Camera {
 	private ArrayList<Drawn> focusesList;
 
 	// These shapes can be off screen.
-	private ArrayList<Drawn> objectsList;
+	private ArrayList<Drawn> nonFocusList;
 
 	/**
-	 * Adds an object to one of the lists of shapes.
+	 * Adds an object to focuses or nonFocuses.
 	 *
 	 * @param object  is the item to add.
 	 * @param isFocus determines which list of shapes to add the object to.
@@ -33,19 +33,19 @@ public class Camera {
 		if (isFocus)
 			focusesList.add(object);
 		else
-			objectsList.add(object);
+			nonFocusList.add(object);
 	}
 
 	/**
 	 * Creates a camera object.
 	 */
 	public Camera() {
-		objectsList = new ArrayList<Drawn>();
 		focusesList = new ArrayList<Drawn>();
+		nonFocusList = new ArrayList<Drawn>();
 	}
 
 	/**
-	 * Draws shapes from focusesList and objectsList on a Graphics object.
+	 * Draws shapes from focusesList and nonFocusList on a Graphics object.
 	 *
 	 * @param g               is the graphics object that the shapes are drawn 
 	 *                        on.
@@ -67,7 +67,7 @@ public class Camera {
 		// Create copies of the ArrayLists so we don't have weird concurrency 
 		// errors.
 
-		Drawn[] objects = objectsList.toArray(new Drawn[0]);
+		Drawn[] nonFocuses = nonFocusList.toArray(new Drawn[0]);
 		Drawn[] focuses = focusesList.toArray(new Drawn[0]);
 
 		// Calculate the center of zoom, store it in a Point2D.Double point.
@@ -100,7 +100,7 @@ public class Camera {
 				furthest = c;
 		}
 
-		// Use 2.5 instead of 2 so that objects aren't directly on the edge of 
+		// Use 2.5 instead of 2 so that shapes aren't directly on the edge of 
 		// the screen.
 		double radius = width < height ? width / 2.5 : height / 2.5;
 
@@ -180,18 +180,18 @@ public class Camera {
 			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
 		}
 
-		// Drawn each object.
-		
-		for (Drawn object : objects) {
+		// Drawn each non-focus.
+
+		for (Drawn nonFocus : nonFocuses) {
 
 			// Apply color.
 
-			g.setColor(object.getColor());
+			g.setColor(nonFocus.getColor());
 
 			// Transform vertices based on current zoom center and scalar.
 
-			double[] xVerts = object.getVertices()[0];
-			double[] yVerts = object.getVertices()[1];
+			double[] xVerts = nonFocus.getVertices()[0];
+			double[] yVerts = nonFocus.getVertices()[1];
 
 			if (xVerts.length < yVerts.length)
 				vertices = xVerts.length;
@@ -205,7 +205,7 @@ public class Camera {
 
 			// Calculate center of shape.
 
-			double rotation = object.getRotation();
+			double rotation = nonFocus.getRotation();
 
 			Point2D.Double shapeCenter = new Point2D.Double();
 
