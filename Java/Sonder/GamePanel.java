@@ -91,7 +91,8 @@ public class GamePanel extends JPanel {
 					"d",
 					"s",
 					"w"
-				}));
+				},
+				0.10));
 
 		players.add(
 			new Ship(
@@ -111,7 +112,8 @@ public class GamePanel extends JPanel {
 					"l",
 					"k",
 					"i"
-				}));
+				},
+				0.10));
 
 		// players.add(
 		// 	new Ship(
@@ -131,7 +133,8 @@ public class GamePanel extends JPanel {
 		// 			"h",
 		// 			"g",
 		// 			"t"
-		// 		}));
+		// 		},
+		//  	0.10));
 
 		for (Ship player : players) {
 
@@ -183,17 +186,19 @@ public class GamePanel extends JPanel {
 		}
 
 		for (int i = 0; i < updates.size(); i++) {
-
 			Moveable m = updates.get(i);
 
 			if (m instanceof Projectile) {
-
 				Projectile p = (Projectile) m;
 
 				for (Ship player : players) {
-					if (player.hitBy(p) && p.getParent() != player) {
+					Ship parent = p.getParent();
 
+					if (player.hitBy(p) && parent != player) {
 						player.hit(5);
+						parent.heal(
+							(parent.getMaxHealth() - parent.getHealth()) 
+							* parent.getPercentHealthOnHit());
 
 						updates.remove(i);
 						camera.removeNonFocus(p.shape());

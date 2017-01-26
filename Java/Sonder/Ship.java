@@ -11,6 +11,7 @@ public class Ship extends Moveable {
 	private Drawn healthBarOutline;
 	private double maxHealth;
 	private double health;
+	private double percentHealthOnHit;
 
 	private String[] keys = 
 	{
@@ -29,13 +30,15 @@ public class Ship extends Moveable {
 		double acceleration, 
 		double rotationSpeed, 
 		double deceleration,
-		String[] keys) {
+		String[] keys,
+		double percentHealthOnHit) {
 
 		super(shape, deceleration);
 
 		this.acceleration = acceleration;
 		this.rotationSpeed = rotationSpeed;
 		this.keys = keys;
+		this.percentHealthOnHit = percentHealthOnHit;
 
 		maxHealth = 50;
 		health = 50;
@@ -90,6 +93,18 @@ public class Ship extends Moveable {
 			});
 	}
 
+	public double getPercentHealthOnHit() {
+		return percentHealthOnHit;
+	}
+	
+	public double getMaxHealth() {
+		return maxHealth;
+	}
+
+	public double getHealth() {
+		return health;
+	}
+
 	public boolean isAlive() {
 		return health > 0;
 	}
@@ -100,6 +115,10 @@ public class Ship extends Moveable {
 
 	public void hit(double damage) {
 		health = health - damage > 0 ? health - damage : 0;
+	}
+
+	public void heal(double amount) {
+		health = health < maxHealth ? health + amount : maxHealth;
 	}
 
 	public void thrust() {
