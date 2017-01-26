@@ -13,6 +13,11 @@ public class Ship extends Moveable {
 	private double health;
 	private double percentHealthOnHit;
 
+	private Drawn shield;
+	private double maxShieldHealth;
+	private double shieldHealth;
+	private double shieldHealthRegen;
+
 	private String[] keys = 
 	{
 		"rotate counter clockwise key",
@@ -42,6 +47,20 @@ public class Ship extends Moveable {
 
 		maxHealth = 50;
 		health = 50;
+
+		maxShieldHealth = 50;
+		shieldHealth = 50;
+		shieldHealthRegen = 0.05;
+
+		shield = new Drawn(
+			Drawn.SQUARE,
+			new Point2D.Double(
+				shape().getPoint().x,
+				shape().getPoint().y),
+			shieldHealth,
+			0,
+			shape().getColor(),
+			false);
 
 		healthBar = new Drawn(
 			new double[][]
@@ -85,12 +104,24 @@ public class Ship extends Moveable {
 			shape().getPoint().x, 
 			shape().getPoint().y + 50);
 
+		shield.setLocation(
+			shape().getPoint().x, 
+			shape().getPoint().y);
+
+		shield.setSize(shieldHealth);
+		
+		shieldHealth = shieldHealth + shieldHealthRegen < maxShieldHealth ? shieldHealth + shieldHealthRegen : maxShieldHealth;
+
 		healthBar.setShape(
 			new double[][]
 			{
 				{-health, health, health, -health},
 				{-4, -4, 4, 4}
 			});
+	}
+
+	public void hitShield(double damage) {
+		shieldHealth = shieldHealth - damage > 0 ? shieldHealth - damage : 0;
 	}
 
 	public double getPercentHealthOnHit() {
@@ -107,6 +138,10 @@ public class Ship extends Moveable {
 
 	public boolean isAlive() {
 		return health > 0;
+	}
+
+	public Drawn getShield() {
+		return shield;
 	}
 
 	public Drawn[] getHealthBar() {
@@ -128,6 +163,11 @@ public class Ship extends Moveable {
 
 	public void rotate(boolean clockwise) {
 		shape.rotate((clockwise ? 1 : -1) * Math.PI / rotationSpeed);
+	}
+
+	public boolean shieldHitBy(Projectile p) {
+		Drawn pShape = p.shape();
+		return shield.contains(pShape.getPoint());
 	}
 
 	public boolean hitBy(Projectile p) {

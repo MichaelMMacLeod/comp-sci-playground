@@ -143,6 +143,8 @@ public class GamePanel extends JPanel {
 			for (Drawn bar : bars)
 				camera.add(bar, false);
 
+			camera.add(player.getShield(), false);
+
 			camera.add(player.shape(), true);
 			updates.add(player);
 		}
@@ -181,6 +183,8 @@ public class GamePanel extends JPanel {
 				for (Drawn bar : bars)
 					camera.removeNonFocus(bar);
 
+				camera.removeNonFocus(player.getShield());
+
 				i--;
 			}
 		}
@@ -193,6 +197,15 @@ public class GamePanel extends JPanel {
 
 				for (Ship player : players) {
 					Ship parent = p.getParent();
+
+					if (player.shieldHitBy(p) && parent != player) {
+						player.hitShield(10);
+
+						updates.remove(i);
+						camera.removeNonFocus(p.shape());
+
+						i--;
+					}
 
 					if (player.hitBy(p) && parent != player) {
 						player.hit(5);
