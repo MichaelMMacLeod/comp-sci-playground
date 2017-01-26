@@ -1,3 +1,4 @@
+// Lawrence's program:
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,28 +30,28 @@ public class DrMariox2
         
         // I wasted my life doing this instead of loops until row 14.....
         g.setColor(colors[1]);//black
-        g.fillRect(85, 10, 70, 10);//row one
-        g.fillRect(65, 20, 20, 10);//row two
-        g.fillRect(155, 20, 20, 10);//row two
-        g.fillRect(55, 30, 10, 10);//row three
-        g.fillRect(175, 30, 10, 10);//row three
-        g.fillRect(55, 40, 10, 10);//row four
-        g.fillRect(175, 40, 10, 10);//row four
-        g.fillRect(45, 50, 10, 10);//row five
-        g.fillRect(95, 50, 10, 10);//row five
-        g.fillRect(135, 50, 10, 10);//row five
-        g.fillRect(185, 50, 10, 10);//row five
-        g.fillRect(45, 60, 10, 10);//row six
-        g.fillRect(105, 60, 30, 10);//row six
-        g.fillRect(185, 60, 10, 10);//row six
-        g.fillRect(35, 70, 10, 10);//row seven
-        g.fillRect(85, 70, 20, 10);//row seven
-        g.fillRect(135, 70, 20, 10);//row seven
-        g.fillRect(195, 70, 10, 10);//row seven
-        g.fillRect(25, 80, 10, 10);//row eight
-        g.fillRect(75, 80, 10, 10);//row eight
-        g.fillRect(155, 80, 10, 10);//row eight
-        g.fillRect(205, 80, 10, 10);//row eight
+        g.fillRect(170, 20, 140, 20);//
+        g.fillRect(130, 40, 40, 20);//
+        g.fillRect(310, 40, 40, 20);//
+        g.fillRect(110, 60, 20, 20);//
+        g.fillRect(350, 60, 20, 20);//
+        g.fillRect(110, 80, 20, 20);//
+        g.fillRect(350, 80, 20, 20);//
+        g.fillRect(90, 100, 20, 20);//
+        g.fillRect(190, 100, 20, 20);//
+        g.fillRect(270, 100, 20, 20);//
+        g.fillRect(370, 100, 20, 20);//
+        g.fillRect(90, 120, 20, 20);//
+        g.fillRect(210, 120, 60, 20);//
+        g.fillRect(370, 120, 20, 20);//
+        g.fillRect(70, 140, 20, 20);//
+        g.fillRect(170, 140, 40, 20);//
+        g.fillRect(270, 140, 40, 20);//
+        g.fillRect(390, 140, 20, 20);//
+        g.fillRect(50, 160, 20, 20);//
+        g.fillRect(150, 160, 20, 20);//
+        g.fillRect(310, 160, 20, 20);//
+        g.fillRect(410, 160, 20, 20);//
         g.fillRect(30, 180, 20, 20);
         g.fillRect(210, 180, 20, 20);
         g.fillRect(250, 180, 20, 20);
@@ -67,20 +68,20 @@ public class DrMariox2
         g.fillRect(390, 260, 20, 20);
         
         g.setColor(colors[3]);//brown
-        g.fillRect(85, 20, 20, 10);//row two
-        g.fillRect(135, 20, 20, 10);//row two
-        g.fillRect(65, 30, 30, 10);// row three
-        g.fillRect(145, 30, 30, 10);//row three
-        g.fillRect(65, 40, 30, 10);// row four
-        g.fillRect(145, 40, 30, 10);//row four
-        g.fillRect(55, 60, 50, 10);//row six
-        g.fillRect(135, 60, 50, 10);//row six
-        g.fillRect(45, 70, 20, 10);//row seven
-        g.fillRect(75, 70, 10, 10);//row seven
-        g.fillRect(155, 70, 10, 10);//row seven
-        g.fillRect(175, 70, 20, 10);//row seven
-        g.fillRect(55, 80, 10, 10);//row eight
-        g.fillRect(175, 80, 10, 10);//row eight
+        g.fillRect(170, 40, 40, 20);//
+        g.fillRect(270, 40, 40, 20);//
+        g.fillRect(130, 60, 60, 20);// 
+        g.fillRect(290, 60, 60, 20);//
+        g.fillRect(130, 80, 60, 20);// 
+        g.fillRect(290, 80, 60, 20);//
+        g.fillRect(110, 120, 100, 20);//
+        g.fillRect(270, 120, 100, 20);//
+        g.fillRect(90, 140, 40, 20);//
+        g.fillRect(150, 140, 20, 20);//
+        g.fillRect(310, 140, 20, 20);//
+        g.fillRect(350, 140, 40, 20);//
+        g.fillRect(110, 160, 20, 20);//
+        g.fillRect(350, 160, 20, 20);//
         g.fillRect(110, 180, 20, 20);
         g.fillRect(350, 180, 20, 20);
         g.fillRect(70, 200, 20, 20);
@@ -94,14 +95,14 @@ public class DrMariox2
         g.fillRect(290, 260, 40, 20);
              
         g.setColor(colors[0]);//white
-        g.fillRect(105, 20, 30, 10);//row two
-        g.fillRect(95, 30, 50, 10);//row three
-        g.fillRect(95, 40, 50, 10);//row four
-        g.fillRect(55, 50, 40, 10);//row five
-        g.fillRect(105, 50, 30, 10);//row five
-        g.fillRect(145, 50, 40, 10);//row five
-        g.fillRect(85, 80, 30, 10);//row eight
-        g.fillRect(125, 80, 30, 10);//row eight
+        g.fillRect(210, 40, 60, 20);//
+        g.fillRect(190, 60, 100, 20);//
+        g.fillRect(190, 80, 100, 20);//
+        g.fillRect(110, 100, 80, 20);//
+        g.fillRect(210, 100, 60, 20);//
+        g.fillRect(290, 100, 80, 20);//
+        g.fillRect(170, 160, 60, 20);//
+        g.fillRect(250, 160, 60, 20);//
         g.fillRect(170, 180, 40, 20);
         g.fillRect(270, 180, 40, 20);
         g.fillRect(170, 200, 40, 20);
@@ -110,14 +111,14 @@ public class DrMariox2
         g.fillRect(250, 220, 60, 20);
         
         g.setColor(colors[2]);//peach
-        g.fillRect(65, 70, 10, 10);//row seven
-        g.fillRect(105, 70, 30, 10);//row seven
-        g.fillRect(165, 70, 10, 10);//row seven
-        g.fillRect(35, 80, 20, 10);//row eight
-        g.fillRect(65, 80, 10, 10);//row eight
-        g.fillRect(115, 80, 10, 10);//row eight
-        g.fillRect(165, 80, 10, 10);//row eight
-        g.fillRect(185, 80, 20, 10);//row eight
+        g.fillRect(130, 140, 20, 20);//
+        g.fillRect(210, 140, 60, 20);//
+        g.fillRect(330, 140, 20, 20);//
+        g.fillRect(70, 160, 40, 20);//
+        g.fillRect(130, 160, 20, 20);//
+        g.fillRect(230, 160, 20, 20);//
+        g.fillRect(330, 160, 20, 20);//
+        g.fillRect(370, 160, 40, 20);//
         g.fillRect(50, 180, 60, 20);
         g.fillRect(130, 180, 40, 20);
         g.fillRect(230, 180, 20, 20);
@@ -150,56 +151,56 @@ public class DrMariox2
         int [] row_20 = {1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 2, 1, 2, 1, 3, 1, 0, 0, 0, 1, 0, 0, 1};
         int [] row_21 = {1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0, 1, 0, 1, 3, 1, 0, 0, 0, 1, 0, 0, 1};
         int y = 70;
-        for(int x = 0; x < row_14.length; x++)//row 14
+        for(int x = 0; x < row_14.length; x++)//
         {
             g. setColor(colors[row_14[x]]);
             g.fillRect(y, 280, 20, 20);
             y = y + 20;
         }
         y = 70;
-        for(int a = 0; a < row_15.length; a++)//row 15
+        for(int a = 0; a < row_15.length; a++)//
         {
             g.setColor(colors[row_15[a]]);
             g.fillRect(y, 300, 20, 20);
             y = y + 20;
         }
         y = 70;
-        for(int b = 0; b < row_16.length; b++)//row 16
+        for(int b = 0; b < row_16.length; b++)//
         {
             g.setColor(colors[row_16[b]]);
             g.fillRect(y, 320, 20, 20);
             y = y + 20;
         }
         y = 50;
-        for(int c = 0; c < row_17.length; c++)//row 17
+        for(int c = 0; c < row_17.length; c++)//
         {
             g.setColor(colors[row_17[c]]);
             g.fillRect(y, 340, 20, 20);
             y = y + 20;
         }
         y = 30;
-        for(int d = 0; d < row_18.length; d++)//row 18
+        for(int d = 0; d < row_18.length; d++)//
         {
             g.setColor(colors[row_18[d]]);
             g.fillRect(y, 360, 20, 20);
             y = y + 20;
         }
         y = 10;
-        for(int e = 0; e < row_19.length; e++)//row 19
+        for(int e = 0; e < row_19.length; e++)//
         {
             g.setColor(colors[row_19[e]]);
             g.fillRect(y, 380, 20, 20);
             y = y + 20;
         }
         y = 0;
-        for(int f = 0; f < row_20.length; f++)//row 20
+        for(int f = 0; f < row_20.length; f++)//
         {
             g.setColor(colors[row_20[f]]);
             g.fillRect(y, 400, 20, 20);
             y = y + 20;
         } 
         y = 0;
-        for(int h = 0; h < row_21.length ; h++)//row 21
+        for(int h = 0; h < row_21.length ; h++)//
         {
             g.setColor(colors[row_21[h]]);
             g.fillRect(y, 420, 20, 20);

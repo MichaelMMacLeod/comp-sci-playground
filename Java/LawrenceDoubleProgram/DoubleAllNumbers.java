@@ -12,6 +12,13 @@ import java.util.Scanner;
 // only works for integers
 // ex: 2.9 -> 4.18 instead of 2.9 -> 5.8
 
+// only works on .java files
+
+// Probably only works on Lawrence's program; the blacklist may be incomplete
+// on other programs
+
+// Does not rename class name to end with x2
+
 public class DoubleAllNumbers {
 	public static void main(String[] args) throws IOException {
 		File file = new File(args[0]);
@@ -49,7 +56,7 @@ public class DoubleAllNumbers {
 			size = list.size();
 		}
 
-		String fileName = args[0].substring(0, args[0].length() - 5);
+		String fileName = args[0].substring(0, args[0].length() - 5); // sry
 
 		FileWriter fw = new FileWriter(fileName + "x2.java");
 		PrintWriter pw = new PrintWriter(fw);
