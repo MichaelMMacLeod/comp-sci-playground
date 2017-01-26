@@ -24,6 +24,10 @@ public class Camera {
 		focusesList.remove(focus);
 	}
 
+	public void removeNonFocus(Drawn nonFocus) {
+		nonFocusList.remove(nonFocus);
+	}
+
 	// These shapes can be off screen.
 	private ArrayList<Drawn> nonFocusList;
 

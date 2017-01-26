@@ -156,7 +156,8 @@ public class GamePanel extends JPanel {
 	}
 
 	public void update() {
-		for (Ship player : players) {
+		for (int i = 0; i < players.size(); i++) {
+			Ship player = players.get(i);
 
 			if (player.isAlive()) {
 				String[] keys = player.getKeys();
@@ -171,14 +172,22 @@ public class GamePanel extends JPanel {
 					cf.executeCommand(keys[3]);
 			} else {
 				camera.removeFocus(player.shape());
+				players.remove(player);
+
+				Drawn[] bars = player.getHealthBar();
+				for (Drawn bar : bars)
+					camera.removeNonFocus(bar);
+
+				i--;
 			}
 		}
 
 		for (int i = 0; i < updates.size(); i++) {
+
 			Moveable m = updates.get(i);
 
 			if (m instanceof Projectile) {
-				
+
 				Projectile p = (Projectile) m;
 
 				for (Ship player : players) {
@@ -187,6 +196,7 @@ public class GamePanel extends JPanel {
 						player.hit(5);
 
 						updates.remove(i);
+						camera.removeNonFocus(p.shape());
 
 						i--;
 					}
