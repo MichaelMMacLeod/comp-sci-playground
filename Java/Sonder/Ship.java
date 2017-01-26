@@ -62,7 +62,13 @@ public class Ship extends Moveable {
 		vector[1] *= deceleration;
 
 		healthBar.setLocation(shape().getPoint().x, shape().getPoint().y + 50);
-		healthBar.setSize(health / maxHealth);
+		// healthBar.setSize(health / maxHealth);
+		healthBar.setShape(
+			new double[][]
+			{
+				{-health, health, health, -health},
+				{-4, -4, 4, 4}
+			});
 	}
 
 	public boolean isAlive() {

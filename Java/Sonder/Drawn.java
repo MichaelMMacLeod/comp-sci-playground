@@ -186,7 +186,7 @@ public class Drawn {
 	 *              shape[1]. There must be an equal number of x and y
 	 *              vertices.
 	 */
-	protected void setShape(double[][] shape) {
+	public void setShape(double[][] shape) {
 
 		// Get vertices
 
