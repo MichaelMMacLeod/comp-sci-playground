@@ -178,19 +178,11 @@ public class GamePanel extends JPanel {
 			Moveable m = updates.get(i);
 
 			if (m instanceof Projectile) {
+				
 				Projectile p = (Projectile) m;
 
 				for (Ship player : players) {
 					if (player.hitBy(p) && p.getParent() != player) {
-						camera.add(
-							new Drawn(
-								Drawn.TRIANGLE,
-								player.shape().getPoint(),
-								30,
-								player.shape().getRotation(),
-								player.shape().getColor(),
-								false),
-							false);
 
 						player.hit(5);
 
