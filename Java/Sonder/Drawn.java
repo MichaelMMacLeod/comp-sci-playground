@@ -18,6 +18,16 @@ import java.util.Arrays;
 public class Drawn {
 
 	/**
+	 * Signifies if the polygon should be filled in or outlined.
+	 */
+
+	private boolean fill;
+
+	public boolean fillPolygon() {
+		return fill;
+	}
+
+	/**
 	 * X and y coordinates of the shape in space.
 	 */
 	
@@ -148,13 +158,16 @@ public class Drawn {
 	 * @param size     is the size of the shape.
 	 * @param rotation is the angle of rotation in radians.
 	 * @param color    is the color of the shape.
+	 * @param fill     is true if the polygon should be drawn filled in, or 
+	 *                 false if it should be drawn outlined.
 	 */
 	public Drawn(
 		double[][] shape,
 		Point2D.Double location,
 		double size, 
 		double rotation,
-		Color color) {
+		Color color,
+		boolean fill) {
 
 		setShape(shape);
 
@@ -162,6 +175,7 @@ public class Drawn {
 		this.size = size;
 		this.rotation = rotation;
 		this.color = color;
+		this.fill = fill;
 	}
 
 	/**

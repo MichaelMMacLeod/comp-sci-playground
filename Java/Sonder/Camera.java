@@ -181,7 +181,10 @@ public class Camera {
 
 			// Drawn the polygon.
 
-			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
+			if (focus.fillPolygon())
+				g.fillPolygon(xVertsInt, yVertsInt, xVerts.length);
+			else
+				g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
 		}
 
 		// Drawn each non-focus.
@@ -232,7 +235,10 @@ public class Camera {
 
 			// Drawn the polygon.
 
-			g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
+			if (nonFocus.fillPolygon())
+				g.fillPolygon(xVertsInt, yVertsInt, xVerts.length);
+			else
+				g.drawPolygon(xVertsInt, yVertsInt, xVertsInt.length);
 		}
 	}
 }

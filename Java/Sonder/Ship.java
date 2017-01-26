@@ -50,7 +50,8 @@ public class Ship extends Moveable {
 				shape().getPoint().y),
 			1,
 			0,
-			shape().getColor());
+			shape().getColor(),
+			true);
 	}
 
 	@Override
