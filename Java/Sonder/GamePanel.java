@@ -134,7 +134,12 @@ public class GamePanel extends JPanel {
 		// 		}));
 
 		for (Ship player : players) {
-			camera.add(player.getHealthBar(), false);
+
+			Drawn[] bars = player.getHealthBar();
+
+			for (Drawn bar : bars)
+				camera.add(bar, false);
+
 			camera.add(player.shape(), true);
 			updates.add(player);
 		}

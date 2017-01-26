@@ -8,6 +8,7 @@ public class Ship extends Moveable {
 	private double rotationSpeed;
 
 	private Drawn healthBar;
+	private Drawn healthBarOutline;
 	private double maxHealth;
 	private double health;
 
@@ -39,7 +40,7 @@ public class Ship extends Moveable {
 		maxHealth = 50;
 		health = 50;
 
-		this.healthBar = new Drawn(
+		healthBar = new Drawn(
 			new double[][]
 			{
 				{-maxHealth, maxHealth, maxHealth, -maxHealth},
@@ -52,6 +53,19 @@ public class Ship extends Moveable {
 			0,
 			shape().getColor(),
 			true);
+		healthBarOutline = new Drawn(
+			new double[][]
+			{
+				{-maxHealth, maxHealth, maxHealth, -maxHealth},
+				{-4, -4, 4, 4}
+			},
+			new Point2D.Double(
+				shape().getPoint().x, 
+				shape().getPoint().y),
+			1,
+			0,
+			shape().getColor(),
+			false);
 	}
 
 	@Override
@@ -61,8 +75,13 @@ public class Ship extends Moveable {
 		vector[0] *= deceleration;
 		vector[1] *= deceleration;
 
-		healthBar.setLocation(shape().getPoint().x, shape().getPoint().y + 50);
-		// healthBar.setSize(health / maxHealth);
+		healthBarOutline.setLocation(
+			shape().getPoint().x, 
+			shape().getPoint().y + 50);
+		healthBar.setLocation(
+			shape().getPoint().x, 
+			shape().getPoint().y + 50);
+
 		healthBar.setShape(
 			new double[][]
 			{
@@ -75,8 +94,8 @@ public class Ship extends Moveable {
 		return health > 0;
 	}
 
-	public Drawn getHealthBar() {
-		return healthBar;
+	public Drawn[] getHealthBar() {
+		return new Drawn[] { healthBar, healthBarOutline };
 	}
 
 	public void hit(double damage) {
