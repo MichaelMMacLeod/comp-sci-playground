@@ -53,7 +53,11 @@ public class Ship extends Moveable {
 		shieldHealthRegen = 0.05;
 
 		shield = new Drawn(
-			Drawn.SQUARE,
+			new double[][]
+			{
+				{-1, 0, 1, 1.5, 1, 0, -1, -1.5},
+				{-1, -1.5, -1, 0, 1, 1.5, 1, 0}
+			},
 			new Point2D.Double(
 				shape().getPoint().x,
 				shape().getPoint().y),
