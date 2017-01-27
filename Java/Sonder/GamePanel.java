@@ -198,13 +198,11 @@ public class GamePanel extends JPanel {
 				for (Ship player : players) {
 					Ship parent = p.getParent();
 
+					boolean remove = false;
+
 					if (player.shieldHitBy(p) && parent != player) {
 						player.hitShield(10);
-
-						updates.remove(i);
-						camera.removeNonFocus(p.shape());
-
-						i--;
+						remove = true;
 					}
 
 					if (player.hitBy(p) && parent != player) {
@@ -212,10 +210,12 @@ public class GamePanel extends JPanel {
 						parent.heal(
 							(parent.getMaxHealth() - parent.getHealth()) 
 							* parent.getPercentHealthOnHit());
+						remove = true;
+					}
 
-						updates.remove(i);
+					if (remove) {
 						camera.removeNonFocus(p.shape());
-
+						updates.remove(i);
 						i--;
 					}
 				}

@@ -44,8 +44,6 @@ public class Sonder {
                 gamePanel.repaint();
                 lag -= MS_PER_UPDATE;
             }
-
-            
         }
     }
 

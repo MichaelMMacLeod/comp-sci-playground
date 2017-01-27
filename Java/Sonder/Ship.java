@@ -109,7 +109,8 @@ public class Ship extends Moveable {
 			shape().getPoint().y);
 
 		shield.setSize(shieldHealth);
-		
+		shield.setRotation(shape().getRotation());
+
 		shieldHealth = shieldHealth + shieldHealthRegen < maxShieldHealth ? shieldHealth + shieldHealthRegen : maxShieldHealth;
 
 		healthBar.setShape(

@@ -112,8 +112,12 @@ public class Drawn {
 		return rotation;
 	}
 
-	protected void rotate(double r) {
-		rotation += r;
+	protected void rotate(double rotation) {
+		this.rotation += rotation;
+	}
+
+	protected void setRotation(double rotation) {
+		this.rotation = rotation;
 	}
 
 	/**
