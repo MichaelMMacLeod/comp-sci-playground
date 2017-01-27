@@ -1,6 +1,7 @@
 import java.awt.geom.Point2D;
 import java.awt.Polygon;
 import java.awt.Color;
+import java.awt.geom.Area;
 
 import java.util.Arrays;
 
@@ -283,5 +284,51 @@ public class Drawn {
 		Polygon p = new Polygon(itx, ity, vertices);
 		
 		return p.contains(point.x, point.y);
+	}
+
+	/**
+	 * Checks if the shape contains a polygon.
+	 *
+	 * @param otherShape is the other polygon
+	 */
+	protected boolean contains(Drawn otherShape) {
+		double[] tx = Arrays.copyOf(xVertices, vertices);
+		double[] ty = Arrays.copyOf(yVertices, vertices);
+
+		transform(tx, ty, vertices, rotation, location.x, location.y, size);
+
+		double[] otherx = otherShape.getVertices()[0];
+		double[] othery = otherShape.getVertices()[1];
+
+		int otherVertices = 0;
+
+		if (otherx.length < othery.length)
+			otherVertices = otherx.length;
+		else
+			otherVertices = othery.length;
+
+		int[] iotherx = new int[otherVertices];
+		int[] iothery = new int[otherVertices];
+
+		int[] itx = new int[vertices];
+		int[] ity = new int[vertices];
+
+		for (int i = 0; i < vertices; i++) {
+			iotherx[i] = (int) otherx[i];
+			iothery[i] = (int) othery[i];
+
+			itx[i] = (int) tx[i];
+			ity[i] = (int) ty[i];
+		}
+
+		Polygon polygon = new Polygon(itx, ity, vertices);
+		Polygon otherPolygon = new Polygon(iotherx, iothery, otherVertices);
+
+		Area polygonArea = new Area(polygon);
+		Area otherPolygonArea = new Area(otherPolygon);
+		
+		polygonArea.intersect(otherPolygonArea);
+
+		return !polygonArea.isEmpty();
 	}
 }
