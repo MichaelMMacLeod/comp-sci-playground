@@ -115,26 +115,26 @@ public class GamePanel extends JPanel {
 				},
 				0.10));
 
-		// players.add(
-		// 	new Ship(
-		// 		new Drawn(
-		// 			Drawn.TRIANGLE,
-		// 			new Point2D.Double(0, 60),
-		// 			30, 
-		// 			-Math.PI / 2, 
-		// 			Color.BLACK,
-		//  		false), 
-		// 		0.05, 
-		// 		120,
-		// 		0.99,
-		// 		new String[]
-		// 		{
-		// 			"f",
-		// 			"h",
-		// 			"g",
-		// 			"t"
-		// 		},
-		//  	0.10));
+		players.add(
+			new Ship(
+				new Drawn(
+					Drawn.TRIANGLE,
+					new Point2D.Double(0, 60),
+					30, 
+					-Math.PI / 2, 
+					Color.BLACK,
+		 		false), 
+				0.05, 
+				120,
+				0.99,
+				new String[]
+				{
+					"f",
+					"h",
+					"g",
+					"t"
+				},
+		 	0.10));
 
 		for (Ship player : players) {
 
