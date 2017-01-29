@@ -9,25 +9,50 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 
+	/**
+	 * Initial size of the window. To get the current size, use JPanel's 
+	 * getWidth() and getHeight().
+	 */
 	private int width, height;
 
+	/**
+	 * Tracks which keys are pressed.
+	 */
 	private InputManager input;
 
+	/**
+	 * Draws objects on the screen using a graphics object.
+	 */
 	private Camera camera;
 
+	/**
+	 * Contains all ships.
+	 */
 	private ArrayList<Ship> players;
 
+	/**
+	 * Contains Projectiles.
+	 */
 	private ArrayList<Moveable> updates;
 
-	final CommandFactory cf;
+	/**
+	 * Binds keyboard input to commands.
+	 */
+	private final CommandFactory cf;
 
+	/**
+	 * Creates a GamePanel object.
+	 *
+	 * @param width  is the initial width of the window.
+	 * @param height is the initial height of the window.
+	 */
 	public GamePanel(int width, int height) {
 		this.width = width;
 		this.height = height;
 
 		restart();
 
-		// Initialize command factory and controls
+		// Initialize command factory and controls.
 
 		input = new InputManager(this);
 
@@ -64,10 +89,10 @@ public class GamePanel extends JPanel {
 		cf.listCommands();
 	}
 
+	/**
+	 * Resets the game to its initial state.
+	 */
 	private void restart() {
-		updates = new ArrayList<Moveable>();
-
-		camera = new Camera();
 
 		// Initialize players
 
@@ -136,6 +161,11 @@ public class GamePanel extends JPanel {
 				},
 		 	0.10));
 
+		// Add objects to the camera and the update list.
+
+		camera = new Camera();
+		updates = new ArrayList<Moveable>();
+
 		for (Ship player : players) {
 
 			Drawn[] bars = player.getHealthBar();
@@ -160,7 +190,13 @@ public class GamePanel extends JPanel {
 			false);
 	}
 
+	/**
+	 * Calculates logic updates.
+	 */
 	public void update() {
+
+		// Update all players
+
 		for (int i = 0; i < players.size(); i++) {
 			Ship player = players.get(i);
 
@@ -176,6 +212,9 @@ public class GamePanel extends JPanel {
 				if (input.pressed(keys[3]))
 					cf.executeCommand(keys[3]);
 			} else {
+
+				// Remove dead players.
+
 				camera.removeFocus(player.shape());
 				players.remove(player);
 
@@ -188,6 +227,8 @@ public class GamePanel extends JPanel {
 				i--;
 			}
 		}
+
+		// Update all projectiles
 
 		for (int i = 0; i < updates.size(); i++) {
 			Moveable m = updates.get(i);
@@ -213,6 +254,8 @@ public class GamePanel extends JPanel {
 						remove = true;
 					}
 
+					// Remove dead projectiles
+
 					if (remove) {
 						camera.removeNonFocus(p.shape());
 						updates.remove(i);
@@ -225,6 +268,9 @@ public class GamePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws objects on the screen.
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -232,6 +278,9 @@ public class GamePanel extends JPanel {
 		camera.draw(g, getWidth(), getHeight(), 32);
 	}
 
+	/**
+	 * Returns the initial size of the window.
+	 */
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(width, height);
