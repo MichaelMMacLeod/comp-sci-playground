@@ -172,11 +172,11 @@ public class Ship extends Moveable {
 
 	public boolean shieldHitBy(Projectile p) {
 		Drawn pShape = p.shape();
-		return shield.contains(pShape.getPoint());
+		return shield.contains(pShape);
 	}
 
 	public boolean hitBy(Projectile p) {
 		Drawn pShape = p.shape();
-		return shape.contains(pShape.getPoint());
+		return shape.contains(pShape);
 	}
 }

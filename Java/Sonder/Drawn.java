@@ -263,39 +263,13 @@ public class Drawn {
 	}
 
 	/**
-	 * Checks if the shape contains a certain point.
-	 *
-	 * @param point is the (x, y) point to check.
-	 */
-	protected boolean contains(Point2D.Double point) {
-		double[] tx = Arrays.copyOf(xVertices, vertices);
-		double[] ty = Arrays.copyOf(yVertices, vertices);
-
-		transform(tx, ty, vertices, rotation, location.x, location.y, size);
-
-		int[] itx = new int[vertices];
-		int[] ity = new int[vertices];
-
-		for (int i = 0; i < vertices; i++) {
-			itx[i] = (int) tx[i];
-			ity[i] = (int) ty[i];
-		}
-
-		Polygon p = new Polygon(itx, ity, vertices);
-		
-		return p.contains(point.x, point.y);
-	}
-
-	/**
 	 * Checks if the shape contains a polygon.
 	 *
 	 * @param otherShape is the other polygon
 	 */
 	protected boolean contains(Drawn otherShape) {
-		double[] tx = Arrays.copyOf(xVertices, vertices);
-		double[] ty = Arrays.copyOf(yVertices, vertices);
-
-		transform(tx, ty, vertices, rotation, location.x, location.y, size);
+		double[] tx = getVertices()[0];
+		double[] ty = getVertices()[1];
 
 		double[] otherx = otherShape.getVertices()[0];
 		double[] othery = otherShape.getVertices()[1];
@@ -313,10 +287,12 @@ public class Drawn {
 		int[] itx = new int[vertices];
 		int[] ity = new int[vertices];
 
-		for (int i = 0; i < vertices; i++) {
+		for (int i = 0; i < otherVertices; i++) {
 			iotherx[i] = (int) otherx[i];
 			iothery[i] = (int) othery[i];
+		}
 
+		for (int i = 0; i < vertices; i++) {
 			itx[i] = (int) tx[i];
 			ity[i] = (int) ty[i];
 		}
@@ -325,9 +301,8 @@ public class Drawn {
 		Polygon otherPolygon = new Polygon(iotherx, iothery, otherVertices);
 
 		Area polygonArea = new Area(polygon);
-		Area otherPolygonArea = new Area(otherPolygon);
 		
-		polygonArea.intersect(otherPolygonArea);
+		polygonArea.intersect(new Area(otherPolygon));
 
 		return !polygonArea.isEmpty();
 	}
