@@ -49,7 +49,7 @@ public class GamePanel extends JPanel {
 					5,
 					player.shape().getRotation(),
 					player.shape().getColor(),
-					false);
+					true);
 				Projectile p = new Projectile(
 					d, 
 					player.vector(), 
@@ -203,7 +203,6 @@ public class GamePanel extends JPanel {
 					if (player.shieldHitBy(p) && parent != player) {
 						player.hitShield(10);
 						remove = true;
-						System.out.println("shield true");
 					}
 
 					if (player.hitBy(p) && parent != player) {
@@ -212,7 +211,6 @@ public class GamePanel extends JPanel {
 							(parent.getMaxHealth() - parent.getHealth()) 
 							* parent.getPercentHealthOnHit());
 						remove = true;
-						System.out.println("player true");
 					}
 
 					if (remove) {
