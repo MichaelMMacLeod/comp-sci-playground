@@ -1,5 +1,3 @@
-// © A+ Computer Science  -  www.apluscompsci.com
-
 import java.util.Scanner;
 
 public class Lab10d {
