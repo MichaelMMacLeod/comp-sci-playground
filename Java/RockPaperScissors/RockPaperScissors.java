@@ -48,10 +48,79 @@ public class RockPaperScissors {
 	//
 	// The winner is the one who had to add the most 2pi/3.
 
-	public String determineWinner() {
+	// Does 1, 5, or 6 comparisons. That's kinda depressing, because we could
+	// just have less comparisons by chaining if-else statements*.
+	// ie:
+	//
+	//     winner = none
+	//
+	//     if player picked rock
+	//         if computer picked paper
+	//             winner = computer
+	//         else if computer picked scissors
+	//             winner = player
+	//     else if player picked paper
+	//         ...
+	//
+	//     else
+	//         ...
+	//
+	//     return winner
+	//
+	// That strategy has a minimum of 2 comparisons, and a max of 3.
+	//
+	// *BUT WAIT...
+	// 
+	// The String class uses this method (.equals()) to compare strings:
+	//
+	// from: http://www.docjar.com/html/api/java/lang/String.java.html
+	//
+	// public boolean equals(Object anObject) {
+	// 	if (this == anObject) {
+	// 		return true;
+	// 	}
+	// 	if (anObject instanceof String) {
+	// 		String anotherString = (String)anObject;
+	// 		int n = count;
+	// 		if (n == anotherString.count) {
+	// 			char v1[] = value;
+	// 			char v2[] = anotherString.value;
+	// 			int i = offset;
+	// 			int j = anotherString.offset;
+	// 			while (n-- != 0) {
+	// 				if (v1[i++] != v2[j++])
+	// 					return false;
+	// 			}
+	// 			return true;
+	// 		}
+	// 	}
+	// 	return false;
+	// }
+	//
+	// Each call of .equals() does a bunch of comparisons.
+	// .equalsIgnoreCase() does even more.
+	//
+	// If we were to use the strategy above (which uses .equals()), we would 
+	// be "hiding" our comparisons in the String class.
+	//
+	// so...
+	//
+	// technically...
+	//
+	// this has less comparisons.
+	// 
+	// Unless you decide to just take the first character of input and store 
+	// it in a char; then this whole train of logic kinda falls apart because 
+	// you use == instead of .equals().
+
+	public String determineWinner2() {
+		int compare = 0;
+
 		String winner = "no winner";
 
-		if (playChoice != compChoice) {
+		if (playChoice != compChoice) { 
+			compare++;
+
 			double play = Math.sin(playChoice), comp = Math.sin(compChoice);
 
 			double playDiff = playChoice, compDiff = compChoice;
@@ -60,20 +129,31 @@ public class RockPaperScissors {
 			// use Math.abs() and 0.0001 because of rounding errors
 
 			while (Math.abs(Math.sin(playChoice) - comp) > 0.0001) {
+				compare++;
+
 				playChoice += 2 * Math.PI / 3;
 				p++;
 			}
 
 			while (Math.abs(Math.sin(compChoice) - play) > 0.0001) {
+				compare++;
+
 				compChoice += 2 * Math.PI / 3;
 				c++;
 			}
 
-			if (p > c)
+			if (p > c) {
+				compare++;
+
 				winner = "player";
-			else
+			} else {
 				winner = "computer";
+			}
 		}
+
+		compare++;
+
+		System.out.println("Number of comparisons: " + compare);
 
 		return winner;
 	}
@@ -82,7 +162,7 @@ public class RockPaperScissors {
 	public String toString() {
 		String output = 
 		"winner: " 
-		+ determineWinner() 
+		+ determineWinner2() 
 		+ "\nplayer: " 
 		+ playChoiceString 
 		+ "\ncomputer: " 
