@@ -31,11 +31,8 @@ public class GameClient {
             new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
 
-        // Consume the initial welcoming messages from the server
-        for (int i = 0; i < 3; i++) {
-            System.out.println(in.readLine());
-        }
-
+        System.out.println(in.readLine());
+        
         while (true) {
             if (scan.hasNextLine()) {
                 out.println(scan.nextLine());

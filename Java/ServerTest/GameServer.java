@@ -39,7 +39,6 @@ public class GameServer {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
                 out.println("Hello, you are client #" + clientNumber + ".");
-                out.println("Enter a line with only a period to quit\n");
 
                 while (true) {
                     String text;
