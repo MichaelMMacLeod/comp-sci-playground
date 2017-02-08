@@ -35,10 +35,9 @@ public class Clicker {
 
 			while (lag >= MS_PER_UPDATE) {
 				gamePanel.updateLogic();
+				gamePanel.repaint();
 				lag -= MS_PER_UPDATE;
 			}
-
-			gamePanel.repaint();
 		}
 	}
 
