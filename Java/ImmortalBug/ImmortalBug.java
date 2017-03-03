@@ -20,7 +20,7 @@ import java.util.Random;
  */
 
 public class ImmortalBug extends Bug implements Runnable {
-	private Grid myGrid;
+	private Grid<Actor> myGrid;
 	private Location myLocation;
 
 	private Random colorGen = new Random();
