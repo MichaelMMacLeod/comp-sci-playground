@@ -16,8 +16,6 @@ public class RockDropper extends Critter {
         Location loc = selectMoveLocation(moveLocs);
         makeMove(loc);
 
-        try {
-            getGrid().put(current, new Rock(getColor()));
-        } catch (Exception e) {}
+        new Rock(getColor()).putSelfInGrid(getGrid(), current);
     }
 }
