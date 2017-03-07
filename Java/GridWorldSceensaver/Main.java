@@ -6,7 +6,7 @@ import java.awt.Color;
 
 public class Main {
 	public static void main(String... args) {
-		ActorWorld world = new ActorWorld();
+		ActorWorld world = new ActorWorld(new BoundedGrid<Actor>(40, 70));
 
 		RockEater re = new RockEater();
 		re.setColor(Color.GREEN);
@@ -14,6 +14,7 @@ public class Main {
 		world.add(new Location(5, 6), new RockDropper(Color.RED));
 		world.add(new Location(5, 7), new RockDropper(Color.BLUE));
 		world.add(new Location(5, 4), new RockDropper(Color.ORANGE));
+		world.add(new Location(5, 3), new RockDropper(Color.BLACK));
 
 		world.add(new Location(5, 8), re);
 
