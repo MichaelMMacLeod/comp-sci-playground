@@ -8,16 +8,29 @@ public class Sorts {
         int[] dis = new int[] {4, 2, 5, 1, 3, 18, 0, 9, 6}; // disarray
         
         System.out.println("BubbleSort");
-        bubbleSort(Arrays.copyOf(dis, dis.length));
-        for (int i : dis)
+        int[] bs = Arrays.copyOf(dis, dis.length);
+        bubbleSort(bs);
+        for (int i : bs)
             System.out.print(i + " ");
         System.out.println();
 
         System.out.println("SelectionSort");
-        selectionSort(Arrays.copyOf(dis, dis.length));
-        for (int i : dis)
+        int[] ss = Arrays.copyOf(dis, dis.length);
+        selectionSort(ss);
+        for (int i : ss)
             System.out.print(i + " ");
         System.out.println();
+
+        System.out.println("QuickSort");
+        int[] qs = Arrays.copyOf(dis, dis.length);
+        quickSort(qs);
+        for (int i : qs)
+            System.out.print(i + " ");
+        System.out.println();
+    }
+
+    static void quickSort(int[] array) {
+        
     }
 
     static void selectionSort(int[] dis) {
