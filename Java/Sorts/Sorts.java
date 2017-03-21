@@ -5,65 +5,209 @@ import java.util.Arrays;
 
 public class Sorts {
     public static void main(String[] args) {
-        int[] dis = new int[] {4, 2, 5, 1, 3, 18, 0, 9, 6}; // disarray
+        if (args.length != 1) {
+            System.out.println("Please provide an integer argument denoting the length of array to sort.");
+            System.exit(0);
+
+            // let's just hope they gave us an integer; too lazy to deal with that right now.
+        }
+
+        int[] dis = new int[Integer.parseInt(args[0])]; // disarray
+        for (int i = 0; i < dis.length; i++)
+            dis[i] = (int) (Math.random() * dis.length);
+
+        long start;
+
+        System.out.println("Initial array:");
+        for (int i : dis)
+            System.out.print(i + " ");
+        System.out.println();
+
+        System.out.println("\nSorting an array of " + dis.length + " random numbers...\n");
         
-        System.out.println("BubbleSort");
+        start = System.nanoTime();
+        System.out.print("BubbleSort ");
         int[] bs = Arrays.copyOf(dis, dis.length);
         bubbleSort(bs);
+        System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : bs)
             System.out.print(i + " ");
-        System.out.println();
+        System.out.println("\n");
 
-        System.out.println("SelectionSort");
+        start = System.nanoTime();
+        System.out.print("SelectionSort ");
         int[] ss = Arrays.copyOf(dis, dis.length);
         selectionSort(ss);
+        System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : ss)
             System.out.print(i + " ");
-        System.out.println();
+        System.out.println("\n");
 
-        System.out.println("QuickSort");
+        start = System.nanoTime();
+        System.out.print("InsertionSort ");
+        int[] is = Arrays.copyOf(dis, dis.length);
+        insertionSort(is);
+        System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
+        for (int i : is)
+            System.out.print(i + " ");
+        System.out.println("\n");
+
+        start = System.nanoTime();
+        System.out.print("QuickSort ");
         int[] qs = Arrays.copyOf(dis, dis.length);
-        quickSort(qs);
+        quickSort(qs, 0, qs.length - 1);
+        System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : qs)
             System.out.print(i + " ");
-        System.out.println();
+        System.out.println("\n");
+
+        start = System.nanoTime();
+        System.out.print("MergeSort ");
+        int[] ms = Arrays.copyOf(dis, dis.length);
+        mergeSort(ms, 0, ms.length - 1);
+        System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
+        for (int i : ms)
+            System.out.print(i + " ");
+        System.out.println("\n");
     }
 
-    static void quickSort(int[] array) {
-        
+    // called by mergeSort()
+    static void merge(int a[], int left, int middle, int right) {
+        int[] tempArray = new int[right - left + 1];
+
+        int index1 = left;
+        int index2 = middle + 1;
+        int indx = 0;
+
+        while (index1 <= middle && index2 <= right) {
+            if (a[index1] < a[index2]) {
+                tempArray[indx] = a[index1];
+                index1++;
+            } else {
+                tempArray[indx] = a[index2];
+                index2++;
+            }
+
+            indx++;
+        }
+
+        while (index1 <= middle) {
+            tempArray[indx] = a[index1];
+            index1++;
+            indx++;
+        }
+
+        while (index2 <= right) {
+            tempArray[indx] = a[index2];
+            index2++;
+            indx++;
+        }
+
+        for (indx = 0; indx < tempArray.length; indx++) {
+            a[left + indx] = tempArray[indx];
+        }
     }
 
-    static void selectionSort(int[] dis) {
+    static void mergeSort(int[] a, int left, int right) {
+        if (right == left)
+            return;
+
+        int middle = (left + right) / 2;
+
+        mergeSort(a, left, middle);
+        mergeSort(a, middle + 1, right);
+
+        merge(a, left, middle, right);
+    }
+
+    static void quickSort(int[] a, int left, int right) {
+        if (left >= right)
+            return;
+
+        int k = left;
+        int j = right;
+
+        int pivotValue = a[(left + right) / 2];
+
+        while (k < j) {
+            while (a[k] < pivotValue) {
+                k++;
+            }
+
+            while (pivotValue < a[j]) {
+                j--;
+            }
+
+            if (k <= j) {
+                int temp = a[k];
+                a[k] = a[j];
+                a[j] = temp;
+
+                k++;
+                j--;
+            }
+        }
+
+        quickSort(a, left, j);
+        quickSort(a, k, right);
+    }
+
+    static void insertionSort(int[] a) {
+        int itemToInsert, j;
+        boolean sorting;
+
+        for (int k = 0; k < a.length; k++) {
+            itemToInsert = a[k];
+            j = k - 1;
+
+            sorting = true;
+
+            while (j >= 0 && sorting) {
+                if (itemToInsert < a[j]) {
+                    a[j + 1] = a[j];
+
+                    j--;
+                    if (j == -1)
+                        a[0] = itemToInsert;
+                } else {
+                    sorting = false;
+                    a[j + 1] = itemToInsert;
+                }
+            }
+        }
+    }
+
+    static void selectionSort(int[] a) {
         int min, minIndex;
 
-        for (int i = 0; i < dis.length; i++) {
-            min = dis[i];
+        for (int i = 0; i < a.length; i++) {
+            min = a[i];
             minIndex = i;
 
-            for (int j = i + 1; j < dis.length; j++) {
-                if (dis[j] < min) {
-                    min = dis[j];
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j] < min) {
+                    min = a[j];
                     minIndex = j;
                 }
             }
 
-            dis[minIndex] = dis[i];
-            dis[i] = min;
+            a[minIndex] = a[i];
+            a[i] = min;
         }
     }
 
-    static void bubbleSort(int[] dis) {
+    static void bubbleSort(int[] a) {
         boolean sorting;
 
         do {
             sorting = false;
 
-            for (int i = 0; i < dis.length - 1; i++) {
-                if (dis[i] > dis[i + 1]) {
-                    int temp = dis[i];
+            for (int i = 0; i < a.length - 1; i++) {
+                if (a[i] > a[i + 1]) {
+                    int temp = a[i];
 
-                    dis[i] = dis[i + 1];
-                    dis[i + 1] = temp;
+                    a[i] = a[i + 1];
+                    a[i + 1] = temp;
 
                     sorting = true;
                 }
