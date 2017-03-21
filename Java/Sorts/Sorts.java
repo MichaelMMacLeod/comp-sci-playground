@@ -25,45 +25,45 @@ public class Sorts {
 
         System.out.println("\nSorting an array of " + dis.length + " random numbers...\n");
         
-        start = System.nanoTime();
         System.out.print("BubbleSort ");
         int[] bs = Arrays.copyOf(dis, dis.length);
+        start = System.nanoTime();
         bubbleSort(bs);
         System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : bs)
             System.out.print(i + " ");
         System.out.println("\n");
 
-        start = System.nanoTime();
         System.out.print("SelectionSort ");
         int[] ss = Arrays.copyOf(dis, dis.length);
+        start = System.nanoTime();
         selectionSort(ss);
         System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : ss)
             System.out.print(i + " ");
         System.out.println("\n");
 
-        start = System.nanoTime();
         System.out.print("InsertionSort ");
         int[] is = Arrays.copyOf(dis, dis.length);
+        start = System.nanoTime();
         insertionSort(is);
         System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : is)
             System.out.print(i + " ");
         System.out.println("\n");
 
-        start = System.nanoTime();
         System.out.print("QuickSort ");
         int[] qs = Arrays.copyOf(dis, dis.length);
+        start = System.nanoTime();
         quickSort(qs, 0, qs.length - 1);
         System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : qs)
             System.out.print(i + " ");
         System.out.println("\n");
 
-        start = System.nanoTime();
         System.out.print("MergeSort ");
         int[] ms = Arrays.copyOf(dis, dis.length);
+        start = System.nanoTime();
         mergeSort(ms, 0, ms.length - 1);
         System.out.println("in " + (System.nanoTime() - start) + " nanoseconds");
         for (int i : ms)
