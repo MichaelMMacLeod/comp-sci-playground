@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,31 +15,32 @@ class MutliKeySort {
             scan = new Scanner("thanks java");
             System.exit(0);
         }
-        
-        scan.useDelimiter("\n");
-
-        ArrayList<String> full = new ArrayList<>();
-        while (scan.hasNext())
-            full.add(scan.next());
-
-        ArrayList<Integer> lengths = new ArrayList<>();
-        for (int i = 0; i < full.size(); i++) {
-            for (int j = 0; j < full.get(i).length(); j++) {
-                if (isInt(full.get(i).substring(j, j + 1))) {
-                    lengths.add(j);
-                    break;
-                }
-            }
-        }
 
         ArrayList<String> names = new ArrayList<>();
-        for (int i = 0; i < lengths.size(); i++) {
-            names.add(full.get(i).substring(0, lengths.get(i)).trim());
-        }
+        while (scan.hasNext())
+            names.add(scan.nextLine());
 
-        sort(names, lengths);
+        sort(names);
+
+        // i love java 8
+        names
+            .stream()
+            .map(s -> s.substring(0, extractAgeLocation(s) - 1) + ", " + s.substring(extractAgeLocation(s), s.length()))
+            .collect(Collectors.toList())
+            .forEach(System.out::println);
     }
 
+    // returns the index of the first number in the string s
+    static int extractAgeLocation(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isDigit(s.charAt(i)))
+                return i;
+        }
+
+        return -1; // no number in s
+    }
+
+    // plz java why do i have to write this myself
     static boolean isInt(String test) {
         try {
             Integer.parseInt(test);
@@ -48,7 +50,9 @@ class MutliKeySort {
         }
     }
 
-    static void sort(ArrayList<String> a, ArrayList<Integer> b) {
+    // applies a selection sort to a, sorting lexographically, and then by age if the names are the same.
+    // each element of a is in the form "name age", ex: "Michael 16"
+    static void sort(ArrayList<String> a) {
         String min;
         int minIndex;
 
@@ -57,9 +61,16 @@ class MutliKeySort {
             minIndex = i;
 
             for (int j = i + 1; j < a.size(); j++) {
-                if (a.get(j).compareTo(min) < 0
-                    || a.get(j).compareTo(min) == 0
-                    && b.get(j) < b.get(minIndex)) {
+                String current = a.get(j);
+
+                String name1 = current.substring(0, extractAgeLocation(current));
+                String name2 = min.substring(0, extractAgeLocation(min));
+
+                int age1 = Integer.parseInt(current.substring(extractAgeLocation(current), current.length()));
+                int age2 = Integer.parseInt(min.substring(extractAgeLocation(min), min.length()));
+
+                if (name1.compareTo(name2) < 0
+                    || name1.compareTo(name2) == 0 && age1 < age2) {
                     min = a.get(j);
                     minIndex = j;
                 }
