@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +21,27 @@ class MutliKeySort {
         while (scan.hasNext())
             names.add(scan.nextLine());
 
-        sort(names);
+        Comparator<String> sorter = (a, b) -> {
+            int i;
+            for (i = 0; i < a.length(); i++) {
+                if (Character.isDigit(a.charAt(i)))
+                    break;
+            }
+            int ageA = Integer.parseInt(a.substring(i, a.length()));
+
+            int j;
+            for (j = 0; j < b.length(); j++) {
+                if (Character.isDigit(b.charAt(j)))
+                    break;
+            }
+            int ageB = Integer.parseInt(b.substring(j, b.length()));
+
+            if (a.compareTo(b) < 0 || a.compareTo(b) == 0 && ageA < ageB)
+                return -1;
+            return 1;
+        };
+
+        names.sort(sorter);
 
         // i love java 8
         names
