@@ -40,16 +40,6 @@ class MutliKeySort {
         return -1; // no number in s
     }
 
-    // plz java why do i have to write this myself
-    static boolean isInt(String test) {
-        try {
-            Integer.parseInt(test);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     // applies a selection sort to a, sorting lexographically, and then by age if the names are the same.
     // each element of a is in the form "name age", ex: "Michael 16"
     static void sort(ArrayList<String> a) {
