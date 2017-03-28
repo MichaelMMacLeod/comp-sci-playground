@@ -15,7 +15,5 @@ public class Tester {
 
 		car.changeMarkup(1000.00);
 		System.out.println("\nafter markup changed:\n\n" + car);
-
-		url: https://this_compiles_more_than_car_door_does.com/
 	}
 }
