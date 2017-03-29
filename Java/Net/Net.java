@@ -5,7 +5,7 @@ class Net {
 
         double[] input = new double[] {1, 1};
 
-        double target = 0;
+        double target = 0.0;
 
         double[] weights = new double[9];
         for (int i = 0; i < weights.length; i++)
@@ -77,7 +77,8 @@ class Net {
      * where f'(x) = (e ^ x) / (e ^ x + 1) ^ 2
      */
     static double deactivate(double d) {
-        return Math.pow(Math.E, d) / Math.pow(Math.pow(Math.E, d) + 1, 2);
+        // return Math.pow(Math.E, d) / Math.pow(Math.pow(Math.E, d) + 1, 2);
+        return activate(d) * (1 - activate(d));
     }
 
     /**
