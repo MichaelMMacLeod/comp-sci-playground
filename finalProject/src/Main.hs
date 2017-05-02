@@ -1,7 +1,6 @@
 module Main where
 
 import Codec.Picture
-import Control.Monad
 
 main :: IO ()
 main = do
