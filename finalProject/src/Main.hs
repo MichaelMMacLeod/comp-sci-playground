@@ -10,7 +10,7 @@ net input weights f =
     neuron [neuron input (head weights) act] (last weights) act
 
 neuron :: [Double] -> [Double] -> (Double -> Double) -> Double
-neuron inputs weights f = sum $ map f (zipWith (*) inputs weights)
+neuron inputs weights f = f (sum (zipWith (*) inputs weights))
 
 -- activation function
 act :: Floating a => a -> a
