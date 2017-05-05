@@ -16,6 +16,8 @@ weights =
         ]
     ]
 
+-- Creates a layer of neurons using specified inputs, weights, and the
+-- activation function, f.
 makeLayer :: [Double] -> [[Double]] -> (Double -> Double) -> Int -> [Double]
 makeLayer inputs weights f n
     | n == length weights = []
@@ -23,19 +25,14 @@ makeLayer inputs weights f n
     where
         next = makeLayer inputs weights f (n+1)
 
+-- Creates a network of neurons using specified inputs, weights, and the
+-- activation function, f.
 makeNet :: [Double] -> [[[Double]]] -> (Double -> Double) -> Int -> [Double]
 makeNet inputs weights f n
     | n == 0    = makeLayer inputs (head weights) f 0
     | otherwise = makeLayer previous (weights !! n) f 0
     where
         previous = makeNet inputs weights f (n-1)
-
-
--- placeholder for a more advanced function
--- only works with one hidden node and one output node
-net :: [Double] -> [[Double]] -> (Double -> Double) -> Double
-net input weights f =
-    neuron [neuron input (head weights) act] (last weights) act
 
 neuron :: [Double] -> [Double] -> (Double -> Double) -> Double
 neuron inputs weights f = f (sum (zipWith (*) inputs weights))
@@ -48,6 +45,5 @@ act n = 1 / (1 + exp 1 ** (-n))
 act' :: Floating a => a -> a
 act' n = act n * (1 - act n)
 
--- calculates error
-cost :: Num a => [a] -> [a] -> [a]
-cost = zipWith (-)
+cost :: Floating a => a -> a -> a
+cost target actual = (1/2) * (target - actual) ** 2
