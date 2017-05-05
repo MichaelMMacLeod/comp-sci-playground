@@ -5,27 +5,25 @@ main = do
     putStr "Input: "
     input <- readLn
     weights <- readFile "weights.txt"
-    putStrLn $ "Result: " ++ show (getNet input (read weights) act)
+    putStrLn $ "Result: " ++ show (net input (read weights) act)
 
 -- Returns the value of each neuron in a neural network created with the
 -- specified inputs, weights, and activation function, f.
-getNet :: [Double] -> [[[Double]]] -> (Double -> Double) -> [[Double]]
-getNet inputs weights f
-    | null weights = []
-    | otherwise    = currentLayer : nextLayers
-    where
-        currentLayer = makeLayer inputs (head weights) f
-        nextLayers   = getNet currentLayer (tail weights) f
+net :: [Double] -> [[[Double]]] -> (Double -> Double) -> [[Double]]
+net _ [] _ = []
+net inputs (w:weights) f =
+    let currentLayer = layer inputs w f
+        nextLayers   = net currentLayer weights f
+    in  currentLayer : nextLayers
 
 -- Returns the value of each neuron in a neuron layer created with the specified
 -- inputs, weights, and activation function, f.
-makeLayer :: [Double] -> [[Double]] -> (Double -> Double) -> [Double]
-makeLayer inputs weights f
-    | null weights = []
-    | otherwise    = currentNeuron : nextNeuron
-    where
-        currentNeuron = neuron inputs (head weights) f
-        nextNeuron    = makeLayer inputs (tail weights) f
+layer :: [Double] -> [[Double]] -> (Double -> Double) -> [Double]
+layer _ [] _ = []
+layer inputs (w:weights) f =
+    let currentNeuron = neuron inputs w f
+        nextNeurons   = layer inputs weights f
+    in  currentNeuron : nextNeurons
 
 -- Returns the value of a neuron created with the specified inputs, weights, and
 -- activaiton function, f.
