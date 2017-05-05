@@ -1,19 +1,11 @@
 module Main where
 
-inputs = [1]
-
-weights =
-    [
-        [
-            [0.1],[0.2]
-        ],
-        [
-            [0.3,0.4]
-        ]
-    ]
-
 main :: IO ()
-main = print . show $ makeNet inputs weights
+main = do
+    putStr "Input: "
+    input <- readLn
+    weights <- readFile "weights.txt"
+    putStrLn $ "Result: " ++ show (makeNet input (read weights))
 
 -- Returns the result of passing inputs through a neural network created with
 -- the specified weights.
