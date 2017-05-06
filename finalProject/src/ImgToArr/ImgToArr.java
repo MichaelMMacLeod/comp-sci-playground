@@ -44,15 +44,11 @@ class ImgToArr {
 
 		converted += "[";
 		for (int i = 0; i < xs.length; i++) {
-			converted += "[";
 			for (int j = 0; j < xs[i].length; j++) {
-				if (j != xs[i].length - 1)
-					converted += xs[i][j] + ",";
-				else
-					converted += xs[i][j] + "]";
+				converted += xs[i][j];
+				if (i != xs.length - 1)
+					converted += ",";
 			}
-			if (i != xs.length - 1)
-				converted += ",";
 		}
 		converted += "]";
 
