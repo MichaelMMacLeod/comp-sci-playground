@@ -20,42 +20,39 @@ class ImgToArr {
 			}
 		}
 
-		int[][][] rgb = new int[pixels.length][][];
-		for (int r = 0; r < rgb.length; r++) {
-			rgb[r] = new int[pixels[r].length][];
-			for (int c = 0; c < rgb[r].length; c++) {
-				rgb[r][c] = new int[3];
-				rgb[r][c][0] = pixels[r][c].getRed();
-				rgb[r][c][1] = pixels[r][c].getGreen();
-				rgb[r][c][2] = pixels[r][c].getBlue();
+		int[][] greyScale = new int[pixels.length][];
+		for (int r = 0; r < greyScale.length; r++) {
+			greyScale[r] = new int[pixels[r].length];
+			for (int c = 0; c < greyScale[r].length; c++) {
+				int average = 0;
+				average += pixels[r][c].getRed();
+				average += pixels[r][c].getGreen();
+				average += pixels[r][c].getBlue();
+				greyScale[r][c] = average / 3;
 			}
 		}
 
-		String arr = convert(rgb);
+		String arr = convert(greyScale);
 
 		PrintWriter fw = new PrintWriter(new File("../toClassify.txt"));
 		fw.print(arr);
 		fw.close();
 	}
 
-	static String convert(int[][][] xs) {
+	static String convert(int[][] xs) {
 		String converted = "";
 
 		converted += "[";
 		for (int i = 0; i < xs.length; i++) {
+			converted += "[";
 			for (int j = 0; j < xs[i].length; j++) {
-				converted += "[";
-				for (int k = 0; k < xs[i][j].length; k++) {
-					if (k != xs[i][j].length - 1) {
-						converted += xs[i][j][k] + ",";
-					} else {
-						converted += xs[i][j][k] + "]";
-					}
-				}
-				if (j != xs[i].length - 1) {
-					converted += ",";
-				}
+				if (j != xs[i].length - 1)
+					converted += xs[i][j] + ",";
+				else
+					converted += xs[i][j] + "]";
 			}
+			if (i != xs.length - 1)
+				converted += ",";
 		}
 		converted += "]";
 
