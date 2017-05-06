@@ -1,7 +1,6 @@
 module Main where
 
 import qualified Data.ByteString as B
-import Codec.Picture
 
 main :: IO ()
 main = do

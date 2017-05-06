@@ -7,13 +7,6 @@
   (major1) == 0 && (major2) <  1 || \
   (major1) == 0 && (major2) == 1 && (minor) <= 0)
 
-/* package JuicyPixels-3.2.8.1 */
-#define VERSION_JuicyPixels "3.2.8.1"
-#define MIN_VERSION_JuicyPixels(major1,major2,minor) (\
-  (major1) <  3 || \
-  (major1) == 3 && (major2) <  2 || \
-  (major1) == 3 && (major2) == 2 && (minor) <= 8)
-
 /* package base-4.9.0.0 */
 #define VERSION_base "4.9.0.0"
 #define MIN_VERSION_base(major1,major2,minor) (\
