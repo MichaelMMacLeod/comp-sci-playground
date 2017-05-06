@@ -1,6 +1,7 @@
 module Main where
 
 import qualified Data.ByteString as B
+import System.Random
 
 main :: IO ()
 main = do
@@ -10,6 +11,13 @@ main = do
         inputs    = read (show (B.unpack imageFile))
         weights   = read weightFile
     putStrLn $ "Classification: " ++ show neuralNet
+
+randomize :: [Int] -> IO [[Double]]
+randomize [] = return []
+randomize (l:layers) = do
+    num <- randomIO
+    others <- randomize layers
+    return $ replicate l num : others
 
 -- Returns the value of each neuron in a neural network created with the
 -- specified inputs, weights, and activation function, f.
