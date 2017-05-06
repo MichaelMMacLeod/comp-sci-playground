@@ -5,10 +5,10 @@ import System.Random
 
 main :: IO ()
 main = do
-    imageFile <- B.readFile "1.gif"
+    imageFile <- readFile "toClassify.txt"
     weightFile <- readFile "weights.txt"
     let neuralNet = net inputs weights act
-        inputs    = read (show (B.unpack imageFile))
+        inputs    = read imageFile
         weights   = read weightFile
     putStrLn $ "Classification: " ++ show neuralNet
 
