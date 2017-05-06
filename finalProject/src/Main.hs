@@ -1,11 +1,16 @@
 module Main where
 
+import qualified Data.ByteString as B
+import Codec.Picture
+
 main :: IO ()
 main = do
-    putStr "Input: "
-    input <- readLn
-    weights <- readFile "weights.txt"
-    putStrLn $ "Result: " ++ show (net input (read weights) act)
+    imageFile <- B.readFile "1.gif"
+    weightFile <- readFile "weights.txt"
+    let neuralNet = net inputs weights act
+        inputs    = read (show (B.unpack imageFile))
+        weights   = read weightFile
+    putStrLn $ "Classification: " ++ show neuralNet
 
 -- Returns the value of each neuron in a neural network created with the
 -- specified inputs, weights, and activation function, f.
