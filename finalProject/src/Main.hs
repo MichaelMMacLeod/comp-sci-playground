@@ -2,15 +2,31 @@ module Main where
 
 import System.Random
 import Control.Monad
+import Data.List
 
 main :: IO ()
 main = do
     imageFile <- readFile "toClassify.txt"
-    synapseFile <- readFile "weights.txt"
+    synapseFile <- readFile "synapses.txt"
     let neuralNet = net inputs synapses act
         inputs = read imageFile
         synapses = read synapseFile
-    putStrLn $ "Classification: " ++ show neuralNet
+    putStrLn $ "Classification: " ++ show (classify (last neuralNet))
+
+-- Matches the largest value in xs to the corresponding letter in the List
+-- ['a'..'b'] ++ ['A'..'B']
+classify xs = classify' xs (0,0) 0
+
+-- Helper function for classify
+classify' :: [Double] -> (Double, Int) -> Int -> Char
+classify' [] result _ = (['a'..'z'] ++ ['A'..'Z']) !! snd result
+classify' (x:xs) result pos
+    | x > fst result = classify' xs (x, pos) (pos + 1)
+    | otherwise = classify' xs result (pos + 1)
+
+writeRandSynapseNet = do
+    rand <- randSynapseNet [52,52,52] act
+    writeFile "synapses.txt" (show rand)
 
 -- Returns the value of each neuron in a neural network created with the
 -- specified inputs, weights, and activation function, f.
