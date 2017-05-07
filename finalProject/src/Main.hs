@@ -1,23 +1,16 @@
 module Main where
 
-import qualified Data.ByteString as B
 import System.Random
+import Control.Monad
 
 main :: IO ()
 main = do
     imageFile <- readFile "toClassify.txt"
-    weightFile <- readFile "weights.txt"
-    let neuralNet = net inputs weights act
-        inputs    = read imageFile
-        weights   = read weightFile
+    synapseFile <- readFile "weights.txt"
+    let neuralNet = net inputs synapses act
+        inputs = read imageFile
+        synapses = read synapseFile
     putStrLn $ "Classification: " ++ show neuralNet
-
-randomize :: [Int] -> IO [[Double]]
-randomize [] = return []
-randomize (l:layers) = do
-    num <- randomIO
-    others <- randomize layers
-    return $ replicate l num : others
 
 -- Returns the value of each neuron in a neural network created with the
 -- specified inputs, weights, and activation function, f.
@@ -41,6 +34,31 @@ layer inputs (w:weights) f =
 -- activaiton function, f.
 neuron :: [Double] -> [Double] -> (Double -> Double) -> Double
 neuron inputs weights f = f (sum (zipWith (*) inputs weights))
+
+-- Generates a random network of synapses using the number of neurons in each
+-- layer and the range of an activation function, f.
+randSynapseNet :: [Int] -> (Double -> Double) -> IO [[[Double]]]
+randSynapseNet (l1:l2:layers) f = do
+    currentSynapseLayer <- randSynapseLayer l1 l2 f
+    otherSynapseLayers <- randSynapseNet (l2:layers) f
+    return $ currentSynapseLayer : otherSynapseLayers
+randSynapseNet _ _ = return []
+
+-- Generates a random layer of synapses using the number of neurons above the
+-- synapse layer, the number of neurons below the synapse layer, and the range
+-- of an activation function, f.
+randSynapseLayer :: Int -> Int -> (Double -> Double) -> IO [[Double]]
+randSynapseLayer _ 0 _ = return []
+randSynapseLayer upper lower f = do
+    currentSynapse <- replicateM upper (randSynapse f)
+    otherSynapses <- randSynapseLayer upper (lower-1) f
+    return $ currentSynapse : otherSynapses
+
+-- Generates a random weight in the range of the activation function f.
+randSynapse :: (Double -> Double) -> IO Double
+randSynapse f = do
+    synapse <- randomIO
+    return $ f synapse
 
 -- A logistic activation function.
 act :: Floating a => a -> a
