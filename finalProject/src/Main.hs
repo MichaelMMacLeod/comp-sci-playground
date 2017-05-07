@@ -14,7 +14,7 @@ main = do
     putStrLn $ "Classification: " ++ show (classify (last neuralNet))
 
 -- Matches the largest value in xs to the corresponding letter in the List
--- ['a'..'b'] ++ ['A'..'B']
+-- ['a'..'b'] ++ ['A'..'B']. Note that 'length xs' must be <= 52
 classify xs = classify' xs (0,0) 0
 
 -- Helper function for classify
