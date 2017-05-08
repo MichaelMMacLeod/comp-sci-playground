@@ -14,24 +14,21 @@ main = do
         synapses = read synapseFile
     putStrLn $ "Classification: " ++ show (classify (last neuralNet))
 
-currentError :: IO [Double]
-currentError = do
+currentError target = do
     imageFile    <- readFile "toClassify.txt"
     synapseFile  <- readFile "synapses.txt"
-    targetLetter <- readFile "targetLetter.txt"
     return $ let inputs   = read imageFile
                  synapses = read synapseFile
-                 target   = read targetLetter
              in err target (last (net inputs synapses act))
 
-err :: Char -> [Double] -> [Double]
+err :: Char -> [Double] -> Double
 err target xs =
     let val = ord target - 65
         pos = if val >= 32
             then val - 6
             else val
         bestCase = replicate pos 0 ++ [1] ++ replicate (length xs - pos - 1) 0
-    in apply cost bestCase xs
+    in sum $ apply cost bestCase xs
 
 letters = ['A'..'Z'] ++ ['a'..'z']
 
@@ -52,7 +49,7 @@ classify' (x:xs) result pos
     | otherwise = classify' xs result (pos + 1)
 
 writeRandSynapseNet = do
-    rand <- randSynapseNet [52,52,52,52] act
+    rand <- randSynapseNet [52,26,26,52] act
     writeFile "synapses.txt" (show rand)
 
 -- Returns the value of each neuron in a neural network created with the
