@@ -14,6 +14,16 @@ main = do
         synapses = read synapseFile
     putStrLn $ "Classification: " ++ show (classify (last neuralNet))
 
+currentError :: IO [Double]
+currentError = do
+    imageFile    <- readFile "toClassify.txt"
+    synapseFile  <- readFile "synapses.txt"
+    targetLetter <- readFile "targetLetter.txt"
+    return $ let inputs   = read imageFile
+                 synapses = read synapseFile
+                 target   = read targetLetter
+             in err target (last (net inputs synapses act))
+
 err :: Char -> [Double] -> [Double]
 err target xs =
     let val = ord target - 65

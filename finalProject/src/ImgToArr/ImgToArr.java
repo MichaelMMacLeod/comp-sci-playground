@@ -10,12 +10,40 @@ import java.io.PrintWriter;
 
 class ImgToArr {
 	public static void main(String[] args) throws IOException {
-		BufferedImage img = ImageIO.read(new File("toClassify.gif"));
+		char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
+		for (char c : letters) {
+			for (int i = 0; i < 200; i++) {
+				System.out.println("converting: " + "training/lower/" + c + "/" + i + ".gif");
+				try {
+					convertImage("training/lower/" + c + "/" + i + ".gif",
+								 "../training/lower/" + c + "/" + i + ".txt");
+				} catch (IOException e) {
+					System.out.println("Error converting " + "training/lower/" + c + "/" + i + ".gif");
+				}
+			}
+		}
+
+		for (char c : letters) {
+			for (int i = 0; i < 200; i++) {
+				System.out.println("converting: " + "training/upper/" + c + "/" + i + ".gif");
+				try {
+					convertImage("training/upper/" + c + "/" + i + ".gif",
+								 "../training/upper/" + c + "/" + i + ".txt");
+				} catch (IOException e) {
+					System.out.println("Error converting " + "training/lower/" + c + "/" + i + ".gif");
+				}
+			}
+		}
+	}
+
+	static void convertImage(String filePath, String outputFile) throws IOException {
+		BufferedImage img = ImageIO.read(new File(filePath));
 
 		Color[][] pixels = new Color[img.getHeight()][img.getWidth()];
 
-		for (int r = 0; r < img.getHeight(); r++) {
-			for (int c = 0; c < img.getWidth(); c++) {
+		for (int r = 0; r < pixels.length; r++) {
+			for (int c = 0; c < pixels[r].length; c++) {
 				pixels[r][c] = new Color(img.getRGB(r, c));
 			}
 		}
@@ -34,7 +62,7 @@ class ImgToArr {
 
 		String arr = convert(greyScale);
 
-		PrintWriter fw = new PrintWriter(new File("../toClassify.txt"));
+		PrintWriter fw = new PrintWriter(new File(outputFile));
 		fw.print(arr);
 		fw.close();
 	}
@@ -45,11 +73,10 @@ class ImgToArr {
 		converted += "[";
 		for (int i = 0; i < xs.length; i++) {
 			for (int j = 0; j < xs[i].length; j++) {
-				converted += xs[i][j];
-				if (i != xs.length - 1)
-					converted += ",";
+				converted += xs[i][j] + ",";
 			}
 		}
+		converted = converted.substring(0, converted.length() - 1);
 		converted += "]";
 
 		return converted;
