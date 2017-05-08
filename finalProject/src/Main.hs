@@ -3,6 +3,7 @@ module Main where
 import System.Random
 import Control.Monad
 import Data.List
+import Data.Char
 
 main :: IO ()
 main = do
@@ -13,19 +14,35 @@ main = do
         synapses = read synapseFile
     putStrLn $ "Classification: " ++ show (classify (last neuralNet))
 
+err :: Char -> [Double] -> [Double]
+err target xs =
+    let val = ord target - 65
+        pos = if val >= 32
+            then val - 6
+            else val
+        bestCase = replicate pos 0 ++ [1] ++ replicate (length xs - pos - 1) 0
+    in apply cost bestCase xs
+
+letters = ['A'..'Z'] ++ ['a'..'z']
+
+apply :: (a -> a -> a) -> [a] -> [a] -> [a]
+apply _ [] _ = []
+apply _ _ [] = []
+apply f (x:xs) (y:ys) = f x y : apply f xs ys
+
 -- Matches the largest value in xs to the corresponding letter in the List
 -- ['a'..'b'] ++ ['A'..'B']. Note that 'length xs' must be <= 52
 classify xs = classify' xs (0,0) 0
 
 -- Helper function for classify
 classify' :: [Double] -> (Double, Int) -> Int -> Char
-classify' [] result _ = (['a'..'z'] ++ ['A'..'Z']) !! snd result
+classify' [] result _ = letters !! snd result
 classify' (x:xs) result pos
     | x > fst result = classify' xs (x, pos) (pos + 1)
     | otherwise = classify' xs result (pos + 1)
 
 writeRandSynapseNet = do
-    rand <- randSynapseNet [52,52,52] act
+    rand <- randSynapseNet [52,52,52,52] act
     writeFile "synapses.txt" (show rand)
 
 -- Returns the value of each neuron in a neural network created with the
