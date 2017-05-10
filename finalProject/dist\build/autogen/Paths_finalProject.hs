@@ -1,3 +1,6 @@
+{-# LANGUAGE CPP #-}
+{-# OPTIONS_GHC -fno-warn-missing-import-lists #-}
+{-# OPTIONS_GHC -fno-warn-implicit-prelude #-}
 module Paths_finalProject (
     version,
     getBinDir, getLibDir, getDataDir, getLibexecDir,
@@ -9,18 +12,28 @@ import Data.Version (Version(..))
 import System.Environment (getEnv)
 import Prelude
 
+#if defined(VERSION_base)
+
+#if MIN_VERSION_base(4,0,0)
 catchIO :: IO a -> (Exception.IOException -> IO a) -> IO a
+#else
+catchIO :: IO a -> (Exception.Exception -> IO a) -> IO a
+#endif
+
+#else
+catchIO :: IO a -> (Exception.IOException -> IO a) -> IO a
+#endif
 catchIO = Exception.catch
 
 version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "/home/mmacleod/.cabal/bin"
-libdir     = "/home/mmacleod/.cabal/lib/x86_64-linux-ghc-7.10.3/finalProject-0.1.0.0-0izJ3ypmat3EcLNSny6WHL"
-datadir    = "/home/mmacleod/.cabal/share/x86_64-linux-ghc-7.10.3/finalProject-0.1.0.0"
-libexecdir = "/home/mmacleod/.cabal/libexec"
-sysconfdir = "/home/mmacleod/.cabal/etc"
+bindir     = "C:\\Users\\Michael\\AppData\\Roaming\\cabal\\bin"
+libdir     = "C:\\Users\\Michael\\AppData\\Roaming\\cabal/x86_64-windows-ghc-8.0.1\\finalProject-0.1.0.0"
+datadir    = "C:\\Users\\Michael\\AppData\\Roaming\\cabal/x86_64-windows-ghc-8.0.1\\finalProject-0.1.0.0"
+libexecdir = "C:\\Users\\Michael\\AppData\\Roaming\\cabal\\finalProject-0.1.0.0"
+sysconfdir = "C:\\Users\\Michael\\AppData\\Roaming\\cabal\\etc"
 
 getBinDir, getLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "finalProject_bindir") (\_ -> return bindir)

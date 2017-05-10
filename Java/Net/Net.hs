@@ -1,0 +1,1 @@
+neuron inputs weight = zipWith (*) inputs weight

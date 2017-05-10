@@ -19,10 +19,10 @@ currentError target = do
     synapseFile  <- readFile "synapses.txt"
     return $ let inputs   = read imageFile
                  synapses = read synapseFile
-             in err target (last (net inputs synapses act))
+             in outputError target (last (net inputs synapses act))
 
-err :: Char -> [Double] -> Double
-err target xs =
+outputError :: Char -> [Double] -> Double
+outputError target xs =
     let val = ord target - 65
         pos = if val >= 32
             then val - 6
