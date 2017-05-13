@@ -8,11 +8,11 @@ act' :: Double -> Double
 act' x = x * (1 - x)
 
 myInputs = [1,1]
-myWeights = [[[0.5,0.6]],[[0.7]]]
+myWeights = [[[0.1,0.2,0.3],[0.4,0.5,0.6]],[[0.7],[0.8],[0.9]]]
 myTargets = [1]
 
 myNet = network myInputs myWeights act
-myErrors = networkError myWeights (init myNet) (outputErrors myTargets (last myNet) act') act'
+myErrors = networkError myWeights myNet (outputErrors myTargets (last myNet) act') act'
 
 -- The values of each neuron in a neural network created with the given inputs,
 -- weights, and activation function, fn. The size and number of layers is
