@@ -1,11 +1,22 @@
 public class Net {
+
+    static double[] getSums(double[] inputs, double[] weights) {
+        double[] sums = new double[weights.length / inputs.length];
+
+        int weight = 0;
+        for (int i = 0; i < inputs.length; i++)
+            sums[i] = inputs[i] * weights[weight++];
+
+        return sums;
+    }
+
     public static void main(String[] args) {
 
         // SETUP
 
-        double[] input = new double[] {1, 1};
+        double[] input = new double[] {1, 0};
 
-        double target = 0.0;
+        double target = 0.5;
 
         double[] weights = new double[9];
         for (int i = 0; i < weights.length; i++)
@@ -17,11 +28,15 @@ public class Net {
 
             // FORWARD PROPAGATION
 
+            double[] w1s = new double[6];
+            for (int w = 0; w < w1s.length; w++)
+                w1s[w] = weights[w];
 
-            double[] nodeSums = new double[3];
-            nodeSums[0] = input[0] * weights[0] + input[1] * weights[3];
-            nodeSums[1] = input[0] * weights[1] + input[1] * weights[4];
-            nodeSums[2] = input[0] * weights[2] + input[1] * weights[5];
+            double[] w2s = new double[3];
+            for (int w = 0; w < w2s.length; w++) 
+                w2s[w] = weights[w1s.length + w];
+            
+            double[] nodeSums = getSums(input, w1s);
 
             double[] nodes = new double[3];
             for (int i = 0; i < nodes.length; i++)
@@ -62,39 +77,6 @@ public class Net {
 
             for (int i = 0; i < 6; i++)
                 weights[i] += deltaInputWeights[i];
-
-            /*
-            To do back propagation, we need the following:
-
-            target    :: the target number we hoped to reach
-            activate' :: the derivative of the activation function
-            outputSum :: the value of the output neuron (no activation)
-            output    :: the value of the output neuron (with activation)
-            [hidden]  :: the value of each hidden neuron (with activation)
-
-            ///////// this concludes computing hidden -> output weights /////////
-
-            [nodeSum] :: the value of each hidden neuron (without activation)
-            activate  :: the activation function
-            [input]   :: the numbers passed into the neural net
-            
-            ///////// this concluded computing input -> hidden weights /////////
-            
-            computed:
-
-            outputError            :: target - output
-            deltaOutput            :: activate'(outputSum) * outputError
-            [deltaHiddenWeight]    :: deltaOutput * [hidden]
-            [hiddenToOutputWeight] :: [hiddenToOutputWeight] + [deltaHiddenWeight]
-
-            ///////// this concludes computing hidden -> output weights /////////
-
-            [deltaHidden]          :: (deltaOutput * [deltaHiddenWeight]) * activate([nodeSum])
-            [deltaInputWeights]    :: [input] * [deltaHidden]
-            [inputToHiddenWeight]  :: [inputToHiddenWeight] + [deltaInputWeight]
-
-            ///////// this concluded computing input -> hidden weights /////////
-            */
         }
 
         System.out.print("Input: ");
