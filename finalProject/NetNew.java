@@ -78,7 +78,7 @@ class NetNew {
         }
     }
 
-    // static double[][] deltaWeights(double[][] )
+    static double[][] deltaWeights(double[][] )
     static double[][] sums(double[][] net, double[][] weights, double[] inputs) {
         double[][] sums = deepCopy(net);
 
