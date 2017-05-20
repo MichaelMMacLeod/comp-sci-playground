@@ -34,61 +34,65 @@ class NetMatrix {
             }
         };
 
-        double[][][] weights = new double[][][] {
-            new double[][] {
-                new double[] {0.5, 0.5},
-                new double[] {0.5, 0.5},
-                new double[] {0.5, 0.5}
-            },
-            new double[][] {
-                new double[] {0.5, 0.5, 0.5},
-                new double[] {0.5, 0.5, 0.5},
-                new double[] {0.5, 0.5, 0.5},
-            },
-            new double[][] {
-                new double[] {0.5, 0.5, 0.5}
-            }
-        };
+        double[][][] weights = getRandomWeights(new int[] {2, 3, 1, 1});
 
         double learningRate = 0.5;
 
-        int set = 0;
+        for (int epoch = 1; epoch <= 10000; epoch++) {
+            for (int set = 0; set < input.length; set++) {
+                double[][] x_1 = activate(dot(weights[0], input[set]));
+                double[][] x_2 = activate(dot(weights[1], x_1));
+                double[][] x_3 = activate(dot(weights[2], x_2));
 
-        double[][] x_0 = input[set];
-        double[][] t = expected[set];
+                double[][] w_1 = weights[0];
+                double[][] w_2 = weights[1];
+                double[][] w_3 = weights[2];
 
-        double[][] w_1 = weights[0];
-        double[][] w_2 = weights[1];
-        double[][] w_3 = weights[2];
+                double[][] e_3 = operate(multiplication,
+                    operate(cost, x_3, expected[set]),
+                    dActivate(dot(w_3, x_2)));
+                double[][] e_2 = operate(multiplication,
+                    dot(transpose(w_3), e_3),
+                    dActivate(dot(w_2, x_1)));
+                double[][] e_1 = operate(multiplication,
+                    dot(transpose(w_2), e_2),
+                    dActivate(dot(w_1, input[set])));
 
-        double[][] x_1 = activate(dot(w_1, x_0));
-        double[][] x_2 = activate(dot(w_2, x_1));
-        double[][] x_3 = activate(dot(w_3, x_2));
+                double[][] d_e_w_1 = dot(e_1, transpose(input[set]));
+                double[][] d_e_w_2 = dot(e_2, transpose(x_1));
+                double[][] d_e_w_3 = dot(e_3, transpose(x_2));
 
-        double[][] e_3 = operate(multiplication,
-            operate(subtraction, x_3, t),
-            dActivate(dot(w_3, x_2)));
-        double[][] e_2 = operate(multiplication,
-            dot(transpose(w_3), e_3),
-            dActivate(dot(w_2, x_1)));
-        double[][] e_1 = operate(multiplication,
-            dot(transpose(w_2), e_2),
-            dActivate(dot(w_1, x_0)));
+                weights[0] = operate(subtraction, w_1, scale(-learningRate, d_e_w_1));
+                weights[1] = operate(subtraction, w_2, scale(-learningRate, d_e_w_2));
+                weights[2] = operate(subtraction, w_3, scale(-learningRate, d_e_w_3));
+            
+                System.out.println("Epoch #" + epoch + ", Set #" + set);
+                print(input[set]);
+                System.out.println();
+                print(x_3);
+            }
+        }
+    }
 
-        double[][] d_e_w_1 = dot(e_1, transpose(x_0));
-        double[][] d_e_w_2 = dot(e_2, transpose(x_1));
-        double[][] d_e_w_3 = dot(e_3, transpose(x_2));
+    static double[][][] getRandomWeights(int[] nodes) {
+        double[][][] weights = new double[nodes.length - 1][][];
 
-        w_1 = operate(subtraction, w_1, scale(-learningRate, d_e_w_1));
-        w_1 = operate(subtraction, w_2, scale(-learningRate, d_e_w_2));
-        w_1 = operate(subtraction, w_3, scale(-learningRate, d_e_w_3));
+        for (int i = 0; i < weights.length; i++)
+            weights[i] = new double[nodes[i + 1]][nodes[i]];
 
-        print(w_1);
-        System.out.println();
-        print(w_2);
-        System.out.println();
-        print(w_3);
-        System.out.println();
+        randomize(weights);
+
+        return weights;
+    }
+
+    static void randomize(double[][][] xs) {
+        for (int i = 0; i < xs.length; i++) {
+            for (int j = 0; j < xs[i].length; j++) {
+                for (int k = 0; k < xs[i][j].length; k++) {
+                    xs[i][j][k] = Math.random();
+                }
+            }
+        }
     }
 
     static double[][] scale(double scalar, double[][] xs) {
@@ -157,6 +161,7 @@ class NetMatrix {
     static Operation addition = (x, y) -> x + y;
     static Operation subtraction = (x, y) -> x - y;
     static Operation multiplication = (x, y) -> x * y;
+    static Operation cost = (x, y) -> (1 / 2) * (x - y) * (x - y);
 
     static double[][] operate(Operation op, double[][] xs, double[][] ys) {
         double[][] ans = new double[xs.length][xs[0].length];
