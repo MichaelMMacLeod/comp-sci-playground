@@ -6,85 +6,68 @@ class NetMatrix {
         };
 
         double[][] target = new double[][] {
-            new double[] {1, 0, 0, 0}
+            new double[] {1, 1, 1, 0}
         };
 
-        double[][][] weights = getRandomWeights(2, 3, 3, 1);
+        double[][][] weights = getRandomWeights(2, 3, 1);
 
         double learningRate = 0.25;
 
-        for (int epoch = 0; epoch < 5; epoch++) {
-            double[][] w_ij = weights[0];
-            double[][] w_jk = weights[1];
-            double[][] w_kl = weights[2];
+        for (int epoch = 0; epoch < 100000; epoch++) {
+            double[][][] output = new double[weights.length + 1][][];
+            output[0] = input;
 
-            double[][] o_i = input;
+            for (int i = 1; i < output.length; i++) {
+                output[i] = activate(dot(weights[i - 1], output[i - 1]));
+            }
 
-            double[][] x_j = dot(w_ij, o_i);
-            double[][] o_j = activate(x_j);
-
-            double[][] x_k = dot(w_jk, o_j);
-            double[][] o_k = activate(x_k);
-
-            double[][] x_l = dot(w_kl, o_k);
-            double[][] o_l = activate(x_l);
-
-            double[][] t_l = target;
-
-            double[][] d_l = operate(
+            double[][][] error = new double[weights.length][][];
+            error[error.length - 1] = operate(
                 multiplication,
-                dActivate(o_l),
+                dActivate(output[output.length - 1]),
                 operate(
                     subtraction,
-                    o_l,
-                    t_l));
+                    output[output.length - 1],
+                    target));
 
-            double[][] delta_w_kl = operate(
-                multiplication,
-                dActivate(o_l),
-                operate(
-                    subtraction,
-                    o_l,
-                    t_l));
+            for (int i = error.length - 2; i >= 0; i--) {
+                error[i] = operate(
+                    multiplication,
+                    dActivate(output[i + 1]),
+                    dot(
+                        transpose(weights[i + 1]),
+                        error[i + 1]));
+            }
 
-            weights[2] = operate(addition, w_kl, delta_w_kl);
-
-            double[][] d_k = operate(
-                multiplication,
-                dActivate(o_k),
-                dot(
-                    transpose(w_kl),
-                    d_l));
-
-            double[][] delta_w_jk = scale(
+            double[][][] delta = new double[weights.length][][];
+            delta[delta.length - 1] = scale(
                 -learningRate,
                 dot(
-                    d_k,
-                    transpose(o_j)));
+                    error[error.length - 1],
+                    transpose(output[output.length - 2])));
 
-            weights[1] = operate(addition, w_jk, delta_w_jk);
+            for (int i = delta.length - 2; i >= 0; i--) {
+                delta[i] = scale(
+                    -learningRate,
+                    dot(
+                        error[i],
+                        transpose(output[i])));
+            }
 
-            double[][] d_j = operate(
-                multiplication,
-                dActivate(o_j),
-                dot(
-                    transpose(w_jk),
-                    d_k));
+            for (int i = 0; i < weights.length; i++) {
+                weights[i] = operate(
+                    addition,
+                    weights[i],
+                    delta[i]);
+            }
 
-            double[][] delta_w_ij = scale(
-                -learningRate,
-                dot(
-                    d_j,
-                    transpose(o_i)));
-
-            weights[0] = operate(addition, w_ij, delta_w_ij);
-
-            print(o_l);
+            print(output[output.length - 1]);
         }
 
-        print(weights[0]);
-        System.out.println();
-        print(weights[1]);
+        for (int i = 0; i < weights.length; i++) {
+            System.out.println("Weights[" + i + "]:");
+            print(weights[i]);
+        }
     }
 
     static double[][][] getRandomWeights(int... nodes) {
