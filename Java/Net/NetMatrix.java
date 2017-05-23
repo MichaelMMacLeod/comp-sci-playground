@@ -15,10 +15,14 @@ class NetMatrix {
 
         for (int epoch = 0; epoch < 100000; epoch++) {
             double[][][] output = new double[weights.length + 1][][];
-            output[0] = input;
+            output[0] = appendOnes(input);
 
             for (int i = 1; i < output.length; i++) {
                 output[i] = activate(dot(weights[i - 1], output[i - 1]));
+
+                if (i != output.length - 1) {
+                    output[i] = appendOnes(output[i]);
+                }
             }
 
             double[][][] error = new double[weights.length][][];
@@ -39,20 +43,7 @@ class NetMatrix {
                         error[i + 1]));
             }
 
-            double[][][] delta = new double[weights.length][][];
-            delta[delta.length - 1] = scale(
-                -learningRate,
-                dot(
-                    error[error.length - 1],
-                    transpose(output[output.length - 2])));
-
-            for (int i = delta.length - 2; i >= 0; i--) {
-                delta[i] = scale(
-                    -learningRate,
-                    dot(
-                        error[i],
-                        transpose(output[i])));
-            }
+            double[][][] delta = calculateDeltas(learningRate, error, output, weights);
 
             for (int i = 0; i < weights.length; i++) {
                 weights[i] = operate(
@@ -70,11 +61,61 @@ class NetMatrix {
         }
     }
 
+    static double[][][] calculateDeltas(double learningRate, double[][][] error, double[][][] output, double[][][] weights) {
+        double[][][] delta = new double[weights.length][][];
+
+        for (int i = delta.length - 1; i >= 0; i--) {
+            delta[i] = scale(
+                -learningRate,
+                dotDeltas(
+                    error[i],
+                    transpose(output[i])));
+        }
+
+        return delta;
+    }
+
+    static double[][] dotDeltas(double[][] error, double[][] output) {
+        if (error[0].length != output.length)
+            System.out.println("Illegal matrix multiplication (error)");
+        
+        double[][] dot = new double[error.length][output[0].length];
+        for (int row = 0; row < dot.length - 1; row++) {
+            for (int col = 0; col < dot[row].length; col++) {
+                for (int i = 0; i < output.length; i++) {
+                    dot[row][col] += error[row][i] * output[i][col];
+                }
+            }
+        }
+
+        for (int col = 0; col < dot[dot.length - 1].length; col++) {
+            dot[dot.length - 1][col] = error[dot.length - 1][col];
+        }
+
+        return dot;
+    }
+
+    static double[][] appendOnes(double[][] xs) {
+        double[][] appended = new double[xs.length + 1][xs[0].length];
+
+        for (int row = 0; row < xs.length; row++) {
+            for (int col = 0; col < xs[row].length; col++) {
+                appended[row][col] = xs[row][col];
+            }
+        }
+
+        for (int col = 0; col < appended[appended.length - 1].length; col++) {
+            appended[appended.length - 1][col] = 1;
+        }
+
+        return appended;
+    }
+
     static double[][][] getRandomWeights(int... nodes) {
         double[][][] weights = new double[nodes.length - 1][][];
 
         for (int i = 0; i < weights.length; i++)
-            weights[i] = new double[nodes[i + 1]][nodes[i]];
+            weights[i] = new double[nodes[i + 1]][nodes[i] + 1];
 
         randomize(weights);
 
