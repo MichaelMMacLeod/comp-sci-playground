@@ -6,7 +6,7 @@ class NetMatrix {
         };
 
         double[][] target = new double[][] {
-            new double[] {1, 1, 1, 0}
+            new double[] {1, 1, 0.5, 0}
         };
 
         double[][][] weights = getRandomWeights(2, 3, 1);
@@ -45,12 +45,8 @@ class NetMatrix {
 
             double[][][] delta = calculateDeltas(learningRate, error, output, weights);
 
-            for (int i = 0; i < weights.length; i++) {
-                weights[i] = operate(
-                    addition,
-                    weights[i],
-                    delta[i]);
-            }
+
+            weights = updateWeights(weights, delta);
 
             print(output[output.length - 1]);
         }
@@ -59,6 +55,19 @@ class NetMatrix {
             System.out.println("Weights[" + i + "]:");
             print(weights[i]);
         }
+    }
+
+    static double[][][] updateWeights(double[][][] weights, double[][][] delta) {
+        double[][][] newWeights = new double[weights.length][][];
+
+        for (int i = 0; i < newWeights.length; i++) {
+            newWeights[i] = operate(
+                addition,
+                weights[i],
+                delta[i]);
+        }
+
+        return newWeights;
     }
 
     static double[][][] calculateDeltas(double learningRate, double[][][] error, double[][][] output, double[][][] weights) {
