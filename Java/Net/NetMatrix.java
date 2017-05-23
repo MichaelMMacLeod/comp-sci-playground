@@ -127,7 +127,6 @@ class NetMatrix {
 
     static double dActivate(double x) {
         return activate(x) * (1 - activate(x));
-        // return x * (1 - x);
     }
 
     static double[][] transpose(double[][] xs) {
@@ -181,94 +180,9 @@ class NetMatrix {
     static void print(double[][] xs) {
         for (int row = 0; row < xs.length; row++) {
             for (int col = 0; col < xs[row].length; col++) {
-                // String str = ("" + xs[row][col]).length() > 7 ? ("" + xs[row][col]).substring(0, 7) : ("" + xs[row][col]);
-                // System.out.print(str + "\t");
                 System.out.print(xs[row][col] + "\t");
             }
             System.out.println();
         }
     }
 }
-
-
-
-// class NetMatrix {
-//     public static void main(String[] args) {
-//         double[][][] input = new double[][][] {
-//             new double[][] {
-//                 new double[] {1},
-//                 new double[] {1}
-//             },
-//             new double[][] {
-//                 new double[] {1},
-//                 new double[] {0}
-//             },
-//             new double[][] {
-//                 new double[] {0},
-//                 new double[] {1}
-//             },
-//             new double[][] {
-//                 new double[] {0},
-//                 new double[] {0}
-//             }
-//         };
-
-//         double[][][] expected = new double[][][] {
-//             new double[][] {
-//                 new double[] {1}
-//             },
-//             new double[][] {
-//                 new double[] {0}
-//             },
-//             new double[][] {
-//                 new double[] {0}
-//             },
-//             new double[][] {
-//                 new double[] {0}
-//             }
-//         };
-
-//         double[][][] weights = getRandomWeights(new int[] {2, 3, 3, 1});
-
-//         double learningRate = 0.5;
-
-//         for (int epoch = 1; epoch <= 10000; epoch++) {
-//             for (int set = 0; set < input.length; set++) {
-//                 double[][] x_1 = activate(dot(weights[0], input[set]));
-//                 double[][] x_2 = activate(dot(weights[1], x_1));
-//                 double[][] x_3 = activate(dot(weights[2], x_2));
-
-//                 double[][] w_1 = weights[0];
-//                 double[][] w_2 = weights[1];
-//                 double[][] w_3 = weights[2];
-
-//                 double[][] e_3 = operate(multiplication,
-//                     operate(cost, x_3, expected[set]),
-//                     dActivate(dot(w_3, x_2)));
-//                 double[][] e_2 = operate(multiplication,
-//                     dot(transpose(w_3), e_3),
-//                     dActivate(dot(w_2, x_1)));
-//                 double[][] e_1 = operate(multiplication,
-//                     dot(transpose(w_2), e_2),
-//                     dActivate(dot(w_1, input[set])));
-
-//                 double[][] d_e_w_1 = dot(e_1, transpose(input[set]));
-
-//                 weights[0] = operate(subtraction, w_1, scale(-learningRate, d_e_w_1));
-
-//                 double[][] d_e_w_2 = dot(e_2, transpose(x_1));
-
-//                 weights[1] = operate(subtraction, w_2, scale(-learningRate, d_e_w_2));
-
-//                 double[][] d_e_w_3 = dot(e_3, transpose(x_2));
-
-//                 weights[2] = operate(subtraction, w_3, scale(-learningRate, d_e_w_3));
-            
-//                 System.out.println("Epoch #" + epoch + ", Set #" + set);
-//                 print(input[set]);
-//                 System.out.println();
-//                 print(x_3);
-//             }
-//         }
-//     }
-// }
