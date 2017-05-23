@@ -10,7 +10,6 @@ class NetMatrix {
         };
 
         double[][][] weights = getRandomWeights(2, 3, 1);
-        double[][][] biases = getRandomBiases(2, 3, 1);
 
         double learningRate = 0.25;
 
@@ -69,17 +68,6 @@ class NetMatrix {
             System.out.println("Weights[" + i + "]:");
             print(weights[i]);
         }
-    }
-
-    static double[][][] getRandomBiases(int... nodes) {
-        double[][][] biases = new double[nodes.length - 1][][];
-
-        for (int i = 0; i < biases.length; i++)
-            biases[i] = new double[nodes[i + 1]][1];
-
-        randomize(biases);
-
-        return biases;
     }
 
     static double[][][] getRandomWeights(int... nodes) {
