@@ -157,7 +157,6 @@ class NetMatrix {
     static Operation addition = (x, y) -> x + y;
     static Operation subtraction = (x, y) -> x - y;
     static Operation multiplication = (x, y) -> x * y;
-    static Operation cost = (x, y) -> (1 / 2) * (x - y) * (x - y);
 
     static double[][] operate(Operation op, double[][] xs, double[][] ys) {
         double[][] ans = new double[xs.length][xs[0].length];
