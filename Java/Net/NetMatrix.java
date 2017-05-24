@@ -9,18 +9,24 @@ class NetMatrix {
             new double[] {1, 0, 0, 0}
         };
 
-        double[][][] weights = getRandomWeights(2, 3, 1);
+        double[][][] weights = getRandomWeights(2, 4, 1);
 
         double learningRate = 0.25;
 
         for (int epoch = 0; epoch < 100000; epoch++) {
+            double[][][] _output = _calculateOutput(weights, input);
+
             double[][][] output = calculateOutput(weights, input);
 
-            double[][][] error = calculateErrors(weights, output, target);
+            double[][][] _partials = _calculatePartials(weights, _output, target);
 
-            double[][][] delta = calculateDeltas(learningRate, error, output, weights);
+            weights = _updateWeights(learningRate, weights, _partials);
 
-            weights = updateWeights(weights, delta);
+            // double[][][] error = calculateErrors(weights, _output, target);
+
+            // double[][][] delta = calculateDeltas(learningRate, error, output, weights);
+
+            // weights = updateWeights(weights, delta);
 
             print(output[output.length - 1]);
         }
@@ -29,6 +35,132 @@ class NetMatrix {
             System.out.println("Weights[" + i + "]:");
             print(weights[i]);
         }
+    }
+
+    static double[][][] _updateWeights(double learningRate, double[][][] weights, double[][][] partials) {
+        double[][][] updated = new double[weights.length][][];
+
+        for (int i = 0; i < updated.length; i++) {
+            System.out.println("weights["+i+"]");
+            print(weights[i]);
+            System.out.println("partials["+i+"]");
+            print(partials[i]);
+
+            updated[i] = operate(
+                addition,
+                weights[i],
+                scale(
+                    -learningRate,
+                    partials[i]));
+
+            
+        }
+
+        return updated;
+    }
+
+    static double[][] _multiplyExceptLastRow(double[][] xs, double[][] ys) {
+        if (!_isRectangular(xs) || !_isRectangular(ys))
+            System.out.println("dot: Can't multiply matricies; they aren't rectangular.");
+
+        if (xs[0].length != ys.length)
+            System.out.println("dot: Can't multiply matricies; illegal dimensions.");
+
+        double[][] multiplied = new double[xs.length][ys[0].length];
+
+        for (int row = 0; row < multiplied.length - 1; row++) {
+            for (int col = 0; col < multiplied[row].length; col++) {
+                for (int i = 0; i < xs[row].length; i++) {
+                    multiplied[row][col] += xs[row][i] * ys[i][col];
+                }
+            }
+        }
+
+        for (int i = 0; i < multiplied[multiplied.length - 1].length; i++)
+            multiplied[multiplied.length - 1][i] += ys[ys.length - 1][i];
+
+        return multiplied;
+    }
+
+    static double[][][] _calculatePartials(double[][][] weights, double[][][] outputs, double[][] targets) {
+        double[][][] s = new double[weights.length][][];
+
+        s[s.length - 1] = operate(
+            multiplication,
+            dActivate(outputs[outputs.length - 1]),
+            operate(
+                subtraction,
+                outputs[outputs.length - 1],
+                targets));
+
+        for (int i = s.length - 2; i >= 0; i--) {
+            s[i] = operate(
+                multiplication,
+                dActivate(outputs[i + 1]),
+                _multiply(
+                    transpose(weights[i + 1]),
+                    s[i + 1]));
+        }
+
+        double[][][] partials = new double[outputs.length][][];
+
+        for (int i = 0; i < partials.length; i++) {
+            print(outputs[i]);
+            print(s[i]);
+            partials[i] = _multiplyExceptLastRow(outputs[i], transpose(s[i]));
+        }
+
+        System.exit(0);
+
+        return partials;
+    }
+
+    static boolean _isRectangular(double[][] xs) {
+        boolean rectangular = true;
+
+        for (int i = 1; i < xs.length; i++) 
+            rectangular = rectangular && xs[i].length == xs[i - 1].length;
+
+        return rectangular;
+    }
+
+    static double[][] _multiply(double[][] xs, double[][] ys) {
+        if (!_isRectangular(xs) || !_isRectangular(ys))
+            System.out.println("dot: Can't multiply matricies; they aren't rectangular.");
+
+        if (xs[0].length != ys.length)
+            System.out.println("dot: Can't multiply matricies; illegal dimensions.");
+
+        double[][] multiplied = new double[xs.length][ys[0].length];
+
+        for (int row = 0; row < multiplied.length; row++) {
+            for (int col = 0; col < multiplied[row].length; col++) {
+                for (int i = 0; i < xs[row].length; i++) {
+                    multiplied[row][col] += xs[row][i] * ys[i][col];
+                }
+            }
+        }
+
+        return multiplied;
+    }
+
+    static double[][][] _calculateOutput(double[][][] weights, double[][] inputs) {
+        double[][][] output = new double[weights.length + 1][][];
+
+        output[0] = appendOnes(inputs);
+
+        for (int i = 1; i < output.length; i++) {
+            output[i] = activate(
+                _multiply(
+                    weights[i - 1], 
+                    output[i - 1]));
+
+            if (i != output.length - 1) {
+                output[i] = appendOnes(output[i]);
+            }
+        }
+
+        return output;
     }
 
     static double[][][] calculateOutput(double[][][] weights, double[][] input) {
@@ -42,7 +174,7 @@ class NetMatrix {
                 output[i] = appendOnes(output[i]);
             }
         }
-        
+
         return output;
     }
     static double[][][] calculateErrors(double[][][] weights, double[][][] output, double[][] target) {
@@ -100,17 +232,39 @@ class NetMatrix {
             System.out.println("Illegal matrix multiplication (error)");
         
         double[][] dot = new double[error.length][output[0].length];
-        for (int row = 0; row < dot.length - 1; row++) {
-            for (int col = 0; col < dot[row].length; col++) {
+
+        // for (int row = 0; row < dot.length - 1; row++) {
+        //     for (int col = 0; col < dot[row].length; col++) {
+        //         for (int i = 0; i < output.length; i++) {
+        //             dot[row][col] += error[row][i] * output[i][col];
+        //         }
+        //     }
+        // }
+
+        for (int row = 0; row < error.length; row++) {
+            for (int col = 0; col < error[row].length; col++) {
                 for (int i = 0; i < output.length; i++) {
+                    System.out.println(dot[row][col]);
+                    System.out.println(error[row][i]);
+                    System.out.println(output[i][col]);
                     dot[row][col] += error[row][i] * output[i][col];
                 }
             }
         }
 
-        for (int col = 0; col < dot[dot.length - 1].length; col++) {
-            dot[dot.length - 1][col] = error[dot.length - 1][col];
+        // print(error);
+        // System.out.println();
+        // print(output);
+        // System.out.println();
+        // print(dot);
+
+        for (int col = 0; col < error[error.length - 1].length; col++) {
+            dot[dot.length - 1][col] += error[error.length - 1][col];
         }
+
+        // for (int col = 0; col < error[error.length - 1].length; col++) {
+        //     dot[dot.length - 1][col] += error[dot.length - 1][col];
+        // }
 
         return dot;
     }
