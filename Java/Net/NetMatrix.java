@@ -6,7 +6,7 @@ class NetMatrix {
         };
 
         double[][] target = new double[][] {
-            new double[] {1, 1, 0.5, 0}
+            new double[] {1, 0, 0, 0}
         };
 
         double[][][] weights = getRandomWeights(2, 3, 1);
@@ -14,37 +14,11 @@ class NetMatrix {
         double learningRate = 0.25;
 
         for (int epoch = 0; epoch < 100000; epoch++) {
-            double[][][] output = new double[weights.length + 1][][];
-            output[0] = appendOnes(input);
+            double[][][] output = calculateOutput(weights, input);
 
-            for (int i = 1; i < output.length; i++) {
-                output[i] = activate(dot(weights[i - 1], output[i - 1]));
-
-                if (i != output.length - 1) {
-                    output[i] = appendOnes(output[i]);
-                }
-            }
-
-            double[][][] error = new double[weights.length][][];
-            error[error.length - 1] = operate(
-                multiplication,
-                dActivate(output[output.length - 1]),
-                operate(
-                    subtraction,
-                    output[output.length - 1],
-                    target));
-
-            for (int i = error.length - 2; i >= 0; i--) {
-                error[i] = operate(
-                    multiplication,
-                    dActivate(output[i + 1]),
-                    dot(
-                        transpose(weights[i + 1]),
-                        error[i + 1]));
-            }
+            double[][][] error = calculateErrors(weights, output, target);
 
             double[][][] delta = calculateDeltas(learningRate, error, output, weights);
-
 
             weights = updateWeights(weights, delta);
 
@@ -55,6 +29,43 @@ class NetMatrix {
             System.out.println("Weights[" + i + "]:");
             print(weights[i]);
         }
+    }
+
+    static double[][][] calculateOutput(double[][][] weights, double[][] input) {
+        double[][][] output = new double[weights.length + 1][][];
+        output[0] = appendOnes(input);
+
+        for (int i = 1; i < output.length; i++) {
+            output[i] = activate(dot(weights[i - 1], output[i - 1]));
+
+            if (i != output.length - 1) {
+                output[i] = appendOnes(output[i]);
+            }
+        }
+        
+        return output;
+    }
+    static double[][][] calculateErrors(double[][][] weights, double[][][] output, double[][] target) {
+        double[][][] error = new double[weights.length][][];
+
+        error[error.length - 1] = operate(
+            multiplication,
+            dActivate(output[output.length - 1]),
+            operate(
+                subtraction,
+                output[output.length - 1],
+                target));
+
+        for (int i = error.length - 2; i >= 0; i--) {
+            error[i] = operate(
+                multiplication,
+                dActivate(output[i + 1]),
+                dot(
+                    transpose(weights[i + 1]),
+                    error[i + 1]));
+        }
+
+        return error;
     }
 
     static double[][][] updateWeights(double[][][] weights, double[][][] delta) {
