@@ -41,19 +41,12 @@ class NetMatrix {
         double[][][] updated = new double[weights.length][][];
 
         for (int i = 0; i < updated.length; i++) {
-            System.out.println("weights["+i+"]");
-            print(weights[i]);
-            System.out.println("partials["+i+"]");
-            print(partials[i]);
-
             updated[i] = operate(
                 addition,
                 weights[i],
                 scale(
                     -learningRate,
                     partials[i]));
-
-            
         }
 
         return updated;
@@ -68,12 +61,16 @@ class NetMatrix {
 
         double[][] multiplied = new double[xs.length - 1][ys[0].length];
 
-        for (int row = 0; row < multiplied.length; row++) {
+        for (int row = 0; row < multiplied.length - 1; row++) {
             for (int col = 0; col < multiplied[row].length; col++) {
                 for (int i = 0; i < xs[row].length; i++) {
                     multiplied[row][col] += xs[row][i] * ys[i][col];
                 }
             }
+        }
+
+        for (int i = 0; i < multiplied[multiplied.length - 1].length; i++) {
+            multiplied[multiplied.length - 1][i] = xs[xs.length - 1][i];
         }
 
         return multiplied;
@@ -240,9 +237,9 @@ class NetMatrix {
         for (int row = 0; row < error.length; row++) {
             for (int col = 0; col < error[row].length; col++) {
                 for (int i = 0; i < output.length; i++) {
-                    System.out.println(dot[row][col]);
-                    System.out.println(error[row][i]);
-                    System.out.println(output[i][col]);
+                    // System.out.println(dot[row][col]);
+                    // System.out.println(error[row][i]);
+                    // System.out.println(output[i][col]);
                     dot[row][col] += error[row][i] * output[i][col];
                 }
             }
