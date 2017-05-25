@@ -14,13 +14,11 @@ class NetMatrix {
         double learningRate = 0.25;
 
         for (int epoch = 0; epoch < 100000; epoch++) {
-            double[][][] _output = _calculateOutput(weights, input);
-
             double[][][] output = calculateOutput(weights, input);
 
-            double[][][] _partials = _calculatePartials(weights, _output, target);
+            double[][][] partials = calculatePartials(weights, output, target);
 
-            weights = _updateWeights(learningRate, weights, _partials);
+            weights = updateWeights(learningRate, weights, partials);
 
             print(output[output.length - 1]);
         }
@@ -31,7 +29,7 @@ class NetMatrix {
         }
     }
 
-    static double[][][] _updateWeights(double learningRate, double[][][] weights, double[][][] partials) {
+    static double[][][] updateWeights(double learningRate, double[][][] weights, double[][][] partials) {
         double[][][] updated = new double[weights.length][][];
 
         for (int i = 0; i < updated.length; i++) {
@@ -46,8 +44,8 @@ class NetMatrix {
         return updated;
     }
 
-    static double[][] _multiplyExceptLastRow(double[][] xs, double[][] ys) {
-        if (!_isRectangular(xs) || !_isRectangular(ys))
+    static double[][] multiplyExceptLastRow(double[][] xs, double[][] ys) {
+        if (!isRectangular(xs) || !isRectangular(ys))
             System.out.println("dot: Can't multiply matricies; they aren't rectangular.");
 
         if (xs[0].length != ys.length)
@@ -70,7 +68,7 @@ class NetMatrix {
         return multiplied;
     }
 
-    static double[][][] _calculatePartials(double[][][] weights, double[][][] outputs, double[][] targets) {
+    static double[][][] calculatePartials(double[][][] weights, double[][][] outputs, double[][] targets) {
         double[][][] s = new double[weights.length][][];
 
         s[s.length - 1] = operate(
@@ -85,7 +83,7 @@ class NetMatrix {
             s[i] = operate(
                 multiplication,
                 dActivate(outputs[i + 1]),
-                _multiply(
+                multiply(
                     transpose(weights[i + 1]),
                     s[i + 1]));
         }
@@ -94,15 +92,15 @@ class NetMatrix {
 
         for (int i = 0; i < partials.length; i++) {
             if (i != partials.length - 1)
-                partials[i] = _multiplyExceptLastRow(s[i], transpose(outputs[i]));
+                partials[i] = multiplyExceptLastRow(s[i], transpose(outputs[i]));
             else
-                partials[i] = _multiply(s[i], transpose(outputs[i]));
+                partials[i] = multiply(s[i], transpose(outputs[i]));
         }
 
         return partials;
     }
 
-    static boolean _isRectangular(double[][] xs) {
+    static boolean isRectangular(double[][] xs) {
         boolean rectangular = true;
 
         for (int i = 1; i < xs.length; i++) 
@@ -111,8 +109,8 @@ class NetMatrix {
         return rectangular;
     }
 
-    static double[][] _multiply(double[][] xs, double[][] ys) {
-        if (!_isRectangular(xs) || !_isRectangular(ys))
+    static double[][] multiply(double[][] xs, double[][] ys) {
+        if (!isRectangular(xs) || !isRectangular(ys))
             System.out.println("dot: Can't multiply matricies; they aren't rectangular.");
 
         if (xs[0].length != ys.length)
@@ -131,31 +129,16 @@ class NetMatrix {
         return multiplied;
     }
 
-    static double[][][] _calculateOutput(double[][][] weights, double[][] inputs) {
+    static double[][][] calculateOutput(double[][][] weights, double[][] inputs) {
         double[][][] output = new double[weights.length + 1][][];
 
         output[0] = appendOnes(inputs);
 
         for (int i = 1; i < output.length; i++) {
             output[i] = activate(
-                _multiply(
+                multiply(
                     weights[i - 1], 
                     output[i - 1]));
-
-            if (i != output.length - 1) {
-                output[i] = appendOnes(output[i]);
-            }
-        }
-
-        return output;
-    }
-
-    static double[][][] calculateOutput(double[][][] weights, double[][] input) {
-        double[][][] output = new double[weights.length + 1][][];
-        output[0] = appendOnes(input);
-
-        for (int i = 1; i < output.length; i++) {
-            output[i] = activate(dot(weights[i - 1], output[i - 1]));
 
             if (i != output.length - 1) {
                 output[i] = appendOnes(output[i]);
