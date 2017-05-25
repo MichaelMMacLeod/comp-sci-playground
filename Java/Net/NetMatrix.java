@@ -22,12 +22,6 @@ class NetMatrix {
 
             weights = _updateWeights(learningRate, weights, _partials);
 
-            // double[][][] error = calculateErrors(weights, _output, target);
-
-            // double[][][] delta = calculateDeltas(learningRate, error, output, weights);
-
-            // weights = updateWeights(weights, delta);
-
             print(output[output.length - 1]);
         }
 
@@ -169,97 +163,6 @@ class NetMatrix {
         }
 
         return output;
-    }
-    static double[][][] calculateErrors(double[][][] weights, double[][][] output, double[][] target) {
-        double[][][] error = new double[weights.length][][];
-
-        error[error.length - 1] = operate(
-            multiplication,
-            dActivate(output[output.length - 1]),
-            operate(
-                subtraction,
-                output[output.length - 1],
-                target));
-
-        for (int i = error.length - 2; i >= 0; i--) {
-            error[i] = operate(
-                multiplication,
-                dActivate(output[i + 1]),
-                dot(
-                    transpose(weights[i + 1]),
-                    error[i + 1]));
-        }
-
-        return error;
-    }
-
-    static double[][][] updateWeights(double[][][] weights, double[][][] delta) {
-        double[][][] newWeights = new double[weights.length][][];
-
-        for (int i = 0; i < newWeights.length; i++) {
-            newWeights[i] = operate(
-                addition,
-                weights[i],
-                delta[i]);
-        }
-
-        return newWeights;
-    }
-
-    static double[][][] calculateDeltas(double learningRate, double[][][] error, double[][][] output, double[][][] weights) {
-        double[][][] delta = new double[weights.length][][];
-
-        for (int i = delta.length - 1; i >= 0; i--) {
-            delta[i] = scale(
-                -learningRate,
-                dotDeltas(
-                    error[i],
-                    transpose(output[i])));
-        }
-
-        return delta;
-    }
-
-    static double[][] dotDeltas(double[][] error, double[][] output) {
-        if (error[0].length != output.length)
-            System.out.println("Illegal matrix multiplication (error)");
-        
-        double[][] dot = new double[error.length][output[0].length];
-
-        // for (int row = 0; row < dot.length - 1; row++) {
-        //     for (int col = 0; col < dot[row].length; col++) {
-        //         for (int i = 0; i < output.length; i++) {
-        //             dot[row][col] += error[row][i] * output[i][col];
-        //         }
-        //     }
-        // }
-
-        for (int row = 0; row < error.length; row++) {
-            for (int col = 0; col < error[row].length; col++) {
-                for (int i = 0; i < output.length; i++) {
-                    // System.out.println(dot[row][col]);
-                    // System.out.println(error[row][i]);
-                    // System.out.println(output[i][col]);
-                    dot[row][col] += error[row][i] * output[i][col];
-                }
-            }
-        }
-
-        // print(error);
-        // System.out.println();
-        // print(output);
-        // System.out.println();
-        // print(dot);
-
-        for (int col = 0; col < error[error.length - 1].length; col++) {
-            dot[dot.length - 1][col] += error[error.length - 1][col];
-        }
-
-        // for (int col = 0; col < error[error.length - 1].length; col++) {
-        //     dot[dot.length - 1][col] += error[dot.length - 1][col];
-        // }
-
-        return dot;
     }
 
     static double[][] appendOnes(double[][] xs) {
