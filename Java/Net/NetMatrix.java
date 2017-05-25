@@ -66,18 +66,15 @@ class NetMatrix {
         if (xs[0].length != ys.length)
             System.out.println("dot: Can't multiply matricies; illegal dimensions.");
 
-        double[][] multiplied = new double[xs.length][ys[0].length];
+        double[][] multiplied = new double[xs.length - 1][ys[0].length];
 
-        for (int row = 0; row < multiplied.length - 1; row++) {
+        for (int row = 0; row < multiplied.length; row++) {
             for (int col = 0; col < multiplied[row].length; col++) {
                 for (int i = 0; i < xs[row].length; i++) {
                     multiplied[row][col] += xs[row][i] * ys[i][col];
                 }
             }
         }
-
-        for (int i = 0; i < multiplied[multiplied.length - 1].length; i++)
-            multiplied[multiplied.length - 1][i] += ys[ys.length - 1][i];
 
         return multiplied;
     }
@@ -102,15 +99,14 @@ class NetMatrix {
                     s[i + 1]));
         }
 
-        double[][][] partials = new double[outputs.length][][];
+        double[][][] partials = new double[weights.length][][];
 
         for (int i = 0; i < partials.length; i++) {
-            print(outputs[i]);
-            print(s[i]);
-            partials[i] = _multiplyExceptLastRow(outputs[i], transpose(s[i]));
+            if (i != partials.length - 1)
+                partials[i] = _multiplyExceptLastRow(s[i], transpose(outputs[i]));
+            else
+                partials[i] = _multiply(s[i], transpose(outputs[i]));
         }
-
-        System.exit(0);
 
         return partials;
     }
