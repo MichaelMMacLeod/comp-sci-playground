@@ -132,7 +132,7 @@ class NetMatrix {
         return multiplied;
     }
 
-    static double[][][] calculateOutput(double[][][] weights, double[][] inputs) {
+    public static double[][][] calculateOutput(double[][][] weights, double[][] inputs) {
         double[][][] output = new double[weights.length + 1][][];
 
         output[0] = appendOnes(inputs);
@@ -226,7 +226,7 @@ class NetMatrix {
         return activate(x) * (1 - activate(x));
     }
 
-    static double[][] transpose(double[][] xs) {
+    public static double[][] transpose(double[][] xs) {
         double[][] ans = new double[xs[0].length][xs.length];
         for (int row = 0; row < ans.length; row++) {
             for (int col = 0; col < ans[row].length; col++) {

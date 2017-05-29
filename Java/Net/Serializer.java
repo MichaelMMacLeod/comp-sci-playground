@@ -14,6 +14,7 @@ public final class Serializer {
 	/**
 	 * Reads a serialized object from a file.
 	 * 
+	 * @param filePath 
 	 * @return the object located at filePath, or null, if filePath does not 
 	 *         exist.
 	 */
