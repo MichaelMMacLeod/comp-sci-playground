@@ -97,6 +97,10 @@ public final class Matrix {
     public static double[][] appendToEnd(double[][] xs, double value) {
         double[] toAppend = new double[xs[0].length];
 
+        for (int i = 0; i < toAppend.length; i++) {
+            toAppend[i] = value;
+        }
+
         double[][] matrix = new double[xs.length + 1][];
 
         for (int row = 0; row < matrix.length - 1; row++) {

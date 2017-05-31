@@ -17,18 +17,18 @@ public class Classifier<T> {
      * @return The classification with the same index as the largest value in 
      *         the last row of the output values of the neural network.
      */
-    public T classify(double[][] input) {
-        double[][][] output = NetMatrix.calculateOutput(weights, input);
+    // public T classify(double[][] input) {
+    //     double[][][] output = NetMatrix.calculateOutput(weights, input);
 
-        double[][] last = output[output.length - 1];
+    //     double[][] last = output[output.length - 1];
 
-        int largest = 0;
-        for (int i = 0; i < last.length; i++) {
-            if (last[i][0] > last[largest][0]) {
-                largest = i;
-            }
-        }
+    //     int largest = 0;
+    //     for (int i = 0; i < last.length; i++) {
+    //         if (last[i][0] > last[largest][0]) {
+    //             largest = i;
+    //         }
+    //     }
 
-        return classifications[largest];
-    }
+    //     return classifications[largest];
+    // }
 }
