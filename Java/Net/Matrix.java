@@ -74,6 +74,44 @@ public final class Matrix {
         return multiplied;
     }
 
+    /**
+     * Returns a copy of xs without its last row.
+     */
+    public static double[][] removeLastRow(double[][] xs) {
+        double[][] matrix = new double[xs.length - 1][];
+
+        for (int row = 0; row < matrix.length; row++) {
+            matrix[row] = new double[xs[row].length];
+
+            for (int col = 0; col < matrix[row].length; col++) {
+                matrix[row][col] = xs[row][col];
+            }
+        }
+
+        return matrix;
+    }
+
+    /**
+     * Appends a row of filled with the given value to the end of xs.
+     */
+    public static double[][] appendToEnd(double[][] xs, double value) {
+        double[] toAppend = new double[xs[0].length];
+
+        double[][] matrix = new double[xs.length + 1][];
+
+        for (int row = 0; row < matrix.length - 1; row++) {
+            matrix[row] = new double[xs[row].length];
+
+            for (int col = 0; col < matrix[row].length; col++) {
+                matrix[row][col] = xs[row][col];
+            }
+        }
+
+        matrix[matrix.length - 1] = toAppend;
+
+        return matrix;
+    }
+
     /*************************
      * BY-ELEMENT OPERATIONS *
      *************************/
@@ -153,8 +191,8 @@ public final class Matrix {
 
     // The sigmoid function.
     public static final Function activation = 
-    	(x) -> 1 / (1 + Math.pow(Math.E, -x));
+        (x) -> 1 / (1 + Math.pow(Math.E, -x));
     // The derivative of activation.
     public static final Function dActivation = 
-    	(x) -> operate(activation, x) * (1 - operate(activation, x));
+        (x) -> operate(activation, x) * (1 - operate(activation, x));
 }
