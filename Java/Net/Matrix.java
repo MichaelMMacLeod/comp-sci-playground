@@ -108,9 +108,9 @@ public final class Matrix {
         return ans;
     }
 
-    public static Operation addition = (x, y) -> x + y;
-    public static Operation subtraction = (x, y) -> x - y;
-    public static Operation multiplication = (x, y) -> x * y;
+    public static final Operation addition = (x, y) -> x + y;
+    public static final Operation subtraction = (x, y) -> x - y;
+    public static final Operation multiplication = (x, y) -> x * y;
 
     /**
      * Returns a result of multiplying xs with a matrix filled with the given scalar value.
@@ -152,7 +152,9 @@ public final class Matrix {
     }
 
     // The sigmoid function.
-    public static Function activation = (x) -> 1 / (1 + Math.pow(Math.E, -x));
+    public static final Function activation = 
+    	(x) -> 1 / (1 + Math.pow(Math.E, -x));
     // The derivative of activation.
-    public static Function dActivation = (x) -> operate(activation, x) * (1 - operate(activation, x));
+    public static final Function dActivation = 
+    	(x) -> operate(activation, x) * (1 - operate(activation, x));
 }
