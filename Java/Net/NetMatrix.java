@@ -4,16 +4,15 @@ class NetMatrix {
     static final String FILE_WEIGHTS = "weights.serialized";
 
     public static void main(String[] args) {
-        double[][] input = new double[][] {
-            new double[] {1, 1, 0, 0},
-            new double[] {1, 0, 1, 0}};
+        // double[][][] weights = new double[][][] {
+        //     Matrix.random(52, 26, -0.25, 0.25),
+        //     Matrix.random(26, 53, -0.25, 0.25)};
 
-        double[][] target = new double[][] {
-            new double[] {1, 0, 0, 0}};
-
-        double[][][] weights = new double[][][] {
-            Matrix.random(8, 3, -0.5, 0.5),
-            Matrix.random(1, 9, -0.5, 0.5)};
+        // Serializer.serialize(weights, FILE_WEIGHTS);
+        
+        double[][] input = (double[][]) Serializer.deSerialize(FILE_INPUT);
+        double[][] target = (double[][]) Serializer.deSerialize(FILE_TARGET);
+        double[][][] weights = (double[][][]) Serializer.deSerialize(FILE_WEIGHTS);
 
         double learningRate = 0.1;
 
