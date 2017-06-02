@@ -174,7 +174,7 @@ public final class Matrix {
     /**
      * Applies the function to x.
      */
-    private static double operate(Function f, double x) {
+    public static double operate(Function f, double x) {
         return f.apply(x);
     }
 
@@ -198,5 +198,6 @@ public final class Matrix {
         (x) -> 1 / (1 + Math.pow(Math.E, -x));
     // The derivative of activation.
     public static final Function dActivation = 
-        (x) -> operate(activation, x) * (1 - operate(activation, x));
+        // (x) -> operate(activation, x) * (1 - operate(activation, x));
+        (x) -> x * (1 - x);
 }
