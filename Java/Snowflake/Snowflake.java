@@ -42,10 +42,9 @@ public class Snowflake {
 
             while (lag >= MS_PER_UPDATE) {
                 myPanel.updateLogic();
+		myPanel.repaint();
                 lag -= MS_PER_UPDATE;
             }
-
-            myPanel.repaint();
         }
     }
 
